@@ -1,0 +1,12 @@
+admin:
+    resource: "@AppBundle/Resources/config/routing/admin.yml"
+    prefix: /admin
+default:
+    resource: "@AppBundle/Resources/config/routing/default.yml" 
+    prefix: /
+content:
+    resource: "@AppBundle/Resources/config/routing/content.yml" 
+    prefix: /content
+modal:
+    resource: "@AppBundle/Resources/config/routing/modal.yml" 
+    prefix: /modal

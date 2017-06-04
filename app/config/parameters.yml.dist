@@ -1,0 +1,16 @@
+# This file is a "template" of what your parameters.yml file should look like
+# Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
+# http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
+parameters:
+    database_driver: pdo_mysql
+    database_host: localhost
+    database_user: root
+    database_password: 1g6GnTbNP157 
+    database_name: template
+    database_port: 3306 
+    mailer_transport: smtp
+    mailer_host: smtp.sendgrid.net
+    mailer_user: template
+    mailer_password: template
+    mailer_port: 587
+    secret: 9i8u9a68tibhnji3846skdTL7129e08mkokiui36

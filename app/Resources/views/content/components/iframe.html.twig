@@ -1,0 +1,15 @@
+<div class="iframe-viewer-container">
+    <div class="iframe-viewer">
+        <iframe src="{{link}}" id="iframe_viewer_{{id}}" scrolling="{% if scrolling is defined %}{{scrolling}}{% else %}auto{% endif %}"></iframe>
+    </div>
+
+    <div class="segments">
+        {% if segments is defined and segments|length > 1 %}
+            {% for segment in segments %}
+                <a href="#" class="js-iframe-segment" data-link="{{segment['link']}}">{{loop.index}}</a>
+            {% endfor %}
+            <a href="#" class="js-iframe-maximize" data-target="iframe_viewer_{{id}}"><span class="glyphicon glyphicon-resize-full""></span></a>
+        {% endif %}   
+    </div>
+	
+</div>

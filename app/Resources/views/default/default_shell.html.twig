@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block baseheader %}
+    {{render(controller('AppBundle:Default:gaTag'))}}                     
+    {{render(controller('AppBundle:Default:headerHTML'))}}                     
+{% endblock %}
+
+{% block templatestyles %}
+    <link rel="stylesheet" href="/dist/css/default.css"></link>
+    <link rel="stylesheet" href="/dist/css/transitions.css"></link>
+    <link rel="stylesheet" href="/dist/css/animations.css"></link>
+    <link rel="stylesheet" href="/dist/css/modal.css"></link>
+    {% block individualstyles %}
+    {% endblock %}
+{% endblock %}
+
+{% block shellclass %}default {% block pageclass%}{% endblock %}{% endblock %}
+
+
+{% block mainbody %}
+        {% block primarybody %}
+        {% endblock %}
+        {% embed 'default/components/modal.html.twig' %}{% endembed %}
+{% endblock %}
+
+{% block basefooter %}
+	<footer>	
+		{{render(controller('AppBundle:Default:messages'))}}
+	</footer>
+
+    {{render(controller('AppBundle:Default:footerHTML'))}}                     
+{% endblock %}
+
+{% block templatescripts %}
+    <script src="/dist/lib/smoothstate/jquery.smoothState.js"></script>
+    <script src="/dist/js/transitions.js"></script>
+    <script src="/dist/js/animations.js"></script>
+    <script src="/dist/js/cartbar.js"></script>
+    <script src="/dist/js/cart-modify.js"></script>
+    <script src="/dist/js/remove-cart-item.js"></script>
+    <script src="/dist/js/taghighlighter.js"></script>
+    <script src="/dist/js/modal.js"></script>
+    <script src="/dist/js/disable_context.js"></script>
+    <script src="/dist/js/print.js"></script>
+{% endblock %}
+

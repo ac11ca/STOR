@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/dist/lib/bootstrap/css/bootstrap.min.css"></link>
+    <link rel="stylesheet" href="/dist/css/admin.css" />
+{% endblock %}
+
+{% block mainbody %}
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Admin</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        {% if app.user is defined and app.user is not null and app.user.role == 'ROLE_ADMIN' %}
+            <li class="{%block userclass%}{%endblock%}"><a href="{{path('admin_universal_list', {reponame:'User'})}}">Users</a></li>
+        {% endif %}
+
+        {% if app.user is defined and app.user is not null and app.user.role == 'ROLE_ADMIN' %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{path('admin_settings', {'template':'general'})}}">General</a></li>
+                <li><a href="{{path('admin_cache', {})}}">Clear Symfony Cache</a></li>
+              </ul>
+            </li>
+        {% endif %}
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="{{path('logout')}}">Logout</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<div class="admin-panel panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">{% block heading %}{% endblock %}</h3>
+    </div>
+
+    <div class="panel-body">        
+        {% block adminbody %}
+
+        {% endblock %}
+    </div>
+</div>
+
+{{render(controller('AppBundle:Admin:messages'))}}
+ 
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'admin/admin_shell.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+{% block heading %}Collection on Kiosk {{Machine.id}}{% endblock %}
+{% block machineclass %}active{% endblock %}
+
+{% block javascripts %}
+{% endblock %}
+
+{% block adminbody %}
+
+    <form method="post">
+            <table class="table table-striped">
+            <thead>
+                <th>Denomination</th>
+                <th>Quantity in Kiosk</th>
+                <th>Quantity to collect</th>
+            </thead>
+            <tbody>
+                {% for denomination,bill in bills %}
+                   <tr>
+                        <td>{{denomination|raw}}</td>
+                        <td>{{bill}}</td>
+                        <td><input type="text" value="{{bill}}" name="bills[{{denomination}}]" id="bills_{{denomination}}" /></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>        
+
+            <input type="submit" value="Collect" class="btn btn-primary" />      
+            <a class="btn btn-danger" href="#" onclick="javascript:window.history.back();">Back</a>
+    </form> 
+
+{% endblock %}

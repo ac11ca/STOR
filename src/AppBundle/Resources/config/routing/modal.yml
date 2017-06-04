@@ -1,0 +1,7 @@
+modal_delete_cart_item:
+    path: /delete/item/{id}/{slot}/{mode}/{_locale}
+    defaults: { _controller: AppBundle:Modal:deleteCartItem, _locale: 'en', id: null, slot: null, mode: null }
+modal_cancel_order:
+    path: /cancel/order/{_locale}
+    defaults: { _controller: AppBundle:Modal:cancelOrder, _locale: 'en' }
+

@@ -1,0 +1,24 @@
+{% extends 'admin/universal/list.html.twig' %}
+
+{% block heading %}Discount Codes{% endblock %}
+
+{% block discountclass %}active{% endblock %}
+
+{% block addbutton %}Add Discount{% endblock %}
+
+{% block table %}
+    <thead>
+        <th>Code</th>
+        <th>Type</th>       
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        {% for Discount in entity_list %}
+            <tr id="content_{{Discount.id}}">
+                <td>{{Discount.code}}</td>
+                <td>{% if Discount.type == 1%}Amount{% elseif Discount.type == 2 %}Percent{% elseif Discount.type == 3 %}Buy minimum get maximum{% endif %}</td>
+                <td><a href="{{path('admin_universal_form', {id:Discount.id, reponame:reponame})}}"><span class="glyphicon glyphicon-pencil"></span></a> <a href="#" class="js-remove" data-target="{{Discount.id}}"><span class="glyphicon glyphicon-remove"></span></a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+{% endblock %}

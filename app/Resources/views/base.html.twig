@@ -1,0 +1,61 @@
+{% block doc %}
+    <!DOCTYPE html>
+    <html>
+        {% block htmlhead %}
+            <head>
+                {% block meta_content %}
+                    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+                    <meta name="msapplication-TileColor" content="#ffffff">
+                    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+                    <meta name="theme-color" content="#ffffff">
+                    {% block custom_meta_content %}
+
+                    {% endblock %}
+                {% endblock %}
+
+                {% block favicon %}
+                {% endblock %}
+
+                {% block basecss %}
+                    <link rel="stylesheet" href="/dist/lib/bootstrap/css/bootstrap.min.css" />
+                    <link rel="stylesheet" href="/dist/css/base.css" />
+                {% endblock %}
+
+                {% block titletag %}
+                    <title>Template {% block title %}{%endblock %}</title>
+                {% endblock %}
+
+                {% block stylesheets %}
+                    {% block templatestyles%}{% endblock %}
+                {% endblock %}
+
+                {% block globalheaderscripts %}
+                    <script src="/dist/js/reinitialization.js"></script>
+                    <script src="/dist/lib/jquery/jquery.min.js"></script>
+                    <script src="/dist/lib/bootstrap/js/bootstrap.min.js"></script>        
+                    <script src="/dist/lib/moment/moment.min.js"></script>
+                    <script src="/dist/lib/moment-timezone/moment-timezone-with-data-2010-2020.min.js"></script>
+                    <script src="/dist/js/dateformat.js"></script>
+                    <script src="/dist/js/poll.js"></script>
+                {% endblock %}
+
+                {% block baseheader %}{% endblock %}
+            </head>
+        {% endblock %}
+        <body class="{% block bodyclass %}{% endblock %}">
+
+            {% block primarycontainer %}
+                <div id="app">
+                    <div class="{% block containerclass%}app {% block shellclass %}{% endblock %}{%endblock%}">
+                        {% block mainbody %}{% endblock %}
+                    </div>           
+                </div>
+            {% endblock %}
+            {% block globalscripts %}
+                {%block templatescripts %}{% endblock%}
+            {% endblock %}
+            {% block javascripts %}{% endblock %}
+            {% block basefooter %}{% endblock %}
+        </body>
+    </html>
+{% endblock %}

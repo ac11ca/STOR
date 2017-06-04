@@ -1,0 +1,18 @@
+{% extends 'modal/modal_shell.html.twig' %}
+
+{% block title %}Cancel Order{% endblock %}
+
+{% block body %}
+    <img src="/dist/img/trash_blue.png" class="center-block">
+
+    <p> Are you sure you want to cancel your order?</p>
+
+    <div class="controls">
+        <img src="/dist/img/modal_cancel.png" id="cancel" class="animation-button" data-dismiss="modal">
+        <img src="/dist/img/modal_ok.png" id="ok" class="animation-button" data-clearurl="{{path('media_cart_clear')}}">
+    </div>
+{% endblock %}
+
+{% block viewscripts %}
+{% endblock %}
+

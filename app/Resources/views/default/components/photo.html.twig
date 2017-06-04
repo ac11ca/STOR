@@ -1,0 +1,31 @@
+<div class="media-card {% if carousel is defined and carousel == true %}carousel{% endif %} {% if index % 2 == 0 %}first{% endif %} {% if media is null %}empty{% endif %} {% if media['orientation'][index] is not defined %}portrait-text{% else %}{{media['orientation'][index]}}{% endif %}"  {% if slot is defined and slot is not empty %}id="{% if carousel is defined and carousel == true %}carousel_{% endif %}media_card_{{slot}}"{% endif %} data-orientation="{% if media['orientation'][index] is not defined %}portrait-text{% else %}{{media['orientation'][index]}}{% endif %}" data-rotation="{% if media['rotation'][index] is not defined %}0{% else %}{{media['rotation'][index]}}{% endif %}" data-slot="{{index}}" >
+    
+    {% if media is not null %}
+        <div class="photo">
+            <img src="{{media['images'][index]['lowres']}}" class="photograph {% if media['rotation'][index] is defined and media['rotation'][index] != 0 %}rotation-{{media['rotation'][index]}}{%else%}rotation-0{% endif %}" />
+            {% if carousel is not defined or carousel == false %}<img src="/dist/img/remove_cart.png" class="js-remove-cart js-modal animation-button" data-target="{{path('modal_delete_cart_item', {id:mediaid, slot:slot, mode:1})}}" data-event="hookup_delete_cart_item_event" />{% endif %}
+            <div class="text">
+                <span id="{% if carousel is defined and carousel == true %}carousel_{% endif %}date_{{slot}}" class="js-date" data-timestamp="{% if media['data'] is defined and media['data'][index]['date'] is defined %}{{media['data'][index]['date']}}{% endif %}" data-format="MM.DD.YYYY"></span>
+                <span id="{% if carousel is defined and carousel == true %}carousel_{% endif %}location_glyph_{{slot}}" class="glyphicon glyphicon-map-marker {% if media['data'] is not defined or media['data'][index]['gps'] is not defined or media['data'][index]['gps'] is empty or media['data'][index]['gps']['name']|trim is empty%}hide{% endif %}"></span>
+                <span id="{% if carousel is defined and carousel == true %}carousel_{% endif %}location_{{slot}}">{% if media['data'] is defined and media['data'][index]['gps'] is defined and media['data'][index]['gps'] is not empty %}{{media['data'][index]['gps']['name']}}{% endif %}</span><br />
+
+                <span class="user-text" id="{% if carousel is defined and carousel == true %}carousel_{% endif %}users_{{slot}}">{% if media['data'] is defined and media['data'][index]['users'] is defined %}{{media['data'][index]['users']}}{% endif %}</span>
+                <span id="{% if carousel is defined and carousel == true %}carousel_{% endif %}caption_{{slot}}" data-searchurl="{{path('instagram_search',{term:null})}}" class="caption js-taghighlighter">{% if media['data'] is defined and media['data'][index]['caption'] is defined %}{{media['data'][index]['caption']}}{% endif %}</span>
+            </div>
+        </div>
+        <div class="controls">
+            <img src="/dist/img/portrait-text.png" class="orientation-toggle portrait-text animation-toggle {% if media['orientation'][index] is not defined or media['orientation'][index] == 'portrait-text'%}animate{% endif %}" data-group="{{slot}}" id="portrait_text_{{slot}}" data-id="{{slot}}" data-url="{{path('media_image_modify', {mode:'orientation', value:'portrait-text', target:mediaid, slot:index})}}" />
+            <img src="/dist/img/landscape-text.png" class="orientation-toggle landscape-text animation-toggle {% if media['orientation'][index] is defined and media['orientation'][index] == 'landscape-text'%}animate{% endif %}" data-group="{{slot}}" id="landscape_text_{{slot}}" data-id="{{slot}}" data-url="{{path('media_image_modify', {mode:'orientation', value:'landscape-text', target:mediaid, slot:index})}}"  />
+            <img src="/dist/img/portrait-notext.png" class="orientation-toggle portrait-notext animation-toggle {% if media['orientation'][index] is defined and media['orientation'][index] == 'portrait-notext'%}animate{% endif %}" data-group="{{slot}}" id="portrait_notext_{{slot}}" data-id="{{slot}}" data-url="{{path('media_image_modify', {mode:'orientation', value:'portrait-notext', target:mediaid, slot:index})}}"  />
+            {% if carousel is defined and carousel == true %}
+                <img src="/dist/img/rotate_left.png" class="js-rotate animation-button" id="rotate_left_{{slot}}" data-id="{{slot}}" data-url="{{path('media_image_modify', {mode:'rotate', value:1, target:mediaid, slot:index})}}" data-mode="rotate">
+                <img src="/dist/img/rotate_right.png" class="js-rotate animation-button" id="rotate_right_{{slot}}" data-id="{{slot}}" data-url="{{path('media_image_modify', {mode:'rotate', value:-1, target:mediaid, slot:index})}}" data-mode="rotate"/>
+            {% else %}
+                <img src="/dist/img/gear.png" class="settings animation-button" id="settings_{{slot}}" data-id="{{slot}}" data-index="{{index}}" />
+            {% endif %}
+        </div>                        
+    {% else %}
+            <a href="{{path('instagram_search', {term:term})}}"><img src="/dist/img/add_photos.png" class="animation-button"  /></a>
+            <p>{{'Add more photos'|trans}}</p>
+    {% endif %}
+</div>

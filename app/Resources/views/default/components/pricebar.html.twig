@@ -1,0 +1,13 @@
+{% if next is defined and next is not empty %}
+    {% set nextnav = next %}
+{% else %}
+    {% set nextnav = null %}
+{% endif %}
+
+{% if back is defined and back is not empty %}
+    {% set backnav = back %}
+{% else %}
+    {% set backnav = null %}
+{% endif %}
+
+{{render(controller('AppBundle:Default:priceBar', {next:nextnav, back:backnav}))}}

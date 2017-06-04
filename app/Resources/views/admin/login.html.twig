@@ -1,0 +1,32 @@
+{% extends 'admin/admin_shell.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+{% block heading %}Login {% endblock %}
+
+{% block templatescripts %}{% endblock %}
+
+{% block adminbody %}
+
+    <div class="login-panel-container">
+        <div class="login-panel">
+            <form method="post" action="{{ url( 'login' ) }}">
+                <div class="form-group">
+                    <label class="label">Email</label>
+                    <div class="field-group">
+                        <input class="string email required form-control" placeholder="enter your email" value="{{username}}" name="username" id="user_email" type="text">
+                    </div>
+                </div>
+                <div class="form-group">            
+                    <label class="label">Password</label>
+                    <div class="field-group">
+                        <input class="password optional form-control" placeholder="enter your password" name="password" id="user_password" type="password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Sign In" />
+                </div>            
+            </form>
+        </div>
+    </div>
+{% endblock %}
+

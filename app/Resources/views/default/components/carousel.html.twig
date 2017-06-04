@@ -1,0 +1,34 @@
+<div id="carousel-photos" class="carousel slide hide" data-interval="false">
+ 	<div class="carousel-inner" role="listbox">
+		{% set cart_quantity = 0 %}
+		{% if cart_data['media']|length > 0 %}
+			{% for mediaid,media in cart_data['media'] %}
+				{% if media['quantity'] is defined and media['quantity'] > 0 %}
+					{% set cart_quantity = cart_quantity + media['quantity'] %}
+					{% for slot,image in media['images'] %}
+						<div class="item {% if loop.parent.loop.index0+loop.index0 == 0 %}active{% endif %}">
+							{% embed 'default/components/photo.html.twig' with {media:media, mediaid:mediaid, index:slot, carousel:true} %}{% endembed %}
+                            <img src="/dist/img/checkmark.png" class="js-checkmark animation-button" /> 
+                            <div class="add-ons {% if media['orientation'] is defined and media['orientation'] == 'portrait-notext' %}nodisplay{% endif %}" id="addons_{{mediaid}}">
+                                <img src="/dist/img/clock.png" class="js-date-entry animation-button js-entry {% if media['data'][slot]['date'] is defined and media['data'][slot]['date']|trim is not empty%}highlight{% endif %}" data-toggled="{% if media['data'][slot]['date'] is defined and media['data'][slot]['date']|trim is not empty %}true{% endif %}" data-mode="date" data-id="{{slot}}" data-placeholder="Enter date" data-value="{% if media['data'][slot]['date'] is defined %}{% if media['data'][slot]['date'] matches '/^\\d+$/' %}{{media['data'][slot]['date']|date('d.m.Y')}}{% else %}{{media['data'][slot]['date']}}{% endif %}{% endif %}" id="date_entry_{{slot}}" data-url="{{path('media_image_modify', {mode:'date', value:'', target:mediaid, slot:slot })}}" />
+                                <img src="/dist/img/location.png" class="js-location-entry animation-button js-entry {% if media['data'][slot]['gps'] is defined and media['data'][slot]['gps'] is not empty and media['data'][slot]['gps']['name']|trim is not empty %} highlight {% endif %}" data-mode="location" data-id="{{slot}}" data-placeholder="Enter location" data-value="{% if media['data'][slot]['gps'] is defined and media['data'][slot]['gps'] is not empty %}{{media['data'][slot]['gps']['name']}}{% endif %}" id="location_entry_{{slot}}" data-url="{{path('media_image_modify', {mode:'location', value:'', target:mediaid, slot:slot })}}" data-toggled="{% if media['data'][slot]['gps'] is defined and media['data'][slot]['gps'] is not empty and media['data'][slot]['gps']['name']|trim is not empty %}true{% endif %}"  />
+                                <img src="/dist/img/text.png" class="js-text-entry js-entry animation-button {% if media['data'][slot]['caption'] is defined and media['data'][slot]['caption']|trim is not empty %}highlight{% endif %}" data-mode="caption" data-id="{{slot}}" data-placeholder="Enter description" data-value="{% if media['data'][slot]['caption'] is defined %}{{media['data'][slot]['caption']}}{% endif %}" id="caption_entry_{{slot}}" data-url="{{path('media_image_modify', {mode:'caption', value:'', target:mediaid, slot:slot})}}" data-toggled="{% if media['data'][slot]['caption'] is defined and media['data'][slot]['caption']|trim %}true{% endif %}" />
+                                <img src="/dist/img/tag.png" class="js-users-entry js-entry animation-button {% if media['data'][slot]['users'] is defined and media['data'][slot]['users']|trim is not empty %}highlight{% endif %}" data-mode="users" data-id="{{slot}}" id="users_entry_{{slot}}" data-placeholder="Tag users, separated by a comma" data-url="{{path('media_image_modify', {mode:'users', value:'', target:mediaid, slot:slot })}}" data-value="{% if media['data'][slot]['users'] is defined %}{{media['data'][slot]['users']}}{% endif %}" data-toggled="{% if media['data'][slot]['users'] is defined and media['data'][slot]['users']|trim is not empty %}true{% endif %}" />
+                            </div>
+   						</div>
+					{% endfor %}
+				{% endif %}
+			{% endfor %} 
+	   {% endif %}
+   </div>
+  <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-photos" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#carousel-photos" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+

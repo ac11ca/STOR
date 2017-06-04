@@ -1,0 +1,40 @@
+{% extends 'admin/admin_shell.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block globalscripts %}
+    <script src="/dist/js/remove.js"></script>
+    <script src="/dist/js/dateformat.js"></script>
+{% endblock %}
+
+{% block adminbody %}
+
+    {% block filter %}
+        <form method="post">
+            <div class="form-group">
+                <div class="filter-group">
+                    <input type="text" id="filter" name="filter" value="{{filter}}" class="form-control" />
+                    <input type="submit" class="btn btn-primary" value="Filter" />
+                    <a href="{{path('admin_universal_list',{reponame:reponame})}}" class="btn btn-danger">Clear</a>
+                </div>
+            </div>
+        </form>
+    {% endblock %}
+
+    <a href="{{path('admin_universal_form_create', {parentid:id, id:null, reponame:reponame})}}" class="btn btn-primary">{% block addbutton %}Add{% endblock %}</a>
+
+    {% if not entity_list is empty %}
+        <table class="table table-striped" id="list" data-deleteurl="{{path('admin_universal_delete',{reponame:reponame, id:null})}}">
+            {% block table %}
+            {% endblock %}
+        </table>
+
+        <div class="toast-message">
+        </div>
+
+    {% else %}
+        <div class="alert alert-warning">
+            <span class="alert-message">You do not have any items that match the filter criteria at this time.</span>
+        </div>
+    {% endif %}
+{% endblock %}

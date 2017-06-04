@@ -1,0 +1,115 @@
+{% extends 'admin/admin_shell.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block transactionclass %}active{% endblock %}
+
+{% block heading %}{% if create %}Create Transaction{% else %}Edit Transaction{% endif %}{% endblock %}
+
+
+{% block javascripts %}
+    <script src="/dist/lib/ckeditor/ckeditor.js"></script>
+    <script src="/dist/js/editor.js"></script>
+    <script src="/dist/js/transaction.js"></script>
+{% endblock %}
+
+
+
+{% block adminbody %}
+
+    <form method="post">
+
+        <div class="form-group">
+            <label for="user_id">User</label>
+            <div class="form-field">
+                <select name="user_id" id="user_id" class="form-control" required>
+                    <option value="">Select a User</option>             
+                    {% for User in fields.users %}
+                        <option value="{{User.id}}" {% if fields.user_id == User.id %}selected{% endif %}>{{User.username}}</option>
+                    {% endfor %} 
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">      
+            <label>Forms</label>
+            <div class="form-field" id="forms">
+                {% if fields.values['cart'] is defined and fields.values['cart']['items'] is not empty %}
+                    {% embed 'admin/components/cart_details.html.twig' with {cart:fields.values['cart'] } %}{% endembed %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="total">Add Form</label>
+            <div class="form-field">
+                <select id="add_form">
+                    {% for Subcategory in fields.subcategories %}
+                        {% set prototype %}
+                            {%embed 'admin/components/cart_details.html.twig' with {cart:{'items':Subcategory.getCartFormat()}}%}{%endembed%}
+                        {% endset %}
+                        <option value="{{Subcategory.id}}" data-prototype="{{prototype|e}}">{{Subcategory.name}}</option> 
+                    {% endfor %}
+                </select>
+                <button id="add_form_button" class="btn btn-primary">Add</button>
+            </div>
+        </div>
+
+        <div class="form-group">    
+            <input type="hidden" name="values[Discount][type]" value="{% if fields.values['cart'] is defined and fields.values['cart']['Discount'] is defined %}{{fields.values['cart']['Discount']['type']}}{% endif %}" />
+            <input type="hidden" name="values[Discount][type]" value="{% if fields.values['cart'] is defined and fields.values['cart']['Discount'] is defined %}{{fields.values['cart']['Discount']['type']}} {% endif %}"  />
+            <label for="code">Discount (<input type="text" name="values[Discount][code]" value="{% if fields.values['cart'] is defined and fields.values['cart']['Discount'] is defined  %}{{fields.values['cart']['Discount']['code']}}{% endif %}" placeholder="Discount Code" />): </label> -$ <input type="text" value="{% if fields.values['cart'] is defined and fields.values['cart']['Discount'] is defined %}{{fields.values['cart']['Discount']['amount']|number_format(2,'.',',')}}{% endif %}" name="values[Discount][amount]" placeholder="0.00" />
+        </div>
+      
+
+        <div class="form-group">
+            <label for="total">Cart Total</label>
+            <div class="form-field">
+                <input type="number" name="amount" id="amount" min="0" step="0.01" value="{{fields.amount}}" class="form-control" /> 
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="checkbox" name="refunded" id="refunded" maxlength="255" {% if fields.status == 1 %}checked{% endif %} /> 
+            <label for="published">
+                Refunded
+            </label>
+        </div>
+
+
+        <div class="form-group">
+            <label for="stripeAuth">Stripe Auth</label>
+            <div class="form-field">
+                <input type="text" class="form-control" name="stripe_auth_id" id="stripe_auth_id" maxlength="255" value="{{fields.stripe_auth_id}}" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="stripeAuth">Paypal Auth</label>
+            <div class="form-field">
+                <input type="text" class="form-control" name="paypal_auth" id="paypal_auth" maxlength="255" value="{{fields.paypal_auth}}" />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="total">Answer</label>
+            <div class="form-field">
+                <textarea id="answer" name="answer" class="js-editor">{{fields.answer}}</textarea>              
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="total">Notes</label>
+            <div class="form-field">
+                <textarea id="notes" name="notes" class="form-control">{{fields.notes}}</textarea>              
+            </div>
+        </div>
+
+        <input type="submit" value="{% if create %}Create{% else %}Save{% endif %}" id="submit" name="submit" class="btn btn-primary" />
+        <a href="{{url('admin_universal_list', {reponame:'User'})}}" class="btn btn-danger">Cancel</a> 
+
+    </form>
+
+
+{% endblock %}

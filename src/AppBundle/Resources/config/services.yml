@@ -1,0 +1,33 @@
+services:
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]#  
+     app.cryptography:
+         class: CYINT\ComponentsPHP\Services\CryptographyService
+         arguments: ['%app.cryptography.encryption_key%', '%app.cryptography.encryption_salt%'] 
+     app.user_manager:
+         class: CYINT\ComponentsPHP\Managers\UserManager
+         arguments: ['@app.cryptography', '@fos_user.util.password_updater','@fos_user.util.canonical_fields_updater','@fos_user.util.canonical_fields_updater','@fos_user.object_manager','%fos_user.model.user.class%'] 
+     app.emailer:
+         class: AppBundle\Classes\PhotoATMEmailService
+         arguments: ['@mailer', '@templating', '@doctrine']
+     app.registereduseraccess.action_listener:
+        class: AppBundle\EventListener\RegisteredUserAccessListener
+        arguments: ["@security.token_storage","@router"]
+        tags: 
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernalController }
+     app.curl:
+         class: CYINT\ComponentsPHP\Services\CurlService
+         argumnts: []
+     app.jsonformatter:
+         class: CYINT\ComponentsPHP\Services\JsonFormatterService
+         arguments: []
+     app.instagram:
+         class: CYINT\ComponentsPHP\Services\InstagramService
+         arguments: ["@doctrine", "@app.curl"]
+     app.cart:
+         class: AppBundle\Classes\CartService
+         arguments: ["@doctrine", "@session"]
+     app.transaction:
+         class: AppBundle\Classes\TransactionService
+         arguments: ["@doctrine", "@session"]

@@ -1,0 +1,15 @@
+AppBundle\Entity\User:
+    type: entity
+    table: fos_user
+    repositoryClass: AppBundle\Repository\UserRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+            created: 
+                type: integer
+                nullable: false                               
+    lifecycleCallbacks: {  }

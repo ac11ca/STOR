@@ -1,0 +1,8 @@
+{% extends 'admin/universal/content.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block discountclass %}active{% endblock %}
+
+{% block heading %}{% if create %}Create Discount{% else %}Edit {{fields.Code.value}}{% endif %}{% endblock %}
+

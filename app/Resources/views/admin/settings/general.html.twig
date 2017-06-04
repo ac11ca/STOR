@@ -1,0 +1,42 @@
+{% extends 'admin/admin_shell.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block settingsclass %}active{% endblock %}
+
+{% block heading %}General Settings{% endblock %}
+
+{% block adminbody %}
+
+     <form method="post">
+
+        <h3> Pagination </h3>
+        <div class="form-group">
+            <label>Items Per Page</label>
+            <div class="form-field">
+                <input class="form-control" type="text" name="pagination_items_per_page" id="pagination_items_per_page" value="{{settings['pagination_items_per_page']|default('6')}}"/>
+            </div>
+        </div>
+
+
+        <h3> Custom HTML </h3>
+        <div class="form-group">
+            <label>Header</label>
+            <div class="form-field">
+                <textarea class="form-control" name="html_header" id="html_header" rows="5">{{settings['html_header']|default('TEMPLATE PLACEHOLDER')}}</textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Footer</label>
+            <div class="form-field">
+                <textarea class="form-control" name="html_footer" id="html_footer" rows="5">{{settings['html_footer']|default('TEMPLATE PLACEHOLDER')}}</textarea>
+            </div>
+        </div>
+
+
+        <input type="submit" value="Save" id="submit" name="submit" class="btn btn-primary" />
+
+     </form>
+  
+{% endblock %}

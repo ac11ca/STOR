@@ -1,0 +1,7 @@
+custom_page:
+    path: /{friendly_url}/{_render}
+    defaults: { _controller: AppBundle:Content:content, friendly_url:null, template: true, _render: 'HTML' }           
+404:
+    path: /notfound/{_render}
+    defaults: { _controller: AppBundle:Default:notfound, _render: 'HTML' }
+

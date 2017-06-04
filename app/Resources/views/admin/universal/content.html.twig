@@ -1,0 +1,222 @@
+{% extends 'admin/admin_shell.html.twig' %}
+
+{% block name %}Admin{% endblock %}
+
+{% block javascripts %}
+    <script src="/dist/lib/ckeditor/ckeditor.js"></script>
+    <script src="/dist/js/editor.js"></script>
+    <script src="//widget.cloudinary.com/global/all.js" type="text/javascript"></script>   
+    <script src="/dist/js/imageupload.js"></script>
+    <script src="/dist/js/dateformat.js"></script>
+    <script src="/dist/js/datetime.js"></script>
+    {% block morescripts %}{% endblock %}
+{% endblock %}
+
+{% block adminbody %}
+
+    <form method="post">
+
+        {% block autofields %}
+            {% for key,field in fields %}
+                {% if field.type == 'image' %}
+                    
+                    <div class="form-group">
+                        <label for="{{key}}">{{field.label}}</label>            
+                        <div class="form-field">
+                            <img src="{% if not field.value is defined or field.value is empty %}/dist/img/noimage.png{% else %}{{field.value}}{% endif %}" id="{{key}}_imagepreview" class="category-image-preview">
+                            {% if not settings.cloudinary['cloudname']|trim is empty and not settings.cloudinary['api_key']|trim is empty and not settings.cloudinary['upload_preset'] is empty %}
+                                <a href="" class="btn btn-primary js-cloudinary" id="{{key}}_cloudinary-trigger" data-cloudname="{{settings.cloudinary['cloudname']}}" data-cloudinary-key="{{settings.cloudinary['api_key']}}" data-preset="{{settings.cloudinary['upload_preset']}}" data-multiple="false" data-max="1" data-fieldid="{{key}}" data-cropping="{% if field.cropping is defined %}{{field['cropping']}}{% endif %}" data-aspect-ratio="{% if field.aspectRatio is defined %}{{field['aspectRatio']}}{% endif %}" data-pubid="{{key}}_{{'now'|date('U')}}" data-preview="{{key}}_imagepreview">Upload</a> <a href="#" class="image-clear" data-target="#{{key}}"><span class="glyphicon glyphicon-remove"></span></a>
+                                <input type="hidden" id="{{key}}" name="{{key}}" value="{{field.value}}" {%if 'required' in field.validation %}required{% endif %} />
+                            {% else %}
+                                You must configure Cloudinary in the general settings section before being able to upload an image
+                            {% endif %}
+                        </div>
+                    </div>
+
+                {% elseif field.type == 'datedisplay' %}
+
+                    <div class="form-group {{key}}">
+                        <label>{{field['label']}}</label>
+                        <div class="form-control">
+                            <input type="hidden" value="{{field['value']}}" id="{{key}}" name="{{key}}" />
+                            <span class="js-date" data-timestamp="{{field['value']}}" data-format="{{field['format']}}"></span>
+                        </div>
+                    </div>
+
+                {% elseif field.type == 'custom' %}
+
+                    <div class="form-group {{key}}">
+                        <label>{{field['label']}}</label>
+                        {% embed 'admin/form/' ~ field['template'] ~ '.html.twig' with {field: field, fields: fields, key:key}  %}{% endembed %}
+                    </div>
+
+                {% elseif field.type == 'richtext' %}
+
+                    <div class="form-group">
+                        <label for="{{key}}">{{field.label}}</label>
+                        <div class="form-field">
+                            <textarea 
+                                id="{{key}}"
+                                name="{{key}}" 
+                                class="js-editor" 
+                                {% if 'required' in field.validation %}required{% endif %}
+                            >{% spaceless %}
+                                {{field.value}}                        
+                           {% endspaceless %}</textarea>
+                        </div>
+                    </div>
+
+                {% elseif field.type == 'textarea' %}
+
+                    <div class="form-group">
+                        <label for="{{key}}">{{field.label}}</label>
+                        <div class="form-field">
+                            <textarea 
+                                id="{{key}}"
+                                name="{{key}}" 
+                                class="form-control"
+                                {% if 'required' in field.validation %}required{% endif %}
+                            >{% spaceless %}
+                                {{field.value}}                        
+                           {% endspaceless %}</textarea>
+                        </div>
+                    </div>
+
+                {% elseif field.type == 'checkbox' %}
+
+                    <div class="form-group">
+                        <input type="checkbox" name="{{key}}" id="{{key}}" {% if 'required' in field.validation %}required{% endif %} {% if field.value %}checked{% endif %} /> 
+                        <label for="{{key}}">
+                            {{field.label}}
+                        </label>
+                    </div>
+
+                {% elseif field.type == 'select' %}
+
+                    <div class="form-group">
+                        <label for="{{key}}">{{field.label}}</label>
+                        <div class="form-field">
+                            <select
+                                id="{{key}}"
+                                name="{{key}}{% if field.selectOptions.multiple is defined and field.selectOptions.multiple == true%}[]{% endif %}" 
+                                class="form-control" 
+                                {% if field.selectOptions.multiple is defined and field.selectOptions.multiple == true %}multiple{% endif %}
+                                {% if 'required' in field.validation %}required{% endif %}
+                            >
+                                {% if field.selectOptions.type == 'static' %}
+                                    {% for key,value in field.selectOptions.options %}
+                                        <option value="{{value}}" {% if ((field.selectIotions.muliple is not defined or not field.selectOptions.multiple) and value == field.value) or value in field.value %}selected{% endif %}>{{key}}</option>
+                                    {% endfor %}
+                                {% elseif field.selectOptions.type == 'entity' %}
+                                    {% if not ('required' in field.validation) %} <option>Select one</option> {% endif %}
+                                    {% for Entity in field.selectOptions.options %}
+                                        <option 
+                                            value="{{attribute(Entity, field.selectOptions.valueGetter)}}"
+                                            {% if field.selectOptions.multiple is defined and field.selectOptions.multiple is not empty %}
+                                                {% if attribute(Entity, field.selectOptions.valueGetter) in field.value %}selected{% endif %}
+                                            {% else %}
+                                                {% if field.value == attribute(Entity, field.selectOptions.valueGetter) %}selected{% endif %}
+                                            {% endif %}
+                                        >
+                                            {{attribute(Entity, field.selectOptions.labelGetter)}}
+                                        </option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+
+                {% elseif field.type == 'datetime' %}
+
+                    <div class="form-group">
+                        <label for="{{key}}_date">{{field.label}}</label>
+                        <div class="form-field date-time">                     
+                            <div class="column date-field">
+                                <input 
+                                    type="date" 
+                                    class="form-control js-date" 
+                                    name="{{key}}_date" 
+                                    id="{{key}}_date" 
+                                    maxlength="{{field.max|default(255)}}" 
+                                    {% if 'required' in field.validation %}required{% endif %} 
+                                    value=""
+                                    data-timestamp="{% if field.value is not empty%}{{field.value}}{%else%}{{"now"|date('U')}}{% endif %}"
+                                    data-format="YYYY-MM-DD"
+                                    min="{{"now"|date('Y-m-d')}}"
+                                    {% if 'pattern' in field.validation %}pattern="{{field.pattern}}"{% endif %}
+                                    title="{% if field.title is defined %}{{field.title}} {% endif %}"
+                                />
+                            </div>
+                            <div class="column">
+                                <select                           
+                                    class="form-control js-date" 
+                                    name="{{key}}_hours" 
+                                    id="{{key}}_hours"
+                                    data-format="HH"   
+                                    data-timestamp="{% if field.value is not empty%}{{field.value}}{%else%}{% if field.value|date('i') > 29 %}{{"now"|date('U') + 3600}}{% else %}{{"now"|date('U')}}{%endif%}{% endif %}"
+                                    {% if 'required' in field.validation %}required{% endif %} 
+                                    {% if 'pattern' in field.validation %}pattern="{{field.pattern}}"{% endif %}
+                                    title="{% if field.title is defined %}{{field.title}} {% endif %}"
+                                />
+                                    {% for hour in range(0,23) %}
+                                        <option value="{% if hour < 10%}0{% endif %}{{hour}}">{% if hour < 10%}0{%endif%}{{hour}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="column">
+                                <select                           
+                                    class="form-control" 
+                                    name="{{key}}_minutes" 
+                                    id="{{key}}_minutes" 
+                                    {% if 'required' in field.validation %}required{% endif %} 
+                                    {% if 'pattern' in field.validation %}pattern="{{field.pattern}}"{% endif %}
+                                    title="{% if field.title is defined %}{{field.title}} {% endif %}"
+                                />
+                                    {% for minute in range(00,30,30) %}
+                                        <option value="{% if minute < 10 %}0{% endif %}{{minute}}" {% if (field.value|date('i') > 30 and minute == 0 and create) or (field.value|date('i') < 30 and minute == 30 and create) or (minute == field.value|date('i') and not create)  %}selected{% endif %}>{% if minute < 10%}0{%endif%}{{minute}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <input type="hidden" name="{{key}}_offset" id="{{key}}_offset" data-key="{{key}}" value="" class="js-datetime" />
+                        </div>
+                    </div>
+
+                {% elseif field.type == 'none' %}
+                    {# DO NOTHING #}
+                {% else %}
+
+                    <div class="form-group">
+                        <label for="{{key}}">{{field.label}}</label>
+                        <div class="form-field">
+                            <input 
+                                type="{{field.type}}" 
+                                class="form-control" 
+                                name="{{key}}" 
+                                id="{{key}}" 
+                                maxlength="{{field.max|default(255)}}" 
+                                {% if 'required' in field.validation %}required{% endif %} 
+                                value="{{field.value}}"
+                                {% if 'pattern' in field.validation %}pattern="{{field.pattern}}"{% endif %}
+                                title="{% if field.title is defined %}{{field.title}} {% endif %}"
+                                {% if field['step'] is defined %}step="{{field['step']}}"{% endif %}
+                            />
+                        </div>
+                    </div>
+
+                {% endif %}
+
+
+            {% endfor %}
+        {% endblock %}
+
+        {% block custom_content %}
+
+        {% endblock %}
+
+        {% block buttons %}         
+            <input type="submit" value="{% if create %}Create{% else %}Save{% endif %}" id="submit" name="submit" class="btn btn-primary" />
+            <a href="{{url('admin_universal_list', {reponame:reponame, id:parentid})}}" class="btn btn-danger">Cancel</a> 
+        {% endblock %}
+    </form>
+
+{% endblock %}

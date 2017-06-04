@@ -1,0 +1,29 @@
+    <div class="column">
+
+        <table class="table table-striped">
+            <thead>
+                <th>{{'Subcategory'|trans}}</th>
+                <th>{{'Price'|trans}}</th>                   
+            </thead>
+            <tbody>
+                   {% for key,item in cart['items'] %}
+                        <tr>
+                            <td>{{item['Subcategory']}}:</td>
+                            <td>{{'$'|trans}}{{item['price']|number_format(2,onesSeparator,thousandsSeparator)}}</td>                         
+                        </tr>
+                    {% endfor %}
+            </tbody>
+        </table>
+ 
+    </div> 
+
+    {% if cart['Discount'] is defined and cart['Discount'] is not empty %}
+
+        <div class="form-group">
+            <label for="code">{{'Discount'|trans}} ({{cart['Discount']['code']}}): </label> -{{'$'|trans}}{{cart['Discount']['amount']|number_format(2,onesSeparator,thousandsSeparator)}} 
+        </div>
+    {% endif %}
+
+    <div class="column">
+        <h4>{{'Total'|trans}}: {{'$'|trans}}{{total|number_format(2,onesSeparator,thousandsSeparator)}}</h4>
+    </div>

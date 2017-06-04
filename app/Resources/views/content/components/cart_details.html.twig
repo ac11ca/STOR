@@ -1,0 +1,55 @@
+        {% set onesSeparator = '$.'|trans %}
+        {% set thousandsSeparator = '$,'|trans %}
+
+        {% for key,item in cart['items'] %}
+            <div class="column">
+
+                <table class="table table-striped" id="item_{{key}}">
+                    <thead>
+                        <th>{{ item['Subcategory']}}</th>
+                        <th>
+                            {% if controls %}
+                                <a href="{{path('cart_remove',{id:key,type:1} )}}" onclick="return confirm('{{'Are you sure you want to remove this item from your cart?'|trans}}');"><span class="glyphicon glyphicon-remove cart-remove" data-id="{{key}}" ></span></a>
+                                <a href="{{path('subcategory',{id:key})}}"><span class="glyphicon glyphicon-pencil"></span></a>
+                            {% else %}
+                                &nbsp;
+                            {% endif %}
+                        </th>
+                    </thead>
+                    <tbody>
+                        {% for field in item['form'] %}
+                            <tr>
+                                <td class="first">{{field['key']}}:</td>
+                                <td>{{field['value']|join(',')}}</td>                         
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <p><strong>{{'Price'|trans}}:</strong> {{'$'|trans}}<span id="item_price_{{key}}">{{item['price']|number_format(2,onesSeparator,thousandsSeparator)}}</span></p>             
+
+            </div> 
+        {% endfor %}
+
+        {% if cart['Discount'] is defined and cart['Discount'] is not empty %}
+
+            <div class="form-group">
+                <label for="code">{{'Discount'|trans}} ({{cart['Discount']['code']}}): </label> -{{'$'|trans}}{{cart['Discount']['amount']|number_format(2,onesSeparator,thousandsSeparator)}} {% if not disable_discounts %}<a href="{{path('cart_remove',{id: cart['Discount']['code'], type:2 })}}" onclick="Are you sure you want to remove this discount from your cart?"><span class="glyphicon glyphicon-remove"></span></a>{% endif %}
+            </div>
+
+        {% elseif not disable_discounts %}
+            <form method="post">
+                <div class="form-group">
+                    <label for="code">{{'Discount Code'|trans}}</label>
+                    <div class="form-field">
+                        <input type="text" name="code" id="code" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">{{'Add Discount'|trans}}</button>
+                </div>
+
+            </form>
+        {% endif %}
+

@@ -1,0 +1,12 @@
+    <div class="form-field" id="bills_field_{% if index is defined %}{{index}}{% elseif value is defined %}_{{value['denomination']}}{% elseif prototype is defined and prototype == true %}**index**{% else %}1{% endif %}">
+        <div class="column">
+            <input type="number" name="{{key}}[{% if index is defined %}{{index}}{% elseif prototype is defined and prototype == true %}**index**{% else %}1{% endif %}][denomination]" id="{{key}}_denomination_{% if index is defined %}{{index}}{% elseif prototype is defined and prototype == true %}**index**{% else %}1{% endif %}" value="{% if value is defined %}{{value['denomination']}}{% elseif index is defined %}{{index}}{% elseif prototype is defined and prototype == true %}**index**{% else %}1{% endif %}" class="form-control" />
+        </div>
+        <div class="column">
+            <input type="text" name="{{key}}[{% if index is defined %}{{index}}{% elseif prototype is defined and prototype == true %}**index**{% else %}1{% endif %}][quantity]" id="{{key}}_quantity_{% if index is defined %}{{index}}{% elseif prototype is defined and prototype == true %}**index**{% else %}1{% endif %}" value="{% if value is defined %}{{value['quantity']}}{% endif %}" class="form-control" />
+        </div>
+
+         <div class="column">
+            <a href="#" class="js-segment-remove" data-target="bills_field_{% if index is defined %}{{index}}{% elseif prototype is defined and prototype == true %}**index**{% else %}1{% endif %}"><span class="glyphicon glyphicon-remove"></span></a>
+         </div>            
+    </div>

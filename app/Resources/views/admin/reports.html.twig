@@ -1,0 +1,54 @@
+{% extends 'admin/admin_shell.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+{% block heading %}Reports {% endblock %}
+{% block reportclass %}active{% endblock %}
+
+{% block javascripts %}
+{% endblock %}
+
+{% block adminbody %}
+
+    <form method="post">
+        <div class="form-group">
+            <select name="month" id="month">
+                {% for index in 1..12 %}
+                    <option {% if month == index %} selected {% endif %}>{{index}}</option>
+                {% endfor %}
+            </select>
+            <select name="year" id="year">
+                {% for index in 2016..current_year %}
+                    <option {% if year == index %} selected {% endif %}>{{year}}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" class="btn btn-primary" />
+        </div>
+    </form> 
+
+    <h1>Totals</h1>
+
+    
+
+    <table class="table table-striped">
+    <thead>
+        <th></th>
+        <th>Pending</th>
+        <th>Delivered</th>
+        <th>Cancelled/Refunded</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{totals['master']['count']['total']}}</td>
+            <td>{{totals['master']['count'][1]}}</td>
+            <td class="green">{{totals['master']['count'][2]}}</td>
+            <td><span class="red">{{totals['master']['count'][3]}}</span></td>
+        </tr>
+        <tr>
+            <td>${{totals['master']['amount']['total']|number_format(2,'.',',')}}</td>
+            <td>${{totals['master']['amount'][1]|number_format(2,'.',',')}}</td>
+            <td class="green">${{totals['master']['amount'][2]|number_format(2,'.',',')}}</td>
+            <td><span class="red">${{totals['master']['amount'][3]|number_format(2,'.',',')}}</span></td>
+        </tr>
+    </tbody>
+    </table>
+{% endblock %}

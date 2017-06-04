@@ -1,0 +1,18 @@
+<div class="pdf-viewer-container">
+    <div class="pdf-viewer">
+
+        <iframe src="{{url('root')}}pdfviewer/web/viewer.html?file={{pdf|url_encode}}" id="pdf_viewer_{{id}}"></iframe>
+
+    </div>
+
+
+    <div class="segments">
+        {% if segments is defined and segments|length > 1 %}
+            {% for segment in segments %}
+                <a href="#" class="js-pdf-segment" data-link="{{url('root')}}pdfviewer/web/viewer.html?file={{url('stream',{'fileName':Cryptography.Encrypt(segment['link'])|url_encode, 'type':'application'})|url_encode}}">{{loop.index}}</a>
+            {% endfor %}
+            <a href="#" class="js-pdf-maximize" data-target="pdf_viewer_{{id}}"><span class="glyphicon glyphicon-resize-full""></span></a>
+        {% endif %}   
+    </div>
+	
+</div>

@@ -1,0 +1,14 @@
+{% extends 'admin/universal/content.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block machineclass %}active{% endblock %}
+
+{% block heading %}{% if create %}Create Kiosk{% else %}Edit Kiosk {{fields.Id.value}}{% endif %}{% endblock %}
+
+{% block morescripts %}
+    <script src="/dist/js/add_segment.js"></script>
+{% endblock %}
+
+{% block custom_content %}
+{% endblock %}

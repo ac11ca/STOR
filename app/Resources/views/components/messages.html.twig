@@ -1,0 +1,12 @@
+    <div class="messages hide" data-prototype="{{'<div class="{type} message"><span class="{icon}"></span><span class="text">{text}</span></div>'|e}}">
+        {% if messages is defined and not messages is empty %}
+
+            {% for message in messages %}
+                <div class="{{message.type}} message">
+                    <span class="{{message.icon}}"></span><span class="text">{{message.text|trans}}</span>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+    </div>
+<script src="/dist/js/messages.js"></script>

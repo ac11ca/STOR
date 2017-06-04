@@ -1,0 +1,142 @@
+{% extends 'admin/admin_shell.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+{% block heading %}Reports {% endblock %}
+{% block transactionreportclass %}active{% endblock %}
+
+{% block javascripts %}
+{% endblock %}
+
+{% block adminbody %}
+
+    <form method="post">
+        <div class="form-group">
+            <select name="month" id="month">
+                {% for index in 1..12 %}
+                    <option {% if month == index %} selected {% endif %}>{{index}}</option>
+                {% endfor %}
+            </select>
+            <select name="year" id="year">
+                {% for index in 2016..current_year %}
+                    <option {% if year == index %} selected {% endif %}>{{year}}</option>
+                {% endfor %}
+            </select>
+
+            -
+
+            <select name="endmonth" id="endmonth">
+                {% for index in 1..12 %}
+                    <option {% if endmonth == index %} selected {% endif %}>{{index}}</option>
+                {% endfor %}
+            </select>
+            <select name="endyear" id="endyear">
+                {% for index in 2016..current_endyear %}
+                    <option {% if endyear == index %} selected {% endif %}>{{endyear}}</option>
+                {% endfor %}
+            </select>
+
+            <input type="submit" class="btn btn-primary" />
+            {% if machine is not empty %}
+                <a class="btn btn-danger" href="#" onclick="javascript:window.history.back();">Back</a>
+            {% endif %}
+        </div>
+    </form> 
+
+    <h1>Transaction Summary {% if machine is not empty %}for <br /> Kiosk {{machine}}{% endif %}</h1>
+
+    <table class="table table-striped">
+    <thead>
+        <th>Revenue</th>
+        <th>Completed</th>
+        <th>Refunded</th>
+        <th>Abandoned</th>
+        <th>Pending</th>
+        <th>Total</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>-</td>
+            <td>{{totals['master']['count']['completed']}}</td>
+            <td>{{totals['master']['count']['abandoned']}}</td>
+            <td>{{totals['master']['count']['pending']}}</td>
+            <td>{{totals['master']['count']['refunded']}}</td>
+            <td>{{totals['master']['count']['total']}}</td>
+        </tr>
+        <tr>
+            <td><span class="{% if totals['master']['amount']['revenue'] > 0 %}green{% elseif totals['master']['amount']['revenue'] < 0 %}red{% endif %}">{{totals['master']['amount']['revenue']|number_format(2,',',',')}} &euro; </span></td>
+            <td><span class="green">{{totals['master']['amount']['completed']|number_format(2,',',',')}} &euro;</span></td>
+            <td><span class="red">{{totals['master']['amount']['refunded']|number_format(2,',',',')}} &euro;</span></td>
+            <td>{{totals['master']['amount']['abandoned']|number_format(2,',',',')}} &euro;</td>
+            <td>{{totals['master']['amount']['pending']|number_format(2,',',',')}} &euro;</td>
+            <td>{{totals['master']['amount']['total']|number_format(2,',',',')}} &euro;</td>
+        </tr>
+    </tbody>
+    </table>
+
+    {% if bills|length > 0 %}
+
+        <h3>Bills Inserted</h3>
+
+        <table class="table table-striped">
+        <thead>
+            <th>Denomination</th>
+            <th>Quantity</th>
+        </thead>
+        <tbody>
+            {% for denomination,bill in bills %}
+               <tr>
+                    <td>{{denomination|raw}}</td>
+                    <td>{{bill}}</td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+        </table>
+
+    {% endif %}
+
+    {% if billsRemoved|length > 0 %}
+
+        <h3>Bills Removed</h3>
+
+        <table class="table table-striped">
+        <thead>
+            <th>Denomination</th>
+            <th>Quantity</th>
+        </thead>
+        <tbody>
+            {% for denomination,bill in billsRemoved %}
+               <tr>
+                    <td>{{denomination|raw}}</td>
+                    <td>{{bill}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+
+    {% endif %}
+
+    {% if billsRemaining|length > 0 %}
+
+        <h3>Bills Remaining</h3>
+
+        <table class="table table-striped">
+        <thead>
+            <th>Denomination</th>
+            <th>Quantity</th>
+        </thead>
+        <tbody>
+            {% for denomination,bill in billsRemaining %}
+               <tr>
+                    <td>{{denomination|raw}}</td>
+                    <td>{{bill}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+
+    {% endif %}
+
+
+
+{% endblock %}

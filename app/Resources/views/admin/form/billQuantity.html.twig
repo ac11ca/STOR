@@ -1,0 +1,17 @@
+    {% set counter=1 %}
+
+    {% for value in field['value'] %}    
+        {% embed 'admin/components/billsForm.html.twig' with { fields:fields, field:field, key:key, value:value, index:loop.index } %}{% endembed %}
+        {% set counter = loop.index+1 %}
+    {% endfor %}
+
+    {% set prototype %}
+        {% embed 'admin/components/billsForm.html.twig' with {fields:fields, field:field, key:key, prototype:true} %}{% endembed %}
+    {% endset %}
+
+    <div class="field-container" data-prototype="{{prototype|e}}">
+    </div>
+
+    <div class="js-add-segment form-field">        
+        <button class="btn btn-primary" data-counter="{{counter}}">Add Denomination</button>
+    </div>

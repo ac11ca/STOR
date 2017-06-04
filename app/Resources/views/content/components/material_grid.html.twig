@@ -1,0 +1,52 @@
+{% if CourseMaterials|length > 0 %}
+
+        {% for MaterialLink in CourseMaterials %}
+
+            {% if loop.index0 != 0 and (MaterialLink.CourseMaterial.type == 2 or loop.index0 % 2 == 0) %}
+                </div>
+            {% endif %}
+
+            {% if (MaterialLink.CourseMaterial.type == 2 or loop.index0 % 2 == 0) %}
+                <div class="row course-material-row {% if MaterialLink.CourseMaterial.type == 2%}audio-row{% endif %} {% if loop.index == CourseMaterials|length or CourseMaterials[loop.index].CourseMaterial.type == 2%}single-row{% endif %}">
+            {% endif %}
+
+                <div class="column">
+                    <div class="material-cell">
+
+                        {# video #}
+                        {% if MaterialLink.CourseMaterial.type == 1 %}                         
+                            {% if MaterialLink.CourseMaterial.attachmentLinks is not empty %}                               
+                                {% embed "default/components/video.html.twig" with {video:Cryptography.Encrypt(MaterialLink.CourseMaterial.attachmentLinks[0]['link']), type:'video', segments: MaterialLink.CourseMaterial.attachmentLinks, Cryptography:Cryptography, index: 1, title: MaterialLink.CourseMaterial.Name, id:'course_' ~ MaterialLink.Course.id ~ '_video_' ~ loop.index} %}{% endembed %} 
+                            {% endif %} 
+                        {# audio #}
+                        {% elseif MaterialLink.CourseMaterial.type == 2 %}
+                            {% if MaterialLink.CourseMaterial.attachmentLinks is not empty %}                                                               
+                                {% embed "default/components/audio.html.twig" with {audio:Cryptography.Encrypt(MaterialLink.CourseMaterial.attachmentLinks[0]['link']), index: 1, title: MaterialLink.CourseMaterial.Name,  type:'audio', segments: MaterialLink.CourseMaterial.attachmentLinks, Cryptography:Cryptography, id:'course_' ~ MaterialLink.Course.id ~ '_audio_' ~ loop.index } %}{% endembed %}
+                            {% endif %}
+                        {# PDF #}
+                        {% elseif MaterialLink.CourseMaterial.type == 3 %}
+                            {% if MaterialLink.CourseMaterial.attachmentLinks is not empty %}
+                                {% embed "default/components/pdf.html.twig" with {pdf:url('stream', { fileName: Cryptography.Encrypt(MaterialLink.CourseMaterial.attachmentLinks[0]['link'])|url_encode, type:'application' }), index: 1, title: MaterialLink.CourseMaterial.Name,  type:'application', segments: MaterialLink.CourseMaterial.attachmentLinks, Cryptography:Cryptography, id:'course_' ~ MaterialLink.Course.id ~ '_pdf_' ~ loop.index } %}{% endembed %}
+                            {% endif %}                
+                        {# iframe #}
+                        {% elseif MaterialLink.CourseMaterial.type == 6 %}
+                            {% if MaterialLink.CourseMaterial.attachmentLinks is not empty %}
+                                {% embed "default/components/iframe.html.twig" with {link: MaterialLink.CourseMaterial.attachmentLinks[0]['link'], index: 1, title: MaterialLink.CourseMaterial.Name, segments: MaterialLink.CourseMaterial.attachmentLinks, id:'course_' ~ MaterialLink.Course.id ~ '_iframe_' ~ loop.index } %}{% endembed %}
+                            {% endif %}
+                        {% else %}
+                            <p>This course material type is not yet supported</p>
+                        {% endif %}
+
+                    </div>
+                </div>
+
+            {% if loop.index == CourseMaterials|length %}
+                </div>
+            {% endif %}
+
+        {% endfor %}
+    {% else %}
+        <div class="row">
+            <p>There are no course materials associated with this course yet. Come back soon!</p>
+        </div>
+    {% endif %}

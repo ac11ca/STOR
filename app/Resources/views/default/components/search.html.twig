@@ -1,0 +1,20 @@
+<div class="search-bar-container {% if showcart is defined and showcart %}has-cart{% endif %}">
+    <div class="search-bar">
+        <form action="{{path('instagram_search', {'buster':"now"|date('U')})}}" method="POST" id="search_form">
+            <input type="text" class="text-field js-entry" data-mode="search" data-placeholder="Search Instagram" data-value="{% if term is defined %}{{term}}{% endif %}" id="term" name="term"  placeholder="{{'Search by username or hashtag'|trans}}" {% if term is defined %}value="{{term}}"{% endif %} />
+        </form>
+    </div>
+
+    {% if nouser is defined %}
+        {% set hideuser=nouser %}
+    {% else %}
+        {% set hideuser=false%}
+    {% endif %}
+
+    {% if showcart is defined and showcart %}
+        {% embed 'default/components/cart.html.twig' with {nouser:hideuser} %}{% endembed %}
+    {% endif %}
+</div>
+
+{% embed 'default/components/entrybar.html.twig' %}{% endembed %}
+

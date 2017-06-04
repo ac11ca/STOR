@@ -1,0 +1,75 @@
+root:
+    path: /root/{machine}/{_locale}
+    defaults: { _controller: AppBundle:Default:root, _locale: 'en', machine: null }
+    
+index:
+    path: /root/{machine}/{_locale}/view/{_render}
+    defaults: {_controller: AppBundle:Default:index, _render: 'HTML', machine: null}       
+                                                      
+routes:
+    path: /routes/{_render}
+    defaults: { _controller:AppBundle:Default:routes, _render: 'HTML', _locale:'en' }
+
+credentials:
+    path: /credentials
+    defaults: { _controller:AppBundle:Default:credentials, _render: 'JSON', _locale: 'en' }
+
+instagram_search:
+    path: /app/{_locale}/search/instagram
+    defaults: { _controller:AppBundle:Default:search, _render: 'HTML', _locale:'en' }
+
+instagram_callback:
+    path: /app/{_locale}/instagram/authorized
+    defaults: { _controller:AppBundle:Default:igCallback, _render: 'HTML', _locale:'en' }
+
+instagram_login_redirect:
+    path: /app/{_locale}/instagram/redirect/login
+    defaults: { _controller:AppBundle:Default:igLoginRedirect,  _render: 'HTML', _locale:'en' }
+
+instagram_login:
+    path: /app/{_locale}/instagram/login/{user}
+    defaults: { _controller:AppBundle:Default:igLogin, user: null, _render: 'HTML', _locale:'en' }
+
+instagram_media:
+    path: /app/{_locale}/instagram/media/{mode}/{usertag}/{page}
+    defaults: { _controller:AppBundle:Default:igMedia, user:null, _render: 'HTML', mode: null, usertag: null, _locale:'en', page:  1 }
+
+media_cart_modify:
+    path: /app/{_locale}/instagram/cart/modify/{mode}
+    defaults: { _controller:AppBundle:Default:mediaCartModify, mode: null, _locale:'en', _render: 'JSON' }
+
+media_cart_view:
+    path: /app/{_locale}/cart/view
+    defaults: { _controller:AppBundle:Default:cartView, _render: 'HTML', _locale:'en' }
+
+media_cart_clear:
+    path: /app/{_locale}/cart/clear
+    defaults: { _controller:AppBundle:Default:cartClear, _render: 'HTML', _locale:'en' }
+
+media_cart_checkout:
+    path: /app/{_locale}/cart/checkout
+    defaults: { _controller:AppBundle:Default:cartCheckout, _render: 'HTML', _locale:'en' }
+
+media_cart_print:
+    path: /app/{_locale}/cart/print
+    defaults: { _controller:AppBundle:Default:cartPrint, _render: 'HTML', _locale:'en' }
+
+media_image_modify:
+    path: /app/{_locale}/cart/image/{target}/{slot}/{mode}/{value}
+    defaults: { _controller:AppBundle:Default:cartImage, _render: 'JSON', _locale:'en',  mode: null, value: null, target: null, slot: null}
+
+media_delete_cart_item:
+    path: /app/{_locale}/cart/delete/{id}/{slot}
+    defaults: { _controller:AppBundle:Default:mediaDeleteCartItem, _render: 'JSON', _locale: 'en', id: null, slot: null }
+
+poll_api:
+    path: /app/{_locale}/transaction
+    defaults: { _controller:AppBundle:Default:pollTransaction, _render: 'JSON', _locale: 'en' }
+
+report_error:
+    path: /app/{_locale}/error/report
+    defaults: { _controller:AppBundle:Default:reportError, _render: 'JSON', _locale: 'en' }
+
+support_message:
+    path: /app/{_locale}/error/support
+    defaults: { _controller:AppBundle:Default:supportMessage, _render: 'HTML', _locale: 'en' }

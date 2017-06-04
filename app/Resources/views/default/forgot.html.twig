@@ -1,0 +1,37 @@
+{% extends 'default/default_shell.html.twig' %}
+
+{% block title %}{{'Forgot Password'|trans}}{% endblock %}
+
+{% block body %}
+
+    <form method="post" action="{{ url( 'forgot' ) }}">
+      
+      <div  class="myform">
+          
+          <div class="wbody">
+            <div class="input-wrapper compressed email required user_email">
+              <div class="field-wrap">
+              <label class="label">Email</label>
+              <div class="field">
+                <input class="string email required" autofocus required aria-required="true" placeholder="enter your email" value="{{username}}" name="username" id="user_email" type="text">
+              </div>
+              </div>
+            </div>   
+            <p class="form-small-text">Enter the email address you registered with, and we will send you a link to a form so that you can reset your password.</p>
+
+         </div>
+         <div class="wfoot clearfix">
+            <button class="button success expanded">Send Form</button>
+         </div>
+     </div>
+      
+    </form>
+
+  <div id="link-box">
+    <a href="{{path('login')}}" class="fl">Try to log in.</a>
+    <a href="{{path('registration')}}" class="fr">Need an account?</a>
+  </div>
+
+
+{% endblock %}
+

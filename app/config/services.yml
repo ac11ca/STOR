@@ -1,0 +1,11 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+    app.cryptography.encryption_key: "BC30041FD8FAA11BFD5DA442DD066683AD7E8C0F6DCB1F1815A34F60479D5F85"
+    app.cryptography.encryption_salt: "djhfh82hsgdifjax"
+    app.emailer.from: "TEMPLATE PLACEHOLDER"
+    app.emailer.support_email: "placeholder@cyint.technology"
+
+#    parameter_name: value
+imports:
+    - { resource: '@AppBundle/Resources/config/services.yml' }

@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block baseheader %}
+    {{render(controller('AppBundle:Default:gaTag'))}}                     
+    {{render(controller('AppBundle:Default:headerHTML'))}}                     
+{% endblock %}
+
+{% block templatestyles %}
+    {% block individualstyles %}
+    {% endblock %}
+{% endblock %}
+
+{% block mainbody %}
+
+        {% block primarybody %}
+        {% endblock %}
+{% endblock %}
+
+{% block basefooter %}
+	<footer>	
+		{{render(controller('AppBundle:Default:messages'))}}
+	</footer>
+
+    {{render(controller('AppBundle:Default:footerHTML'))}}                     
+{% endblock %}
+
+{% block templatescripts %}
+{% endblock %}
+

@@ -1,0 +1,14 @@
+{% extends 'content/content_shell.html.twig' %}
+
+{% block title %}{{CustomContent.Title}}{% endblock %}
+
+{% block body %}
+
+ 	<div class="row">
+	    <div class="large-12 columns">
+      		<h2 class="dark">{{CustomContent.title}}</h2>
+    	</div>
+    </div>
+    {{CustomContent.content|raw}}
+
+{% endblock %}

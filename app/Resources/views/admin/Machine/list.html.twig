@@ -1,0 +1,94 @@
+{% extends 'admin/universal/list.html.twig' %}
+
+{% block heading %}Kiosks{% endblock %}
+
+{% block machineclass %}active{% endblock %}
+
+{% block addbutton %}Add Kiosk{% endblock %}
+
+{% block filter %}
+    <form method="post">
+        <div class="form-group">
+            <div class="filter-group">
+                <div class="form-group">
+                    <label>Filter</label>
+                    <div class="field-control">                
+                        <input type="text" id="filter[string]" name="filter_string" value="{% if filter['string'] is defined %}{{filter['string']}}{% endif %}" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <div class="field-control">
+                        <select multiple name="filter[status][]" id="filter_status">
+                            <option value="0" {% if filter['status'] is defined and 0 in filter['status'] %}selected{% endif %}>SETUP MODE</option>
+                            <option value="1" {% if filter['status'] is defined and 1 in filter['status'] %}selected{% endif %}>NO CHANGE</option>
+                            <option value="2" {% if filter['status'] is defined and 2 in filter['status'] %}selected{% endif %}>COLLECTOR FULL</option>
+                            <option value="3" {% if filter['status'] is defined and 3 in filter['status'] %}selected{% endif %}>FAILED CHECK-IN</option>
+                            <option value="4" {% if filter['status'] is defined and 4 in filter['status'] %}selected{% endif %}>NO PAPER</option>
+                            <option value="5" {% if filter['status'] is defined and 5 in filter['status'] %}selected{% endif %}>PRINTER ERROR</option>
+                            <option value="6" {% if filter['status'] is defined and 6 in filter['status'] %}selected{% endif %}>DECOMMISSIONED</option>
+                            <option value="7" {% if filter['status'] is defined and 7 in filter['status'] %}selected{% endif %}>RUNNING</option>
+                        </select>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Filter" />
+                <a href="{{path('admin_universal_list',{reponame:reponame})}}" class="btn btn-danger">Clear</a>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+
+
+
+{% block table %}
+    <thead>
+        <th>ID</th>
+        <th>Location</th>    
+        <th>Statuses</th> 
+        <th>&nbsp;</td>  
+    </thead>
+    <tbody>
+        {% for Machine in entity_list %}
+            <tr id="content_{{Machine.id}}">
+                <td>{{Machine.id}}</td>
+                <td>
+                    {% if Machine.address is not null and Machine.address is not empty %}{{Machine.address}}{% endif %}{% if Machine.city is not null and Machine.city is not empty %}, {{Machine.city}}{% endif %}{% if Machine.province is not null and Machine.province is not empty %}, {{Machine.province}}{% endif %}{% if Machine.postalCode is not null and Machine.postalCode is not empty %}, {{Machine.postalCode}}{% endif %}{% if Machine.country is not null and Machine.country is not empty %}, {{Machine.country}}{% endif %}
+                </td>
+                <td>
+                    {% if Machine.status is not empty %}
+                        {% for stat in Machine.status %}{% spaceless %}
+                            {% if loop.index0 > 0 %}
+                                ,
+                            {% endif %}
+                            {% if stat == 0 %}
+                                SETUP MODE
+                            {% elseif stat == 1 %}
+                                NO CHANGE
+                            {% elseif stat == 2 %}
+                                COLLECTOR FULL
+                            {% elseif stat == 3 %}
+                                FAILED CHECK-IN
+                            {% elseif stat == 4 %}
+                                NO PAPER
+                            {% elseif stat == 5 %}
+                                PRINTER ERROR
+                            {% elseif stat == 6 %}                      
+                                DECOMISSIONED
+                            {% elseif stat == 7 %}                      
+                                RUNNING
+                            {% endif %}
+                        {% endspaceless %}{% endfor %}
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{path('admin_collection', {machine:Machine.id})}}"><span class="glyphicon glyphicon-euro" alt="Collection"></span></a>
+                    <a href="{{path('admin_reports_transaction', {machine:Machine.id})}}"><span class="glyphicon glyphicon-stats" alt="Financial Reports"></span></a>
+                    <a href="{{path('admin_universal_form', {id:Machine.id, reponame:reponame})}}"><span class="glyphicon glyphicon-pencil"></span></a>                 
+                    <a href="#" class="js-remove" data-target="{{Machine.id}}"><span class="glyphicon glyphicon-remove"></span></a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+{% endblock %}

@@ -1,0 +1,82 @@
+
+<div class="order">
+
+
+    <div class="column left">.
+        <h3> Receipt for your order </h3>
+    </div>
+
+    {% if not email is defined or email is empty %}
+        <div class="column right">
+            <a href="#" onclick="event.preventDefault();window.print()" class="btn btn-primary">Print</a>
+            <a href="{{path('index')}}" class="btn btn-danger">Back</a>
+        </div>
+    {% endif %}
+    <hr />
+
+    <div class="column left">
+        <p><strong>Order #</strong>: {{Transaction.id}}</p>
+    </div>
+
+    <div class="column right">
+        <p><stron>Date</strng>: {{(Transaction.CreateTime+offset)|date('m/d/Y h:i')}}        
+    </div>
+
+    <div class="column left">
+        <p><strong>Full Name</strong>: {{Transaction.fullname}}</p>
+    </div>
+
+    {% if Transaction.City.Name != 'Bali Airport' and Transaction.Item.ItemType != 2 %}
+        <div class="column right">
+            <p><strong>Hotel/Villa</strong>: {{Transaction.hotel}}</p>
+        </div>
+        
+        <div class="column left">
+            <p><strong>Address</strong>: {{Transaction.address}}</p>
+        </div>
+
+    {% endif %}
+
+    <div class="column right">
+        <p><strong>{% if Transaction.City.Name == 'Bali Airport' %}Flight{%elseif Transaction.Item.ItemType==2%}Phone #{% else %}Room{% endif %}</strong>: {{Transaction.room}}</p>
+    </div>
+
+    {% if Transaction.City.name != 'Bali Airport' and Transaction.Item.ItemType != 2 %}
+        <div class="column left">
+            <p><strong>City</strong>: {{Transaction.City.name}}</p>
+        </div>
+    {% endif %}
+
+    <div class="column {% if Transaction.City.Name == 'Bali Airport' %}left{%else%}right{% endif %}">
+        <p><strong>Email</strong>: {{Transaction.email}}</p>
+    </div>
+
+    <div class="{% if Transaction.Item.ItemType != 2 %}column left{% endif %}">.
+        <p><strong>Item</strong>: {{Transaction.Item.name}}</p> 
+    </div>
+
+    {% if Transaction.Item.ItemType == 2 %}
+        <div class="column left">
+            <p>{{Transaction.option}}</p>
+        </div>    
+    {% endif %}
+
+    {% if Transaction.Item.ItemType != 2 %}
+        <div class="column right">
+            <p><strong>Flight {% if Transaction.City.Name == 'Bali Airport' %}Arrives{% else %}Deliver{% endif %}:</strong>: {{Transaction.DeliveryDate|date('m/d/Y')}} {{Transaction.DeliveryTime}}
+        </div>
+    {% endif %}
+
+    <hr />
+
+    <div class="column left">
+
+    </div>
+
+    <div class="column right">.
+        <p><strong>Total</strong>: ${{Transaction.amount|number_format(2,'.',',')}}</p> 
+    </div>
+   
+
+</div>
+

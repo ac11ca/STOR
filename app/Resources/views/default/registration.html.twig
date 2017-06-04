@@ -1,0 +1,45 @@
+{% extends 'default/default_shell.html.twig' %}
+
+{% block title %}{{'Sign Up'|trans}}{% endblock %}
+
+{% block body %}
+
+    <form action="{{path('registration')}}" method="post">
+      
+      <div  class="myform">
+      
+          <div class="wbody">
+            <div class="input-wrapper compressed email required user_email">
+              <div class="field-wrap">
+              <label class="label">Email</label>
+              <div class="field">
+                <input class="string email required" autofocus required aria-required="true" placeholder="enter your email" value="" name="username" id="user_email" type="email">
+              </div>
+              </div>
+            </div>
+            <div class="input-wrapper compressed password optional user_password">
+              <label class="field-wrap">
+              <div class="label">Password</div>
+              <div class="field">
+                <input class="password optional" placeholder="enter something secretive" name="password"  id="registration_form_password" type="password">
+              </div>
+              </label>
+            </div>
+            
+            <p class="form-small-text">By clicking, you agree to our <a href="{{path('custom_page', {friendly_url:'privacy-policy'})}}" target="_blank">Privacy Policy</a> and <a href="{{path('custom_page',{friendly_url:'terms-of-service'})}}" target="_blank">Terms of Service</a>.
+</p>
+          </div>
+          <div class="wfoot clearfix">
+            <button class="button success expanded">Sign Up</button>
+          </div>
+      
+      </div>
+      
+    </form>
+  <div id="link-box">
+    <a href="{{path('login')}}" class="fl">Already have an account?</a>
+    <a href="{{path('confirm_resend')}}" class="fr">Resend confirmation email.</a>
+  </div>
+
+{% endblock %}
+

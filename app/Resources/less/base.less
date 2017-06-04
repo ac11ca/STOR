@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css?family=Patua+One');
+@import url('https://fonts.googleapis.com/css?family=Lato');
+@import 'variables';
+
+body {
+    width: 1080px;
+    height: 1920px;
+    margin: auto;
+    background-color: black;
+    font-family: @font-1;
+}
+
+.app {
+    overflow: auto;
+    background-color:  white;
+    width: 1080px;
+    height: 1920px;
+}
+
+.messages {
+    position: absolute;
+    top: 50px;
+    left: 0px;
+    width: 100%;
+    z-index: 1051;
+}
+
+.alert {
+	padding: 15px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
+
+.alert-dismissable, .alert-dismissible {
+	padding-right: 35px;
+}
+
+.alert-danger {
+	color: #a94442;
+	background-color: #f2dede;
+	border-color: #ebccd1;
+}
+
+.alert-success {
+	color: #3c763d;
+	background-color: #dff0d8;
+	border-color: #d6e9c6;   
+}
+
+

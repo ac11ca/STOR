@@ -1,0 +1,36 @@
+{% extends 'admin/universal/list.html.twig' %}
+
+{% block heading %}Transaction{% endblock %}
+
+{% block transactionclass %}active{% endblock %}
+
+{% block addbutton %}Add Transaction{% endblock %}
+
+{% block javascripts%}
+    <script src="/dist/js/dateformat.js"></script>
+{% endblock %}
+
+{% block table %}
+    <thead>
+        <th>User</th>
+        <th>Date</th>
+        <th>Auth</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Refunded</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        {% for Transaction in entity_list %}
+            <tr id="content_{{Transaction.id}}">
+                <td>{{Transaction.User.username}}</td>
+                <td><span class="js-date" data-timestamp="{{Transaction.created}}"></span></td>
+                <td><a href="{% if Transaction.stripeAuth is not empty %}https://www.stripe.com/dashboard{% elseif Transaction.paypalAuth is not empty %}https://www.paypal.com/businessexp/summary{% endif %}" target="_blank">{% if Transaction.stripeAuth is not empty %}{{Transaction.stripeAuth}} (Stripe){% elseif Transaction.paypalAuth is not empty %}{{Transaction.paypalAuth}} (PayPal){% endif %}</a></th>
+                <td>${{Transaction.amount|number_format(2,'.',',')}}</td>
+                <td>{% if Transaction.answer is empty %}Unanswered{% else %}Answered{% endif %}</td>
+                <td>{% if Transaction.status == 1 %}Yes{% endif %}</td>
+                <td><a href="{{path('admin_universal_form', {id:Transaction.id, reponame:reponame})}}"><span class="glyphicon glyphicon-pencil"></span></a> <a href="#" class="js-remove" data-target="{{Transaction.id}}"><span class="glyphicon glyphicon-remove"></span></a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+{% endblock %}

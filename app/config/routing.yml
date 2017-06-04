@@ -1,0 +1,6 @@
+cyint_admin:
+    resource: "@CYINTAdminBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+app:
+    resource: "@AppBundle/Resources/config/routing.yml"

@@ -1,0 +1,10 @@
+{% if messages is defined and not messages is empty %}
+    <div class="messages hide">
+        {% for message in messages %}
+            <div class="{{message.type}} message">
+                <span class="{{message.icon}}"></span><span class="text">{{message.text|raw}}</span>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+<script src="/dist/js/messages.js"></script>
