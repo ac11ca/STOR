@@ -1,28 +1,29 @@
 {% extends 'admin/universal/list.html.twig' %}
 
-{% block heading %}Users{% endblock %}
+{% block heading %}Review{% endblock %}
 
 {% block userclass %}active{% endblock %}
 
-{% block addbutton %}Add User{% endblock %}
+{% block addbutton %}Add Review{% endblock %}
 
 {% block table %}
     <thead>
         <th>ID</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Enabled</th>       
-        <th>Actions</th>
+        <th>Product</th>
+        <th>Reviewer</th>
+        <th>Comment</th>       
+        <th>Rating</th>
+        <th>Action</th>
     </thead>
     <tbody>
-        {% for User in entity_list %}
-            {{User.setCryptographyService(Cryptography)}}
-            <tr id="content_{{User.id}}">
-                <td>{{User.id}}</td>
-                <td>{{User.username}}</td>
-                <td>{% if User.role == 'ROLE_ADMIN' %}Admin{% else %}Customer{% endif %}</td>
-                <td><input type="checkbox" disabled {% if User.isEnabled %}checked{% endif %} /></td>
-                <td><a href="{{path('admin_universal_form', {id:User.id, reponame:reponame})}}"><span class="glyphicon glyphicon-pencil"></span></a> <a href="#" class="js-remove" data-target="{{User.id}}"><span class="glyphicon glyphicon-remove"></span></a>&nbsp; <a href="{{path('admin_user_login', {id:User.id})}}">Log In</a></td>
+        {% for Review in entity_list %}
+            <tr id="content_{{Review.id}}">
+                <td>{{Review.id}}</td>
+                <td>{% if Review.Product is defined and Review.Product is not null %}{{Review.Product.Name}}{% endif %}</td>
+                <td>{{Review.Reviewer}}</td>
+                <td>{{Review.Comment|e}}</td>
+                <td>{{Review.rating}}</td>
+                <td><a href="{{path('admin_universal_form', {id:Review.id, reponame:reponame})}}"><span class="glyphicon glyphicon-pencil"></span></a> <a href="#" class="js-remove" data-target="{{Review.id}}"><span class="glyphicon glyphicon-remove"></span></a></td>
             </tr>
         {% endfor %}
     </tbody>

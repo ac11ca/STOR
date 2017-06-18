@@ -1,5 +1,5 @@
 {% extends 'admin/universal/content.html.twig' %}
 
-{% block userclass %}active{% endblock %}
+{% block reviewclass %}active{% endblock %}
 
-{% block heading %}{% if create %}Create User{% else %}Edit {{fields.Username.value}}{% endif %}{% endblock %}
+{% block heading %}{% if create %}Create Review{% else %}Edit Review &quot;{{fields.Id.value}}&quot;{% endif %}{% endblock %}

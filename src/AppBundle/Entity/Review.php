@@ -33,10 +33,11 @@ class Review
      */
     private $Product;
 
+
     /**
-     * @var \AppBundle\Entity\User
+     * @var string
      */
-    private $User;
+    private $reviewer;
 
 
     /**
@@ -146,26 +147,26 @@ class Review
     }
 
     /**
-     * Set user
+     * Set reviewer
      *
-     * @param \AppBundle\Entity\User $user
+     * @param string $reviewer
      *
      * @return Review
      */
-    public function setUser(\AppBundle\Entity\User $user = null)
+    public function setReviewer($reviewer)
     {
-        $this->User = $user;
+        $this->reviewer = $reviewer;
 
         return $this;
     }
 
     /**
-     * Get user
+     * Get reviewer
      *
-     * @return \AppBundle\Entity\User
+     * @return string
      */
-    public function getUser()
+    public function getReviewer()
     {
-        return $this->User;
+        return $this->reviewer;
     }
 }

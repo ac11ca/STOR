@@ -8,6 +8,9 @@ AppBundle\Entity\Review:
             generator:
                 strategy: UUID
     fields:
+            reviewer:
+                type: string
+                nullable: false
             created: 
                 type: integer
                 nullable: false                               
@@ -26,12 +29,5 @@ AppBundle\Entity\Review:
             joinColumn:
                 name: product_id
                 referencedColumnName:  id
-        User:
-            targetEntity: AppBundle\Entity\User
-            inversedBy: reviews
-            joinColumn:
-                name: user_id
-                referencedColumnName: id
-
 
     lifecycleCallbacks: {  }

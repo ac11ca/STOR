@@ -10,6 +10,6 @@ namespace AppBundle\Repository;
  */
 class ReviewRepository extends ApplicationMasterRepository
 {
-    protected $filter_property = 'name';
+    protected $filter_property = 'reviewer';
     protected $FactoryType = 'AppBundle\Factory\ReviewFactory';
 }

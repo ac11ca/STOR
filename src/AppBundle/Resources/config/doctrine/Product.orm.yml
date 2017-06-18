@@ -3,10 +3,10 @@ AppBundle\Entity\Product:
     repositoryClass: AppBundle\Repository\ProductRepository
     id:
         id:
-            type: integer
+            type: guid
             id: true
             generator:
-                strategy: AUTO
+                strategy: UUID
     fields:
             created: 
                 type: integer
