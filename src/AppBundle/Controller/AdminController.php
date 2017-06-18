@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class AdminController extends PhotoATMMasterController
+class AdminController extends ApplicationMasterController
 {
     /**
      * @Route("/", name="homepage")

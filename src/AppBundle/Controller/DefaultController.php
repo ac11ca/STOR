@@ -16,7 +16,7 @@ use AppBundle\Entity\RouteEntity;
 use AppBundle\Entity\Transaction;
 use AppBundle\Entity\Machine;
 
-class DefaultController extends PhotoATMMasterController
+class DefaultController extends ApplicationMasterController
 {
     /**
      * @Route("/", name="homepage")

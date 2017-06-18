@@ -18,6 +18,33 @@
             </div>
         </div>
 
+        <h3> Cloudinary </h3>
+        <div class="form-group">
+            <label>Cloud Name</label>
+            <div class="form-field">
+                <input class="form-control" type="text" name="cloudinary_cloudname" id="cloudinary_cloudname" value="{{settings['cloudinary_cloudname']|default('TEMPLATE PLACEHOLDER')}}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Api Key</label>
+            <div class="form-field">
+                <input class="form-control" type="text" name="cloudinary_api_key" id="cloudinary_api_key" value="{{settings['cloudinary_api_key']|default('TEMPLATE PLACEHOLDER')}}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Secret</label>
+            <div class="form-field">
+                <input class="form-control" type="text" name="cloudinary_api_secret" id="cloudinary_api_secret" value="{{settings['cloudinary_api_secret']|default('TEMPLATE PLACEHOLDER')}}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Upload Prefix</label>
+            <div class="form-field">
+                <input class="form-control" type="text" name="cloudinary_upload_preset" id="cloudinary_upload_preset" value="{{settings['cloudinary_upload_preset']|default('TEMPLATE PLACEHOLDER')}}"/>
+            </div>
+        </div>
+
+
 
         <h3> Custom HTML </h3>
         <div class="form-group">

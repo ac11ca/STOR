@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class ModalController extends PhotoATMMasterController
+class ModalController extends ApplicationMasterController
 {
     public function deleteCartItemAction(Request $Request, $_render = 'HTML', $id = null, $slot = null, $mode = null)
     {

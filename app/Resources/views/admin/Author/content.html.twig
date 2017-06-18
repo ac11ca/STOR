@@ -1,0 +1,5 @@
+{% extends 'admin/universal/content.html.twig' %}
+
+{% block authorclass %}active{% endblock %}
+
+{% block heading %}{% if create %}Create Author{% else %}Edit Author &quot;{{fields.Name.value}}&quot;{% endif %}{% endblock %}

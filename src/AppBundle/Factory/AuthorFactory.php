@@ -2,12 +2,12 @@
 
 namespace AppBundle\Factory;
 
-use AppBundle\Entity\Product;
+use AppBundle\Entity\Author;
 
-class ProductFactory extends ApplicationMasterFactory
+class AuthorFactory extends ApplicationMasterFactory
 { 
-    protected $fieldKeys = ['username', 'role', 'plain_password', 'enabled'];
-    protected $EntityType = 'AppBundle\Entity\Product';
+    protected $fieldKeys = ['name','email','image','bio', 'active'];
+    protected $EntityType = 'AppBundle\Entity\Author';
 
     public function __construct($Repository, $Doctrine, $Manager)
     {
@@ -23,18 +23,23 @@ class ProductFactory extends ApplicationMasterFactory
             ,'Image' => $this->initializeField(
                 'image', 'Image', '',''             
             )
-            ,'Title' => $this->initializeField(
-                'text', 'text', '', ''
+            ,'Email' => $this->initializeField(
+                'email', 'Email', '', ''
+            )
+            ,'Bio' => $this->initializeField(
+                'richtext', 'Bio', '', ''
             )
             ,'Active' => $this->initializeField(
                 'checkbox', 'Active', true, false, []
             )
         ]);
 
+        $this->settings = ['cloudinary' => $Doctrine->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('cloudinary') ];
+
         parent::__construct($Repository, $Doctrine, $Manager);
     }
 
-    public function entityEditUnique(&$Product)
+    public function entityEditUnique(&$Author)
     {
 
     } 

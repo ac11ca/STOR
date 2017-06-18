@@ -24,6 +24,15 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         {% if app.user is defined and app.user is not null and app.user.role == 'ROLE_ADMIN' %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Product Management<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li class="{% block productclass %}{% endblock %}"><a href="{{path('admin_universal_list', {'reponame':'AppBundle:Product'})}}">Products</a></li>
+                <li class="{% block authorclass %}{% endblock %}"><a href="{{path('admin_universal_list', {'reponame':'AppBundle:Author'})}}">Authors</a></li>
+                <li class="{% block reviewclass %}{% endblock %}"><a href="{{path('admin_universal_list', {'reponame':'AppBundle:Review'})}}">Reviews</a></li>
+              </ul>
+            </li>
+
             <li class="{%block userclass%}{%endblock%}"><a href="{{path('admin_universal_list', {reponame:'User'})}}">Users</a></li>
         {% endif %}
 

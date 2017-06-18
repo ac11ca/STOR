@@ -18,7 +18,7 @@ services:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernalController }
      app.curl:
          class: CYINT\ComponentsPHP\Services\CurlService
-         argumnts: []
+         arguments: []
      app.jsonformatter:
          class: CYINT\ComponentsPHP\Services\JsonFormatterService
          arguments: []

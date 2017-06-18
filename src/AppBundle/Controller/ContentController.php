@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class ContentController extends PhotoATMMasterController
+class ContentController extends ApplicationMasterController
 {
 	
 

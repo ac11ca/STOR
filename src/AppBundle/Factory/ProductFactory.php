@@ -6,7 +6,7 @@ use AppBundle\Entity\Product;
 
 class ProductFactory extends ApplicationMasterFactory
 { 
-    protected $fieldKeys = ['username', 'role', 'plain_password', 'enabled'];
+    protected $fieldKeys = ['name','image','title','authors','price','tags','active'];
     protected $EntityType = 'AppBundle\Entity\Product';
 
     public function __construct($Repository, $Doctrine, $Manager)
@@ -24,10 +24,10 @@ class ProductFactory extends ApplicationMasterFactory
                 'image', 'Image', '',''             
             )
             ,'Title' => $this->initializeField(
-                'text', 'text', '', ''
+                'text', 'Title', '', ''
             )
             ,'Authors' => $this->initializeField(
-                'select', 'Authors', null,null,['required']
+                'select', 'Authors', null,null,['required'],
                 $this->getAuthorOptions()
             )
 	        ,'Price' => $this->initializeField(
@@ -40,6 +40,8 @@ class ProductFactory extends ApplicationMasterFactory
                 'checkbox', 'Active', true, false, []
             )
         ]);
+
+        $this->settings = ['cloudinary' => $Doctrine->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('cloudinary') ];
 
         parent::__construct($Repository, $Doctrine, $Manager);
     }

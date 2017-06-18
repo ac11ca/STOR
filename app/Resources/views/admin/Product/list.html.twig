@@ -1,0 +1,36 @@
+{% extends 'admin/universal/list.html.twig' %}
+
+{% block heading %}Products{% endblock %}
+
+{% block productclass %}active{% endblock %}
+
+{% block addbutton %}Add Product{% endblock %}
+
+{% block table %}
+    <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Image</th>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Authors</th>       
+        <th>Tags</th>
+        <th>Active</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        {% for Product in entity_list %}
+            <tr id="content_{{Product.id}}">
+                <td>{{Product.id}}</td>
+                <td>{{Product.name}}</td>
+                <td><a href="{% if Product.image is not empty %}{{Product.image}}{% else %}/dist/img/noimage.png"{% endif %}" target="_blank"><img src="{% if Product.image is not empty %}{{Product.image}}{% else %}/dist/img/noimage.png{% endif %}" class="thumbnail" /></a></td>
+                <td>{{Product.title}}</td>
+                <td>${{Product.price|number_format(2,'.',',')}}</td>
+                <td>{% for Author in Product.authors %} {% if loop.index0 > 0 %},{% endif %}{{Author.name}}{% endfor %}</td>
+                <td>{{Product.tags}}</td>
+                <td><input type="checkbox" disabled {% if Product.active %}checked{% endif %} /></td>
+                <td><a href="{{path('admin_universal_form', {id:Product.id, reponame:reponame})}}"><span class="glyphicon glyphicon-pencil"></span></a> <a href="#" class="js-remove" data-target="{{Product.id}}"><span class="glyphicon glyphicon-remove"></span></a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+{% endblock %}

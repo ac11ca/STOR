@@ -37,11 +37,6 @@ class Product
     /**
      * @var string
      */
-    private $author;
-
-    /**
-     * @var string
-     */
     private $price = 0.0;
 
     /**
@@ -58,6 +53,12 @@ class Product
      * @var \Doctrine\Common\Collections\Collection
      */
     private $reviews;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $authors;
+
 
     /**
      * Constructor
@@ -175,30 +176,6 @@ class Product
     }
 
     /**
-     * Set author
-     *
-     * @param string $author
-     *
-     * @return Product
-     */
-    public function setAuthor($author)
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    /**
-     * Get author
-     *
-     * @return string
-     */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
-
-    /**
      * Set price
      *
      * @param string $price
@@ -303,10 +280,13 @@ class Product
     {
         return $this->reviews;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $authors;
+
+    public function setReviews(ArrayCollection $reviews)
+    {
+        $this->reviews = $reviews;
+        return $this;
+    }
+
 
 
     /**
@@ -318,8 +298,7 @@ class Product
      */
     public function addAuthor(\AppBundle\Entity\Author $author)
     {
-        $this->authors[] = $author;
-
+        $this->authors->add($author);
         return $this;
     }
 
@@ -341,5 +320,11 @@ class Product
     public function getAuthors()
     {
         return $this->authors;
+    }
+
+    public function setAuthors(ArrayCollection $authors)
+    {
+        $this->authors = $authors;
+        return $this;
     }
 }

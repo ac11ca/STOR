@@ -32,14 +32,6 @@ AppBundle\Entity\Author:
     manyToMany:
         products:
             targetEntity: AppBundle\Entity\Product
-            inversedBy: authors
-            joinTable:
-                name: authors_products
-                joinColumns:
-                    author_id:
-                        referencedColumnName: id
-                inverseJoinColumns:
-                    product_id:
-                        referencedColumnName: id
-
+            mappedBy: authors  
+ 
     lifecycleCallbacks: {  }

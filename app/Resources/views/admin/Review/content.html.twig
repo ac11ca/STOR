@@ -1,0 +1,5 @@
+{% extends 'admin/universal/content.html.twig' %}
+
+{% block userclass %}active{% endblock %}
+
+{% block heading %}{% if create %}Create User{% else %}Edit {{fields.Username.value}}{% endif %}{% endblock %}

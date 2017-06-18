@@ -1,0 +1,28 @@
+{% extends 'admin/universal/list.html.twig' %}
+
+{% block heading %}Admin{% endblock %}
+
+{% block userclass %}active{% endblock %}
+
+{% block addbutton %}Add Author{% endblock %}
+
+{% block table %}
+    <thead>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Active</th>       
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        {% for Author in entity_list %}
+            <tr id="content_{{Author.id}}">
+                <td><a href="{% if Author.Image is not empty %}{{Author.image}}{% else %}/dist/img/noimage.jpg"{% endif %}" target="_blank"><img src="{% if Author.Image is not empty %}{{Author.Image}}{% else %}/dist/img/noimage.png{% endif %}" class="thumbnail" /></a></td>
+                <td>{{Author.Name}}</td>
+                <td>{{Author.Email}}</td>
+                <td><input type="checkbox" disabled {% if Author.active %}checked{% endif %} /></td>
+                <td><a href="{{path('admin_universal_form', {id:Author.id, reponame:reponame})}}"><span class="glyphicon glyphicon-pencil"></span></a> <a href="#" class="js-remove" data-target="{{Author.id}}"><span class="glyphicon glyphicon-remove"></span></a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+{% endblock %}
