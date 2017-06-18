@@ -41,6 +41,7 @@ AppBundle\Entity\Product:
     manyToMany:
         authors:
             targetEntity: AppBundle\Entity\Author
+            inversedBy: products
             joinTable:
                 name: product_authors
                 joinColumns:
