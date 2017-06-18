@@ -18,13 +18,13 @@ class ProductFactory extends ApplicationMasterFactory
                 'none', null, null, null, null
             )
             ,'Name' => $this->initializeField(
-                'text', 'Name','','',['required'] 
+                'text', 'Title','','',['required'] 
             )
             ,'Image' => $this->initializeField(
                 'image', 'Image', '',''             
             )
-            ,'Title' => $this->initializeField(
-                'text', 'Title', '', ''
+            ,'Description' => $this->initializeField(
+                'richtext', 'Description', '', ''
             )
             ,'Authors' => $this->initializeField(
                 'select', 'Authors', null,null,['required'],

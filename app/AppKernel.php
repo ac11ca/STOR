@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new CYINT\ComponentsPHP\Bundles\SettingsBundle\CYINTSettingsBundle(),
             new CYINT\ComponentsPHP\Bundles\AdminBundle\CYINTAdminBundle(),
+            new CYINT\ComponentsPHP\Bundles\CustomContentBundle\CYINTCustomContentBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

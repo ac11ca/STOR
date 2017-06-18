@@ -169,4 +169,33 @@ class Review
     {
         return $this->reviewer;
     }
+    /**
+     * @var integer
+     */
+    private $help_score = 0;
+
+
+    /**
+     * Set helpScore
+     *
+     * @param integer $helpScore
+     *
+     * @return Review
+     */
+    public function setHelpScore($helpScore)
+    {
+        $this->help_score = $helpScore;
+
+        return $this;
+    }
+
+    /**
+     * Get helpScore
+     *
+     * @return integer
+     */
+    public function getHelpScore()
+    {
+        return $this->help_score;
+    }
 }

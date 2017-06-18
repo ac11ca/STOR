@@ -1,0 +1,26 @@
+{% extends 'admin/universal/list.html.twig' %}
+
+{% block heading %}Custom Content{% endblock %}
+
+{% block contentclass %}active{% endblock %}
+
+{% block addbutton %}Add Page{% endblock %}
+
+{% block table %}
+    <thead>
+        <th>Title</th>
+        <th>Path</th>
+        <th>Published</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        {% for CustomContent in entity_list %}
+            <tr id="content_{{CustomContent.id}}">
+                <td>{{CustomContent.title}}</td>
+                <td><a href="{{path('custom_page', {'friendly_url':CustomContent.friendlyUrl})}}">{{path('custom_page',{'friendly_url':CustomContent.friendlyUrl})}}</a></td>
+                <td><input type="checkbox" disabled {% if CustomContent.published %}checked{% endif %} /></td>
+                <td><a href="{{path('admin_universal_form', {reponame:'CYINTCustomContentBundle:CustomContent',id:CustomContent.id})}}"><span class="glyphicon glyphicon-pencil"></span></a> {% if CustomContent.id != 1 %}<a href="#" class="js-remove" data-target="{{CustomContent.id}}"><span class="glyphicon glyphicon-remove"></span></a>{% endif %}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+{% endblock %}

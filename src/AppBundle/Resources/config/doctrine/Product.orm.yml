@@ -18,7 +18,7 @@ AppBundle\Entity\Product:
             image:
                 type: text
                 nullable: true
-            title:
+            description:
                 type: text            
                 nullable: true
             price: 

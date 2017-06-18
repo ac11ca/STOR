@@ -8,7 +8,7 @@
 
 {% block table %}
     <thead>
-        <th>ID</th>
+        <th>Date</th>
         <th>Product</th>
         <th>Reviewer</th>
         <th>Comment</th>       
@@ -18,7 +18,7 @@
     <tbody>
         {% for Review in entity_list %}
             <tr id="content_{{Review.id}}">
-                <td>{{Review.id}}</td>
+                <td><span class="js-date" data-timestamp="{{Review.created}}" data-format="DD/MM/YYYY HH:mm"></span></td>
                 <td>{% if Review.Product is defined and Review.Product is not null %}{{Review.Product.Name}}{% endif %}</td>
                 <td>{{Review.Reviewer}}</td>
                 <td>{{Review.Comment|e}}</td>

@@ -22,6 +22,11 @@ AppBundle\Entity\Review:
                 precision: 10
                 scale: 2
                 nullable: false
+            help_score:
+                type: integer
+                nullable: false
+                options:
+                    default: 0
     manyToOne:
         Product:
             targetEntity: AppBundle\Entity\Product

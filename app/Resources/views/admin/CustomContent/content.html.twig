@@ -1,0 +1,5 @@
+{% extends 'admin/universal/content.html.twig' %}
+
+{% block contentclass %}active{% endblock %}
+
+{% block heading %}{% if create %}Create Custom Page{% else %}Edit &quot;{{fields.Title.value}}&quot;{% endif %}{% endblock %}
