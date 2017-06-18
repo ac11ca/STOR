@@ -1,4 +1,0 @@
-{% for LinkRelationship in links %}
-    <a href="{{path('custom_page', {friendly_url:LinkRelationship.CustomContent.friendlyUrl})}}" {% if not LinkRelationship.target is empty %}target="{{LinkRelationship.target}}"{% endif %}>{{LinkRelationship.LinkText}}</a>
-{% endfor %}
-

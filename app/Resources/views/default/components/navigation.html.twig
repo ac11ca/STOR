@@ -1,9 +1,0 @@
- <div class="navigation_row">
-   {% if back is defined %} 
-       <a href="{{back}}" id="back_button" class="animation-button {%if backcondition is defined and not backcondition%}hide{% endif %} left"><span class="glyphicon glyphicon-chevron-left"></span> {{'Back'|trans}}</a>
-   {% endif %}
-   {% if next is defined %}
-        <a href="{{next}}" class="animation-button right {% if nextcondition is defined and not nextcondition%}hide{% endif %}" id="next_button">{% if nextlabel is defined %}{{nextlabel}}{% else %}{{'Next'|trans}}{% endif %} <span class="glyphicon glyphicon-chevron-right"></span></a>
-   {% endif %}
- </div>
-
