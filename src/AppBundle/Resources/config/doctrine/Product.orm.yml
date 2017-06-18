@@ -1,0 +1,46 @@
+AppBundle\Entity\Product:
+    type: entity
+    repositoryClass: AppBundle\Repository\ProductRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+            created: 
+                type: integer
+                nullable: false                               
+            name:
+                type: string
+                length: 255
+                nullable: false
+            image:
+                type: text
+                nullable: true
+            title:
+                type: text            
+                nullable: true
+            price: 
+                type: decimal
+                scale: 2
+                precision: 10
+                options:
+                    default: 0.0
+            tags:
+                type: string
+                nullable: true
+            active:
+                type: boolean
+                options: 
+                    default: true
+    oneToMany:
+        reviews:
+            targetEntity: AppBundle\Entity\Review
+            mappedBy: Product
+    manyToMany:
+        authors:
+            targetEntity: AppBundle\Entity\Author
+            mappedBy: products
+
+    lifecycleCallbacks: {  }

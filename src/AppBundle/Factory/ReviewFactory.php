@@ -17,7 +17,7 @@ class UserFactory extends ApplicationMasterFactory
         //Case mut match that used in the getter and setter method as 'get'and 'set' wll be appended to the keys.
          $this->setFields([
             'Id' => $this->initializeField(
-                'none'
+                'none', null, null, null, null
             )
             ,'Username' => $this->initializeField(
                 'text', 'Username/Email','','',['required'] 

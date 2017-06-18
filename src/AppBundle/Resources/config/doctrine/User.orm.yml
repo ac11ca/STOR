@@ -4,12 +4,17 @@ AppBundle\Entity\User:
     repositoryClass: AppBundle\Repository\UserRepository
     id:
         id:
-            type: integer
+            type: guid
             id: true
             generator:
-                strategy: AUTO
+                strategy: UUID
     fields:
             created: 
                 type: integer
-                nullable: false                               
+                nullable: false                              
+    manyToOne:
+            reviews:
+                targetEntity: AppBundle\Entity\Review
+                mappedBy: User
+        
     lifecycleCallbacks: {  }

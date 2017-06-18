@@ -45,7 +45,9 @@
         "cyint/instagram-service-php": "dev-master",
         "cyint/json-formatter-service-php": "dev-master",
         "cyint/symfony-gulp-default": "dev-master",
-        "cyint/admin-bundle-php":"dev-master"
+        "cyint/admin-bundle-php":"dev-master",
+        "cyint/custom-content-php":"dev-master",
+        "cyint/masterrepository":"dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

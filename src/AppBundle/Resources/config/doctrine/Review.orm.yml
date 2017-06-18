@@ -1,0 +1,37 @@
+AppBundle\Entity\Review:
+    type: entity
+    repositoryClass: AppBundle\Repository\ReviewRepository
+    id:
+        id:
+            type: guid
+            id: true
+            generator:
+                strategy: UUID
+    fields:
+            created: 
+                type: integer
+                nullable: false                               
+            comment:
+                type: text            
+                nullable: true
+            rating:
+                type: decimal
+                precision: 10
+                scale: 2
+                nullable: false
+    manyToOne:
+        Product:
+            targetEntity: AppBundle\Entity\Product
+            inversedBy: reviews
+            joinColumn:
+                name: product_id
+                referencedColumnName:  id
+        User:
+            targetEntity: AppBundle\Entity\User
+            inversedBy: reviews
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+
+
+    lifecycleCallbacks: {  }

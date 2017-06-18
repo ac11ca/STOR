@@ -16,6 +16,7 @@ class User extends BaseUser
 {
     protected $id;
     protected $created;
+    protected $reviews;
 
     public function __construct()
     {
@@ -115,18 +116,6 @@ class User extends BaseUser
         return $this;
     }
 
-    public function setFreeTrialEligible($free_trial_eligible)
-    {
-        $this->free_trial_eligible = $free_trial_eligible;
-        return $this;
-    }
-
-    public function getFreeTrialEligible()
-    {
-        return $this->free_trial_eligible;
-    }
-
-
     public function toArray()
     {
         return [
@@ -134,50 +123,39 @@ class User extends BaseUser
 
     }    
 
-    public function getDiscounts()
+    /**
+     * Get created
+     *
+     * @return integer
+     */
+    public function getCreated()
     {
-        return $this->discounts;
+        return $this->created;
     }
 
-    public function setDiscounts(ArrayCollection $discounts)
+    /**
+     * Set reviews
+     *
+     * @param \AppBundle\Entity\Review $reviews
+     *
+     * @return User
+     */
+    public function setReviews(\AppBundle\Entity\Review $reviews = null)
     {
-        $this->discounts = $discounts;
+        $this->reviews = $reviews;
+
         return $this;
     }
 
-    public function addDiscount(Discount $Discount)
+    /**
+     * Get reviews
+     *
+     * @return \AppBundle\Entity\Review
+     */
+    public function getReviews()
     {
-        $this->discounts->add($Discount);
-        return $this;
+        return $this->reviews;
     }
-
-    public function removeDiscount(Discount $Discount)
-    {
-        $this->discounts->remove($Discount);
-    }
-
-    public function getAlbums()
-    {
-        return $this->albums;
-    }
-
-    public function setAlbums(ArrayCollection $albums)
-    {
-        $this->albums = $albums;
-        return $this;
-    }
-
-    public function addAlbum(Album $Album)
-    {
-        $this->albums->add($Album);
-        return $this;
-    }
-
-    public function removeAlbum(Album $Album)
-    {
-        $this->albums->remove($Album);
-    }
-
 
 
 }
@@ -189,6 +167,3 @@ class UserException extends \Exception
         parent($message);
     }
 }
-
-
-

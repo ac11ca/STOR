@@ -8,6 +8,7 @@
 
 {% block table %}
     <thead>
+        <th>ID</th>
         <th>Email</th>
         <th>Role</th>
         <th>Enabled</th>       
@@ -17,6 +18,7 @@
         {% for User in entity_list %}
             {{User.setCryptographyService(Cryptography)}}
             <tr id="content_{{User.id}}">
+                <td>{{User.id}}</td>
                 <td>{{User.username}}</td>
                 <td>{% if User.role == 'ROLE_ADMIN' %}Admin{% else %}Customer{% endif %}</td>
                 <td><input type="checkbox" disabled {% if User.isEnabled %}checked{% endif %} /></td>

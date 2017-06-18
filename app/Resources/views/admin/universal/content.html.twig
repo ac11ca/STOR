@@ -199,6 +199,9 @@
                                 {% if 'pattern' in field.validation %}pattern="{{field.pattern}}"{% endif %}
                                 title="{% if field.title is defined %}{{field.title}} {% endif %}"
                                 {% if field['step'] is defined %}step="{{field['step']}}"{% endif %}
+                                {% if field['readonly'] is defined %}readonly{% endif %}
+                                {% if field['min'] is defined %}min="{{min}}"{% endif %}
+                                {% if field['max'] is defined %}max="{{max}}"{% endif %}      
                             />
                         </div>
                     </div>

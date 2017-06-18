@@ -4,7 +4,7 @@ namespace AppBundle\Classes;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use CYINT\ComponentsPHP\Services\EmailService;
 
-class PhotoATMEmailService extends EmailService
+class ApplicationEmailService extends EmailService
 {
 
     public function sendForgotPasswordEmail($to, $token, $subject = 'Forget your password?')

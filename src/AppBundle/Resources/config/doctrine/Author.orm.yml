@@ -1,0 +1,45 @@
+AppBundle\Entity\Author:
+    type: entity
+    repositoryClass: AppBundle\Repository\AuthorRepository
+    id:
+        id:
+            type: guid
+            id: true
+            generator:
+                strategy: UUID
+    fields:
+            created: 
+                type: integer
+                nullable: false                               
+            name:
+                type: string
+                length: 255
+                nullable: false
+            email:
+                type: text
+                nullable: true
+            bio:
+                type: text            
+                nullable: true
+            image:
+                type: string
+                length: 255
+                nullable: true
+            active:
+                type: boolean
+                options: 
+                    default: true
+    manyToMany:
+        products:
+            targetEntity: AppBundle\Entity\Product
+            inversedBy: authors
+            joinTable:
+                name: authors_products
+                joinColumns:
+                    author_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    product_id:
+                        referencedColumnName: id
+
+    lifecycleCallbacks: {  }
