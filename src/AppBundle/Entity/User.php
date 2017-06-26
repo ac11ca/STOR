@@ -17,6 +17,7 @@ class User extends BaseUser
     protected $id;
     protected $created;
     protected $reviews;
+    protected $external_id;
 
     public function __construct()
     {
@@ -157,6 +158,16 @@ class User extends BaseUser
         return $this->reviews;
     }
 
+    public function getExternalId()
+    {
+        return $this->external_id;
+    }
+
+    public function setExternalId($external_id)
+    {
+        $this->external_id = $external_id;
+        return $this;
+    }
 
 }
 

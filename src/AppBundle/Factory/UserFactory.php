@@ -7,7 +7,7 @@ use AppBundle\Entity\User;
 
 class UserFactory extends ApplicationMasterFactory
 { 
-    protected $fieldKeys = ['username', 'role', 'plain_password', 'enabled'];
+    protected $fieldKeys = ['username', 'role', 'plain_password', 'enabled', 'external_id'];
     protected $EntityType = 'AppBundle\Entity\User';
     protected $CryptographyService;
 
@@ -18,9 +18,12 @@ class UserFactory extends ApplicationMasterFactory
          $this->setFields([
             'Id' => $this->initializeField(
                 'none'
-            )
+            )          
             ,'Username' => $this->initializeField(
                 'text', 'Username/Email','','',['required'] 
+            )
+            ,'ExternalId' => $this->initializeField(
+                'text', 'External ID', '', '',['required']
             )
             ,'Role' => $this->initializeField(
                 'select', 'Role', 'ROLE_ADMIN', 'ROLE_ADMIN', ['required']
@@ -40,8 +43,12 @@ class UserFactory extends ApplicationMasterFactory
 
     public function entityConstruction(&$Entity)
     {
+        if(empty($this->fields['ExternalId']['value']))
+            throw new \Exception('External ID is required');
+
         $Entity = $this->Manager->createUser();
         $Entity->setCryptographyService($this->CryptographyService);
+        $Entity->setExternalId($this->fields['ExternalId']['value']);
         $Entity->setUsername($this->fields['Username']['value']);
         $Entity->setEmail($this->fields['Username']['value']);
         $Entity->setPlainPassword($this->fields['PlainPassword']['value']);

@@ -1,0 +1,16 @@
+{% extends 'default/default_shell.html.twig' %}
+
+{% block title %}{{'Enter a user id'|trans}}{% endblock %}
+
+{% block pageclass%}root{% endblock%}
+
+{% block primarybody %}
+
+    <div class="root-form">
+        <form method="POST">
+            <input type="text" name="user" id="user" placeholder="Enter a User ID" />
+            <input type="submit" value="Enter" />
+        </form>
+    </div>
+
+{% endblock %}

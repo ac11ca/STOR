@@ -6,7 +6,7 @@ use AppBundle\Entity\Product;
 
 class ProductFactory extends ApplicationMasterFactory
 { 
-    protected $fieldKeys = ['name','image','title','authors','price','tags','active'];
+    protected $fieldKeys = ['name','image','title','authors','price','tags','active','sales'];
     protected $EntityType = 'AppBundle\Entity\Product';
 
     public function __construct($Repository, $Doctrine, $Manager)
@@ -25,6 +25,9 @@ class ProductFactory extends ApplicationMasterFactory
             )
             ,'Description' => $this->initializeField(
                 'richtext', 'Description', '', ''
+            )
+            ,'Sales' => $this->initializeField(
+                'number', 'Sales', 0, 0
             )
             ,'Authors' => $this->initializeField(
                 'select', 'Authors', null,null,['required'],

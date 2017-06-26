@@ -30,6 +30,11 @@ AppBundle\Entity\Product:
             tags:
                 type: string
                 nullable: true
+            sales:
+                type: integer
+                nullable: false
+                options:
+                    default: 0
             active:
                 type: boolean
                 options: 

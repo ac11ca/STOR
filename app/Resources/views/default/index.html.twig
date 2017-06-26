@@ -1,9 +1,19 @@
 {% extends 'default/default_shell.html.twig' %}
 
-{% block title %}{{'Home'|trans}}{% endblock %}
+{% block title %}{{'Instructions'|trans}}{% endblock %}
 
-{% block pageclass%}home{% endblock%}
+{% block pageclass%}instruction-page{% endblock%}
 
 {% block primarybody %}
+
+<h1>{{CustomContent.Title}}</h1>
+
+<div>
+    {{CustomContent.Content|raw}}
+</div>
+
+<div>
+    <a href="{{path('search_results', {term:term} )}}" class="btn btn-submit">Proceed</a>
+</div>
 
 {% endblock %}

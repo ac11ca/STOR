@@ -49,16 +49,9 @@ class Product
      */
     private $active = true;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     private $reviews;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     private $authors;
-
+    private $sales;
 
     /**
      * Constructor
@@ -67,6 +60,7 @@ class Product
     {
         $this->setCreated(time());
         $this->setReviews(new ArrayCollection());
+        $this->setSales(0);
     }
 
     /**
@@ -355,5 +349,16 @@ class Product
     public function getDescription()
     {
         return $this->description;
+    }
+
+    public function setSales($sales)
+    {
+        $this->sales = $sales;
+        return $this;
+    }
+
+    public function getSales()
+    {
+        return $this->sales;
     }
 }

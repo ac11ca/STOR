@@ -3,22 +3,26 @@ root:
     defaults: { _controller: AppBundle:Default:root }
     
 index:
-    path: /start/{user_id}
-    defaults: {_controller: AppBundle:Default:index, user_id: null}       
+    path: /start/{user}/{_render}
+    defaults: {_controller: AppBundle:Default:index, user: null, _render:'HTML'}       
                                                      
 search_results:
-    path: /search/results/{term}
-    defaults: {_controller: AppBundle:Default:searchResults, term: null}       
+    path: /search/results/{term}/{page}/{_render}
+    defaults: {_controller: AppBundle:Default:searchResults, term: null, page: 1, _render:'HTML'}       
 
 product_details:
-    path: /product/details/{product}
-    defaults: {_controller: AppBundle:Default:productDetails, product: null}       
+    path: /product/details/{product}/{_render}
+    defaults: {_controller: AppBundle:Default:productDetails, product: null, _render:'HTML'}       
 
 product_reviews:
-    path: /product/reviews/{product}
-    defaults: {_controller: AppBundle:Default:productReviews, product: null}       
+    path: /product/reviews/{product}/{_render}
+    defaults: {_controller: AppBundle:Default:productReviews, product: null, _render:'HTML'}       
 
 checkout:
-    path: /checkout
-    defaults: {_controller: AppBudle:Default:checkout }
+    path: /checkout/{_render}
+    defaults: {_controller: AppBudle:Default:checkout, _render: 'HTML' }
+
+abandon_shopping:
+    path: /abandon/cart/{_render}
+    defaults: { _controller:  AppBundle:Default:abandon, _render: 'HTML' }
 

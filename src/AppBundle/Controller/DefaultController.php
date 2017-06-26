@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use AppBundle\Entity\Subscription;
-use AppBundle\Classes\ViewMessage;
+use CYINT\ComponentsPHP\Classes\ViewMessage;
 use CYINT\ComponentsPHP\Classes\ParseData;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,6 +23,16 @@ class DefaultController extends ApplicationMasterController
          return $this->handleErrors(
             function ($Session, $messages) use ($Request, $_render)
             {
+                if($Request->isMethod('POST'))
+                {
+                    $form_data = $Request->request->all();
+                    $user = ParseData::setArray($form_data, 'user', null);
+                    if(empty($user))
+                        throw new \Exception('Invalid user id');
+
+                    return $this->redirect($this->generateUrl('index', ['user'=>$user]));
+                }
+
                 return $this->renderRoute(
                     'default/root.html.twig'
                     ,[
@@ -36,34 +46,56 @@ class DefaultController extends ApplicationMasterController
 		);
     }
 
-    public function indexAction(Request $Request, $_render = 'HTML')
+    public function indexAction(Request $Request, $user, $_render = 'HTML')
     {
          return $this->handleErrors(
-            function ($Session, $messages) use ($Request, $_render, $machine)
+            function ($Session, $messages) use ($Request, $user, $_render)
             {       
+                if(empty($user))
+                    throw new \Exception('Invalid user id');
+
+                $UserManager= $this->get('app.user_manager'); 
+                $User = $UserManager->findUserBy(['id'=>$user]);
+                if(empty($user))
+                    throw new \Exception('Invalid user id');
+
+                $Session->set('user_id', $user);
+
+                $CustomContent = $this->getDoctrine()->getRepository('CYINTCustomContentBundle:CustomContent')->find(1);
+                $term = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('search');
+                
                 return $this->renderRoute(
                     'default/index.html.twig'
                     ,[
+                        'CustomContent' => $CustomContent
+                        ,'term' => $term['term']
                     ]
                     , $_render
                 );
 
             }
-            ,$this->generateUrl('index', ['_render'=>$_render])
+            ,$this->generateUrl('root', ['_render'=>$_render])
 			,$_render
 		);
     }
 
 
-    public function searchResultsAction(Request $Request, $term, $_render = 'HTML')
+    public function searchResultsAction(Request $Request, $page = 1, $term, $_render = 'HTML')
     {
          return $this->handleErrors(
-            function ($Session, $messages) use ($Request, $term, $_render)
+            function ($Session, $messages) use ($Request, $term, $page, $_render)
             {    
-
+                $PaginationService = $this->get('app.pagination');
+                
+                $products = $this->getDoctrine()->getRepository('AppBundle:Product')->findByFilter($term);
+                $page_data = $PaginatorService->processPagination($products, $page);                
+               
                 return $this->renderRoute(
                     'default/results.html.twig'
                     ,[
+                        'items_per_page' => $pagination_settings['items_per_page']
+                        ,'page_data' => $page_data
+						,'page' => $page
                     ]
                     , $_render
                 );
@@ -83,6 +115,7 @@ class DefaultController extends ApplicationMasterController
                 return $this->renderRoute(
                     'default/product_details.html.twig'
                     ,[
+                        ''
                     ]
                     , $_render
                 );
@@ -130,7 +163,19 @@ class DefaultController extends ApplicationMasterController
 		);
     }
 
-
+    public function abandonAction(Request $Request, $_render = 'HTML')
+    {
+         return $this->handleErrors(
+            function ($Session, $messages) use ($Request, $_render)
+            {    
+                $Session->clear();
+                $messages[] = ViewMessage::constructMessage('Your cart has been abandoned.', 'danger', null);
+                return $this->redirect($this->generateUrl('root'));
+            }
+            ,$this->generateUrl('root', ['_render'=>$_render])
+			,$_render
+		);
+    }
 
 
 

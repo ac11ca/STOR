@@ -1,0 +1,17 @@
+{% extends 'default/default_shell.html.twig' %}
+
+{% block title %}{{'Search Results'|trans}}{% endblock %}
+
+{% block pageclass%}results-page{% endblock%}
+
+{% block primarybody %}
+
+<h1>Search Results</h1>
+
+
+<div>
+    <a href="{{path('abandon_shopping')}}" class="btn btn-submit">Abandon Shopping</a>
+    <a href="{{path('checkout')}}" class="btn btn-submit">Make a Purchase</a>
+</div>
+
+{% endblock %}

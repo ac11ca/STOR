@@ -1,6 +1,5 @@
 $(document).ready(function () {
     initializeDateFormatting();
-    modules_loaded.push(initializeDateFormatting);
 });
 
 function initializeDateFormatting() {

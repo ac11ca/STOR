@@ -12,6 +12,10 @@ AppBundle\Entity\User:
             created: 
                 type: integer
                 nullable: false                              
+            external_id:
+                type: string
+                length: 255
+                nullable: false
     oneToMany:
             reviews:
                 targetEntity: AppBundle\Entity\Review
