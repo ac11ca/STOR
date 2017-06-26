@@ -19,10 +19,13 @@ class ReviewFactory extends ApplicationMasterFactory
             'Id' => $this->initializeField(
                 'none', null, null, null, null
             )
+            ,'Title' => $this->initializeField(
+                'text', 'Title', '', '', ['required']
+            )
             ,'Product' => $this->initializeField(
                 'select', 'Product', null, null, ['required']
                  , $this->getProductOptions()
-            )
+            )           
             ,'Created' => $this->initializeField(
                 'datetime', 'Posted',time(),'',['required'] 
             )

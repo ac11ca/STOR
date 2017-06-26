@@ -20,7 +20,7 @@ product_reviews:
 
 checkout:
     path: /checkout/{_render}
-    defaults: {_controller: AppBudle:Default:checkout, _render: 'HTML' }
+    defaults: {_controller: AppBundle:Default:checkout, _render: 'HTML' }
 
 abandon_shopping:
     path: /abandon/cart/{_render}

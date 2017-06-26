@@ -1,0 +1,75 @@
+{% extends 'default/default_shell.html.twig' %}
+
+{% block title %}{{Product.Name}}{% endblock %}
+
+{% block pageclass%}details-page{% endblock%}
+
+{% block primarybody %}
+
+<div>
+
+        <div>
+            <img src="{{Product.image}}">
+        </div>
+
+        <div>
+            {{Product.name}}
+        </div>
+
+        <h2> Customer Reviews </h2>  
+
+        <div>
+            {% if ratings[Product.id] is defined %}
+                {{ratings[Product.id]}} out of 5 stars
+            {% endif %}
+        </div>
+
+        <div>
+            <table>        
+                {% for rating in 5..1 %}
+                    <tr>
+                        <td>{{rating}} star</td>
+                        <td>
+                            <div class="progress"> 
+                             <div 
+                                class="progress-bar progress-bar-success"
+                                role="progressbar"		 	 
+                                aria-valuemin="0"
+                                aria-valuemax="100" 
+                                style="width: {% if ratings_by_value[rating] is defined %}{{ratings_by_value[rating]['percent'] * 100|number_format(0,'.',',')}}{% else %}0{% endif %} %">
+                              </div>
+                            </div>
+                        </td>
+                        <td>{% if ratings_by_value[rating] is defined %}{{ratings_by_value[rating]['percent'] * 100|number_format(0,'.',',')}}%{% endif %}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div>
+            <a href="{{path('product_reviews', {'product': Product.id})}}" class="btn btn-primary">Click to see individual reviews</a>
+        </div>
+
+        <div>
+            {{Product.description|raw}}
+        </div>
+
+        <div>
+            {% for Author in Product.authors %}
+               {% if loop.index0 > 0 %},{% endif %}{{Author.name}}
+            {% endfor %}
+        </div>
+
+        <div>
+            ${{Product.price|number_format(2,'.',',')}}
+        </div>
+
+</div>
+
+<div>
+    <a href="{{path('abandon_shopping')}}" class="btn btn-primary">Abandon Shopping</a>
+    <a href="{{path('search_results', {term:term})}}" class="btn btn-primary">Back to Search Results</a>
+    <a href="{{path('checkout')}}" class="btn btn-primary">Make a Purchase</a>
+</div>
+
+{% endblock %}

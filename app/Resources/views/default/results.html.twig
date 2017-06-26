@@ -8,10 +8,47 @@
 
 <h1>Search Results</h1>
 
+<div>
+    <p>Displaying {{products['result']|length}} of {{products['count']}} results.</p>
+
+    {% for Product in products['result'] %}
+        <a href="{{path('product_details', {product:Product.id})}}">
+            <div>
+                <div>
+                    <img src="{{Product.image}}">
+                </div>
+
+                <div>
+                    {{Product.title}}
+                </div>
+
+                <div>
+                    {% for Author in Product.authors %}
+                       {% if loop.index0 > 0 %},{% endif %}{{Author.name}}
+                    {% endfor %}
+                </div>
+
+                <div>
+                    {% if ratings[Product.id] is defined %}
+                        {{ratings[Product.id]}}
+                    {% endif %}
+                </div>
+
+                <div>
+                    {{Product.description|raw}}
+                </div>
+
+                <div>
+                    ${{Product.price|number_format(2,'.',',')}}
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+</div>
 
 <div>
-    <a href="{{path('abandon_shopping')}}" class="btn btn-submit">Abandon Shopping</a>
-    <a href="{{path('checkout')}}" class="btn btn-submit">Make a Purchase</a>
+    <a href="{{path('abandon_shopping')}}" class="btn btn-primary">Abandon Shopping</a>
+    <a href="{{path('checkout')}}" class="btn btn-primary">Make a Purchase</a>
 </div>
 
 {% endblock %}

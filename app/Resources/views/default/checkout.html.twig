@@ -1,0 +1,27 @@
+{% extends 'default/default_shell.html.twig' %}
+
+{% block title %}{{'Checkout'|trans}}{% endblock %}
+
+{% block pageclass%}checkout-page{% endblock%}
+
+{% block primarybody %}
+
+<h1>Checkout</h1>
+
+<div>
+
+    {% for Product in products %}
+            <div>
+                <div>
+                    <a href="{{redirect_url}}?product={{Product.id}}&user={{app.User.ExternalId}}"class="btn btn-primary">Click to confirm &quot;{{Product.name}}&quot; purchase</a>
+                </div>
+            </div>
+    {% endfor %}
+</div>
+
+<div>
+    <a href="{{path('abandon_shopping')}}" class="btn btn-primary">Abandon Shopping</a>
+    <a href="{{path('search_results', {term:term})}}" class="btn btn-primary">Back to Search Results</a>
+</div>
+
+{% endblock %}

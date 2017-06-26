@@ -18,6 +18,12 @@ class Review
      */
     private $created;
 
+
+    /**
+     * @var string
+     */
+    private $title;
+
     /**
      * @var string
      */
@@ -38,7 +44,6 @@ class Review
      * @var string
      */
     private $reviewer;
-
 
     /**
      * Get id
@@ -197,5 +202,16 @@ class Review
     public function getHelpScore()
     {
         return $this->help_score;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        return $this;
     }
 }

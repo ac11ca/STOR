@@ -55,7 +55,7 @@ class DefaultController extends ApplicationMasterController
                     throw new \Exception('Invalid user id');
 
                 $UserManager= $this->get('app.user_manager'); 
-                $User = $UserManager->findUserBy(['id'=>$user]);
+                $User = $UserManager->findUserBy(['external_id'=>$user]);
                 if(empty($user))
                     throw new \Exception('Invalid user id');
 
@@ -63,6 +63,7 @@ class DefaultController extends ApplicationMasterController
 
                 $CustomContent = $this->getDoctrine()->getRepository('CYINTCustomContentBundle:CustomContent')->find(1);
                 $term = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('search');
+                $Session->set('term',$term['term']);
                 
                 return $this->renderRoute(
                     'default/index.html.twig'
@@ -80,21 +81,20 @@ class DefaultController extends ApplicationMasterController
     }
 
 
-    public function searchResultsAction(Request $Request, $page = 1, $term, $_render = 'HTML')
+    public function searchResultsAction(Request $Request, $term, $page = 1, $_render = 'HTML')
     {
          return $this->handleErrors(
             function ($Session, $messages) use ($Request, $term, $page, $_render)
-            {    
-                $PaginationService = $this->get('app.pagination');
-                
-                $products = $this->getDoctrine()->getRepository('AppBundle:Product')->findByFilter($term);
-                $page_data = $PaginatorService->processPagination($products, $page);                
-               
+            {            
+                $pagination_settings = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('pagination');                 
+                $products = $this->getDoctrine()->getRepository('AppBundle:Product')->findByFilter($term,null,$page, $pagination_settings['items_per_page']);               
+                $ratings = $this->getDoctrine()->getRepository('AppBundle:Review')->findByProductAverages($products['result']);
                 return $this->renderRoute(
                     'default/results.html.twig'
                     ,[
-                        'items_per_page' => $pagination_settings['items_per_page']
-                        ,'page_data' => $page_data
+                        'products' => $products
+                        ,'items_per_page' => $pagination_settings['items_per_page']
+                        ,'ratings' => $ratings
 						,'page' => $page
                     ]
                     , $_render
@@ -111,11 +111,18 @@ class DefaultController extends ApplicationMasterController
          return $this->handleErrors(
             function ($Session, $messages) use ($Request, $_render, $product)
             {    
+                $Product = $this->getDoctrine()->getRepository('AppBundle:Product')->find($product);                                  
+                $ratings = $this->getDoctrine()->getRepository('AppBundle:Review')->findByProductAverages(new ArrayCollection([$Product]));
+                $reviews = $this->getDoctrine()->getRepository('AppBundle:Review')->findBy(['Product'=>$Product], ['rating'=>'DESC']);
+                $ratings_by_value = $this->getDoctrine()->getRepository('AppBundle:Review')->findByProductAndValue($Product);
 
                 return $this->renderRoute(
-                    'default/product_details.html.twig'
+                    'default/details.html.twig'
                     ,[
-                        ''
+                        'Product' => $Product
+                        ,'ratings' => $ratings  
+                        ,'ratings_by_value' => $ratings_by_value
+                        ,'term' => $Session->get('term')
                     ]
                     , $_render
                 );
@@ -131,10 +138,15 @@ class DefaultController extends ApplicationMasterController
          return $this->handleErrors(
             function ($Session, $messages) use ($Request, $_render, $product)
             {    
+                $Product = $this->getDoctrine()->getRepository('AppBundle:Product')->find($product);                                  
+                $reviews = $this->getDoctrine()->getRepository('AppBundle:Review')->findBy(['Product'=>$Product], ['rating'=>'DESC']);
 
                 return $this->renderRoute(
-                    'default/product_reviews.html.twig'
+                    'default/reviews.html.twig'
                     ,[
+                        'Product' => $Product
+                        ,'reviews' => $reviews
+                        ,'term' => $Session->get('term')
                     ]
                     , $_render
                 );
@@ -148,12 +160,19 @@ class DefaultController extends ApplicationMasterController
     public function checkoutAction(Request $Request, $_render = 'HTML')
     {
          return $this->handleErrors(
-            function ($Session, $messages) use ($Request, $_render, $product)
+            function ($Session, $messages) use ($Request, $_render)
             {    
+                $settings = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('');                              
+                $term = $Session->get('term');
+                $products = $this->getDoctrine()->getRepository('AppBundle:Product')->findByFilter($term);               
 
                 return $this->renderRoute(
                     'default/checkout.html.twig'
                     ,[
+                        'products' => $products
+                        ,'items_per_page' => $settings['paginationitemsperpage']
+                        ,'redirect_url' => $settings['formurl']
+                        ,'term' => $term
                     ]
                     , $_render
                 );
@@ -176,10 +195,6 @@ class DefaultController extends ApplicationMasterController
 			,$_render
 		);
     }
-
-
-
-
 
     public function messagesAction(Request $Request, $_render = 'HTML')
     {

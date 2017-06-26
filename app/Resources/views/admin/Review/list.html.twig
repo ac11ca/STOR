@@ -11,7 +11,7 @@
         <th>Date</th>
         <th>Product</th>
         <th>Reviewer</th>
-        <th>Comment</th>       
+        <th>Title</th>       
         <th>Rating</th>
         <th>Action</th>
     </thead>
@@ -21,7 +21,7 @@
                 <td><span class="js-date" data-timestamp="{{Review.created}}" data-format="DD/MM/YYYY HH:mm"></span></td>
                 <td>{% if Review.Product is defined and Review.Product is not null %}{{Review.Product.Name}}{% endif %}</td>
                 <td>{{Review.Reviewer}}</td>
-                <td>{{Review.Comment|e}}</td>
+                <td>{{Review.Title|e}}</td>
                 <td>{{Review.rating}}</td>
                 <td><a href="{{path('admin_universal_form', {id:Review.id, reponame:reponame})}}"><span class="glyphicon glyphicon-pencil"></span></a> <a href="#" class="js-remove" data-target="{{Review.id}}"><span class="glyphicon glyphicon-remove"></span></a></td>
             </tr>

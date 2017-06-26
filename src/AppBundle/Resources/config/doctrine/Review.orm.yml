@@ -22,6 +22,10 @@ AppBundle\Entity\Review:
                 precision: 10
                 scale: 2
                 nullable: false
+            title:
+                type: string
+                length: 255
+                nullable: true
             help_score:
                 type: integer
                 nullable: false

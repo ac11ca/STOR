@@ -1,0 +1,62 @@
+{% extends 'default/default_shell.html.twig' %}
+
+{% block title %}{{Product.Name}} - Reviews{% endblock %}
+
+{% block pageclass%}reviews-page{% endblock%}
+
+{% block primarybody %}
+
+<div>
+
+    <h2> Individual Customer Reviews </h2>
+
+    <div>
+        <select name="sort" id="sort">
+            <option value="">Sort By</option>
+            <option value="1">Rating (Ascending)</option>
+            <option value="2">Rating (Descending)</option>
+            <option value="3">Title (Ascending)</option>
+            <option value="4">Title (Descending)</option>
+            <option value="5">Text (Ascending)</option>
+            <option value="6">Text (Descending)</option>
+            <option value="7">Helpful (Ascending)</option>
+            <option value="8">Helpful (Descending)</option>
+        </select>
+    </div>
+
+    {% for Review in reviews %}
+        <div>
+            <div>
+                <div>
+                    {{Review.rating}}
+                </div>
+
+                <div>
+                    {{Review.title}}
+                </div>
+
+                <div>
+                   {{Review.reviewer}}
+                </div>      
+            </div>
+
+            <div>
+                {{Review.comment|raw}}
+            </div>
+
+            <div>
+                {{Review.helpScore}} <span>Number of peopl who found this review helpful.</span>
+            </div>
+        </div>
+    {% endfor %}
+
+</div>
+
+<div>
+    <a href="{{path('abandon_shopping')}}" class="btn btn-primary">Abandon Shopping</a>
+    <a href="{{path('search_results', {term:term})}}" class="btn btn-primary">Back to Search Results</a>
+    <a href="{{path('product_details', {product:Product.id})}}" class="btn btn-primary">Back to &quot;{{Product.Name}}&quot;</a>
+    <a href="{{path('checkout')}}" class="btn btn-primary">Make a Purchase</a>
+</div>
+
+{% endblock %}
