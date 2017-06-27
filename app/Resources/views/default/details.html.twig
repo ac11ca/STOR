@@ -20,9 +20,9 @@
        
             <div id="product_detail_author_container">
                 <div id="product_detail_author">
-                    {% for Author in Product.authors %}
-                       {% if loop.index0 > 0 %},{% endif %}{{Author.name}}
-                    {% endfor %}
+                    {% for Author in Product.authors %}{% spaceless %}
+                       {% if loop.index0 > 0 %}, {% endif %}{{Author.name}}
+                    {% endspaceless %}{% endfor %}
                 </div>
 
                 <div id="product_detail_price">
