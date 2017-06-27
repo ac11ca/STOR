@@ -18,7 +18,6 @@ class User extends BaseUser
     protected $created;
     protected $reviews;
     protected $external_id;
-    protected $sessions;
 
     public function __construct()
     {

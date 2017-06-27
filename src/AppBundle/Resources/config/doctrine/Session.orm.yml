@@ -1,0 +1,27 @@
+AppBundle\Entity\Session:
+    type: entity
+    repositoryClass: AppBundle\Repository\SessionRepository
+    id:
+        id:
+            type: guid
+            id: true
+            generator:
+                strategy: UUID
+    fields:
+            created: 
+                type: integer
+                nullable: false                               
+
+    manyToOne:
+        User:
+            targetEntity: AppBundle\Entity\User
+            inversedBy: sessions
+            joinColumn:
+                name: user_id
+                referencedColumnName:  id
+    oneToMany:
+            analytics:
+               targetEntity: AppBundle\Entity\Analytics
+               mappedBy: Session
+        
+    lifecycleCallbacks: {  }

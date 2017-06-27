@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\RouteEntity;
 use AppBundle\Entity\Transaction;
 use AppBundle\Entity\Machine;
-
+use AppBundle\Entity\Session as DBSession;
 class DefaultController extends ApplicationMasterController
 {
     public function rootAction(Request $Request, $_render = 'HTML')
@@ -56,10 +56,23 @@ class DefaultController extends ApplicationMasterController
 
                 $UserManager= $this->get('app.user_manager'); 
                 $User = $UserManager->findUserBy(['external_id'=>$user]);
-                if(empty($user))
-                    throw new \Exception('Invalid user id');
+                if(empty($User))
+                {
+                    $User = $UserManager->createUser();
+                    $User->setUsername($user . '@STOR.com');
+                    $User->setEmail($user . '@STOR.com');
+                    $User->setPlainPassword($user . '@STOR.com');
+                    $User->setExternalId($user);
+                    $UserManager->updateUser($User);
+                }
+
+                $DBSession = new DBSession($User);
+                $EntityManager = $this->getDoctrine()->getManager();
+                $EntityManager->persist($DBSession);
+                $EntityManager->flush();
 
                 $Session->set('user_id', $user);
+                $Session->set('SessionID', $DBSession->getId());
 
                 $CustomContent = $this->getDoctrine()->getRepository('CYINTCustomContentBundle:CustomContent')->find(1);
                 $term = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('search');
@@ -133,20 +146,40 @@ class DefaultController extends ApplicationMasterController
 
     }
 
-    public function productReviewsAction(Request $Request, $product, $_render = 'HTML')
+    public function productReviewsAction(Request $Request, $product, $page = 1, $_render = 'HTML')
     {
          return $this->handleErrors(
-            function ($Session, $messages) use ($Request, $_render, $product)
+            function ($Session, $messages) use ($Request, $_render, $product, $page)
             {    
+                $sort = empty($Session->get('sort')) ? 'e.created' : $Session->get('sort');
+                $dir = empty($Session->get('sort')) ? 'DESC' : $Session->get('dir');
+
+                if($Request->isMethod('POST'))
+                {
+                    $form_data = $Request->request->all();
+                    $sortdata = ParseData::setArray($form_data, 'sort', 'e.created:DESC');
+                    $sortarray = explode(':', $sortdata);
+                    $sort = $sortarray[0];
+                    $dir = $sortarray[1];
+                    $Session->set('sort', $sort);
+                    $Session->set('dir', $dir);
+                    $page = 1;
+                }
+
+                $settings = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('');
                 $Product = $this->getDoctrine()->getRepository('AppBundle:Product')->find($product);                                  
-                $reviews = $this->getDoctrine()->getRepository('AppBundle:Review')->findBy(['Product'=>$Product], ['rating'=>'DESC']);
+                $reviews = $this->getDoctrine()->getRepository('AppBundle:Review')->findByFilter(null,$Product->getId(), $page, $settings['reviewsperpage'], $sort, $dir);
 
                 return $this->renderRoute(
                     'default/reviews.html.twig'
                     ,[
-                        'Product' => $Product
-                        ,'reviews' => $reviews
+                        'Product' => $Product                    
+                        ,'reviews' => $reviews['result']
+                        ,'review_count' => $reviews['count']
+                        ,'page' => $page
                         ,'term' => $Session->get('term')
+                        ,'reviews_per_page' => $settings['reviewsperpage']
+                        ,'sort' => $sort . ':' . $dir
                     ]
                     , $_render
                 );
@@ -165,7 +198,9 @@ class DefaultController extends ApplicationMasterController
                 $settings = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('');                              
                 $term = $Session->get('term');
                 $products = $this->getDoctrine()->getRepository('AppBundle:Product')->findByFilter($term);               
-
+                $User = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(['external_id'=>$Session->get('user_id')]);
+                if(!empty($User))
+                    $User = array_pop($User);
                 return $this->renderRoute(
                     'default/checkout.html.twig'
                     ,[
@@ -173,6 +208,7 @@ class DefaultController extends ApplicationMasterController
                         ,'items_per_page' => $settings['paginationitemsperpage']
                         ,'redirect_url' => $settings['formurl']
                         ,'term' => $term
+                        ,'User' => $User
                     ]
                     , $_render
                 );
@@ -317,6 +353,31 @@ class DefaultController extends ApplicationMasterController
             ]
             , $_render
         );       
+    }
+
+    public function trackEvent(Request $Request, $_render = 'JSON')
+    {
+        $success = false;
+        if($Request->isMethod('POST'))
+        {
+            $form_data = $Request->request->all();
+            $type = ParseData::setArray($form_data,'event',null);
+            $label = ParseData::setArray($form_data,'label',null);        
+            $category = ParseData::setArray($form_data,'category',null);        
+            if(empty($type) || empty($label))
+                throw new \Exception('Label and category must be specified');
+
+            $Analytic = new Analytics($Session->get('SessionID'), $type, $label, $category);
+        }
+
+        return $this->renderRoute(
+            null
+            , [
+                'success'=>$success               
+            ]
+            , $_render
+        );       
+
     }
 
 }

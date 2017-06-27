@@ -1,0 +1,90 @@
+<?php
+
+namespace AppBundle\Entity;
+
+/**
+ * Session
+ */
+class Session
+{
+    /**
+     * @var guid
+     */
+    private $id;
+
+    /**
+     * @var integer
+     */
+    private $created;
+
+    /**
+     * @var \AppBundle\Entity\User
+     */
+    private $User;
+
+    public function __construct(User $User)
+    {
+        $this->setUser($User);
+        $this->setCreated(time());
+    }
+
+
+    /**
+     * Get id
+     *
+     * @return guid
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set created
+     *
+     * @param integer $created
+     *
+     * @return Session
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return integer
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Session
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->User = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->User;
+    }
+}
+

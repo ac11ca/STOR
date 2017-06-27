@@ -7,14 +7,26 @@
 
 {% block templatestyles %}
     <link rel="stylesheet" href="/dist/css/default.css"></link>
+    <link rel="stylesheet" href="/dist/css/stars.css"></link>
     {% block individualstyles %}
     {% endblock %}
 {% endblock %}
 
+{% block containerclass %}container{% endblock %}
+
 {% block shellclass %}default {% block pageclass%}{% endblock %}{% endblock %}
 
-
 {% block mainbody %}
+        {% block searchbar %}
+            <div id="searchbar">
+                <div id="logo_small">
+                </div>
+				<div class="input-group">
+				  <input type="text" readonly class="form-control" placeholder="Search" aria-describedby="basic-addon1" value="{% if term is defined %}{{term}}{% endif %}">
+				  <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+				</div>
+            </div>
+        {% endblock %}
         {% block primarybody %}
         {% endblock %}
 {% endblock %}

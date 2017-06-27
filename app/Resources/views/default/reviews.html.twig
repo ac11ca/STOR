@@ -6,57 +6,75 @@
 
 {% block primarybody %}
 
-<div>
+<div id="review_content">
 
-    <h2> Individual Customer Reviews </h2>
+    <div id="review_header">
+        <h2 id="review_heading"> Individual Customer Reviews </h2>
 
-    <div>
-        <select name="sort" id="sort">
-            <option value="">Sort By</option>
-            <option value="1">Rating (Ascending)</option>
-            <option value="2">Rating (Descending)</option>
-            <option value="3">Title (Ascending)</option>
-            <option value="4">Title (Descending)</option>
-            <option value="5">Text (Ascending)</option>
-            <option value="6">Text (Descending)</option>
-            <option value="7">Helpful (Ascending)</option>
-            <option value="8">Helpful (Descending)</option>
-        </select>
+        <div id="sort_container">
+            <form method="post" id="sortform" name="sortform">
+                <select name="sort" id="sort" onchange="sortform.submit();">
+                    <option value="e.created:DESC" {% if sort == 'e.created:DESC'%}selected{% endif %}>Sort by date (Descending)</option>
+                    <option value="e.created:ASC" {% if sort == 'e.created:ASC'%}selected{% endif %}>Sort by date (Ascending)</option>
+                    <option value="e.rating:ASC" {% if sort == 'e.rating:ASC'%}selected{% endif %}>Sort by rating (Ascending)</option>
+                    <option value="e.rating:DESC" {% if sort == 'e.rating:DESC'%}selected{% endif %}>Sort by rating (Descending)</option>
+                    <option value="e.help_score:ASC" {% if sort == 'e.help_score:ASC'%}selected{% endif %}>Sort by helpful (Ascending)</option>
+                    <option value="e.help_score:DESC" {% if sort == 'e.help_score:DESC'%}selected{% endif %}>Sort by helpful (Descending)</option>
+                    <option value="e.title:ASC" {% if sort == 'e.title:ASC'%}selected{% endif %}>Sort by title (Ascending)</option>
+                    <option value="e.title:DESC" {% if sort == 'e.title:DESC'%}selected{% endif %}>Sort by title (Descending)</option>
+                </select>
+            </form>
+        </div>
     </div>
 
     {% for Review in reviews %}
-        <div>
-            <div>
-                <div>
-                    {{Review.rating}}
+        <div id="review_{{loop.index0}}" class="review-listing">
+            <div class="review-data">
+
+                <div class="review-row">
+                    <div class="review-data-rating">
+                        <div class="star-ratings-sprite"><span style="width:{% if Review.rating is defined %}{{(Review.Rating/5)*100}}{% else %}0{% endif %}%" class="star-ratings-sprite-rating"></span></div>
+                    </div>
+
+                    <div class="review-data-title">
+                        {{Review.title}}
+                    </div>
                 </div>
 
-                <div>
-                    {{Review.title}}
+                <div class="review-row">
+                    <div class="review-data-reviewer">
+                       By {{Review.reviewer}}
+                    </div>     
+                
+                    <div class="review-data-created">
+                       on <span class="js-date" data-timestamp="{{Review.created}}" data-format="MMM DD, YYYY"></span>
+                    </div> 
                 </div>
-
-                <div>
-                   {{Review.reviewer}}
-                </div>      
             </div>
 
-            <div>
+            <div class="review-comment">
                 {{Review.comment|raw}}
             </div>
 
-            <div>
-                {{Review.helpScore}} <span>Number of peopl who found this review helpful.</span>
+            <div class="review-helpscore">
+                {{Review.helpScore}} <span>Number of people who found this review helpful.</span>
             </div>
         </div>
     {% endfor %}
 
+    {% if (reviews_per_page * page) < review_count %}
+        <div id="review_more_button">
+            <a href="{{path('product_reviews', {product:Product.id, page:(page+1)})}}" class="btn btn-primary">See more</a>
+        </div>
+    {% endif %}
+
 </div>
 
-<div>
-    <a href="{{path('abandon_shopping')}}" class="btn btn-primary">Abandon Shopping</a>
-    <a href="{{path('search_results', {term:term})}}" class="btn btn-primary">Back to Search Results</a>
-    <a href="{{path('product_details', {product:Product.id})}}" class="btn btn-primary">Back to &quot;{{Product.Name}}&quot;</a>
-    <a href="{{path('checkout')}}" class="btn btn-primary">Make a Purchase</a>
+<div id="#navigation_container">
+    <a href="{{path('abandon_shopping')}}" id="#shopping_btn" class="btn btn-primary">Abandon Shopping</a>
+    <a href="{{path('search_results', {term:term})}}"  id="#results_btn" class="btn btn-primary">Back to Search Results</a>
+    <a href="{{path('product_details', {product:Product.id})}}"  id="#product_btn"  class="btn btn-primary">Back to &quot;{{Product.Name}}&quot;</a>
+    <a href="{{path('checkout')}}" class="btn btn-primary"  id="#purchase_btn">Make a Purchase</a>
 </div>
 
 {% endblock %}

@@ -8,45 +8,44 @@
 
 <h1>Search Results</h1>
 
-<div>
-    <p>Displaying {{products['result']|length}} of {{products['count']}} results.</p>
+<div id="results">
 
-    {% for Product in products['result'] %}
-        <a href="{{path('product_details', {product:Product.id})}}">
-            <div>
-                <div>
-                    <img src="{{Product.image}}">
-                </div>
+    <div id="page_data">
+        <p>Displaying {{products['result']|length}} of {{products['count']}} results.</p>
+    </div>
 
-                <div>
-                    {{Product.title}}
-                </div>
+    <div id="product_section">
+        {% for Product in products['result'] %}
+            <a href="{{path('product_details', {product:Product.id})}}" class="product-href" id="{{Product.id}}">
+                <div id="{{Product.id}}_container" class="product-panel">
+                    <div id="product_image_{{loop.index0}}" class="product-image">
+                        <img src="{{Product.image}}">
+                    </div>
 
-                <div>
-                    {% for Author in Product.authors %}
-                       {% if loop.index0 > 0 %},{% endif %}{{Author.name}}
-                    {% endfor %}
-                </div>
+                    <div id="product_title_{{loop.index0}}" class="product-name">
+                        {{Product.name}}
+                    </div>
 
-                <div>
-                    {% if ratings[Product.id] is defined %}
-                        {{ratings[Product.id]}}
-                    {% endif %}
-                </div>
+                    <div id="product_authors_{{loop.index0}}" class="author-names">
+                        {% for Author in Product.authors %}
+                           {% if loop.index0 > 0 %},{% endif %}{{Author.name}}
+                        {% endfor %}
+                    </div>
 
-                <div>
-                    {{Product.description|raw}}
-                </div>
+                    <div id="product_ratings_{{loop.index0}}" class="ratings">
+						<div class="star-ratings-sprite"><span style="width:{% if ratings[Product.id] is defined %}{{(ratings[Product.id]/5)*100}}{% else %}0{% endif %}%" class="star-ratings-sprite-rating"></span></div>
+                    </div>
 
-                <div>
-                    ${{Product.price|number_format(2,'.',',')}}
+                    <div id="product_price_{{loop.index0}}" class="price">
+                        ${{Product.price|number_format(2,'.',',')}}
+                    </div>
                 </div>
-            </div>
-        </a>
-    {% endfor %}
+            </a>
+        {% endfor %}
+    </div>
 </div>
 
-<div>
+<div id="navigation_bar">
     <a href="{{path('abandon_shopping')}}" class="btn btn-primary">Abandon Shopping</a>
     <a href="{{path('checkout')}}" class="btn btn-primary">Make a Purchase</a>
 </div>

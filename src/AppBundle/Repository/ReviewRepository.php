@@ -15,6 +15,14 @@ class ReviewRepository extends ApplicationMasterRepository
     protected $filter_property = 'reviewer';
     protected $FactoryType = 'AppBundle\Factory\ReviewFactory';
 
+    public function prepareFilterByParent($query, $parentid)
+    {
+        $query->innerJoin('e.Product', 'p');
+        $query->andWhere('p.id = :product_id');
+        $query->setParameter(':product_id',$parentid);
+        return $query;
+    }
+
     public function findByProductAverages($products)
     {       
         $formatted_result = [];
@@ -48,13 +56,13 @@ class ReviewRepository extends ApplicationMasterRepository
                    ->select('r.rating')
                    ->where('r.Product = :product')
                    ->setParameter(':product',$Product);
-        $result = $query->getQuery()->getResult();
+        $result = $query->getQuery()->getResult();       
         for($i = 0; $i < count($result); $i++)
         {
-           if(empty($rating_sums[floor($result[$i])]))
-               $rating_sums[floor($result[$i])] = 0;
+           if(empty($rating_sums[floor($result[$i]['rating'])]))
+               $rating_sums[floor($result[$i]['rating'])] = 0;
 
-           $rating_sums[floor($result[$i])]++;
+           $rating_sums[floor($result[$i]['rating'])]++;
            $total++;
         }
 

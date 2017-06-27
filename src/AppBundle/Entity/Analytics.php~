@@ -1,0 +1,141 @@
+<?php
+
+namespace AppBundle\Entity;
+
+/**
+ * Analytics
+ */
+class Analytics
+{
+    /**
+     * @var guid
+     */
+    private $id;
+
+    /**
+     * @var integer
+     */
+    private $created;
+
+    /**
+     * @var string
+     */
+    private $event_type;
+
+    /**
+     * @var string
+     */
+    private $session_id;
+
+    /**
+     * @var string
+     */
+    private $label;
+
+
+    /**
+     * Get id
+     *
+     * @return guid
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set created
+     *
+     * @param integer $created
+     *
+     * @return Analytics
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return integer
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set eventType
+     *
+     * @param string $eventType
+     *
+     * @return Analytics
+     */
+    public function setEventType($eventType)
+    {
+        $this->event_type = $eventType;
+
+        return $this;
+    }
+
+    /**
+     * Get eventType
+     *
+     * @return string
+     */
+    public function getEventType()
+    {
+        return $this->event_type;
+    }
+
+    /**
+     * Set sessionId
+     *
+     * @param string $sessionId
+     *
+     * @return Analytics
+     */
+    public function setSessionId($sessionId)
+    {
+        $this->session_id = $sessionId;
+
+        return $this;
+    }
+
+    /**
+     * Get sessionId
+     *
+     * @return string
+     */
+    public function getSessionId()
+    {
+        return $this->session_id;
+    }
+
+    /**
+     * Set label
+     *
+     * @param string $label
+     *
+     * @return Analytics
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
+
+        return $this;
+    }
+
+    /**
+     * Get label
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+}

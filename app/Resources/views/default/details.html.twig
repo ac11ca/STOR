@@ -6,64 +6,73 @@
 
 {% block primarybody %}
 
-<div>
+<div id="product_details">
 
-        <div>
+        <div id="product_detail_image">
             <img src="{{Product.image}}">
         </div>
 
-        <div>
-            {{Product.name}}
+        <div id="product_detail_column_container">
+ 
+            <div id="product_detail_title">
+                <h3>{{Product.name}}</h3>
+            </div>
+       
+            <div id="product_detail_author_container">
+                <div id="product_detail_author">
+                    {% for Author in Product.authors %}
+                       {% if loop.index0 > 0 %},{% endif %}{{Author.name}}
+                    {% endfor %}
+                </div>
+
+                <div id="product_detail_price">
+                    ${{Product.price|number_format(2,'.',',')}}
+                </div>
+            </div>
+
+            <div id="product_detail_decription">
+                {{Product.description|raw}}
+            </div>
+
+            <h2 id="heading"> Customer Reviews </h2>  
+
+            <div id="rating">
+    			<div class="star-ratings-sprite"><span style="width:{% if ratings[Product.id] is defined %}{{(ratings[Product.id]/5)*100}}{% else %}0{% endif %}%" class="star-ratings-sprite-rating"></span></div>
+
+                {% if ratings[Product.id] is defined %}
+                    {{ratings[Product.id]|number_format(1,'.',',')}}
+                {% else %}
+                    0
+                {% endif %} 
+                out of 5 stars
+            </div>
+
+            <div id="ratings">
+                <table id="ratings_table">        
+                    {% for rating in 5..1 %}
+                        <tr>
+                            <td id="rating_value_{{rating}}" class="rating-cell">{{rating}} star{% if rating != 1 %}s{% endif %}</td>
+                            <td class="progress-cell">
+                                <div class="progress"> 
+                                 <div 
+                                    class="progress-bar progress-bar-success"
+                                    role="progressbar"		 	 
+                                    aria-valuemin="0"
+                                    aria-valuemax="100" 
+                                    style="width: {% spaceless %}{% if ratings_by_value[rating] is defined %}{{ratings_by_value[rating]['percent'] * 100|number_format(0,'.',',')}}{% else %}0{% endif %}%{% endspaceless %}">
+                                  </div>
+                                </div>
+                            </td>
+                            <td class="percent-cell">{% spaceless %}{% if ratings_by_value[rating] is defined %}{{ratings_by_value[rating]['percent'] * 100|number_format(0,'.',',')}}%{% else %}0%{% endif %}{% endspaceless %}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <div id="rating_button">
+                <a href="{{path('product_reviews', {'product': Product.id})}}" class="btn btn-primary">Click to see individual reviews</a>
+            </div>
         </div>
-
-        <h2> Customer Reviews </h2>  
-
-        <div>
-            {% if ratings[Product.id] is defined %}
-                {{ratings[Product.id]}} out of 5 stars
-            {% endif %}
-        </div>
-
-        <div>
-            <table>        
-                {% for rating in 5..1 %}
-                    <tr>
-                        <td>{{rating}} star</td>
-                        <td>
-                            <div class="progress"> 
-                             <div 
-                                class="progress-bar progress-bar-success"
-                                role="progressbar"		 	 
-                                aria-valuemin="0"
-                                aria-valuemax="100" 
-                                style="width: {% if ratings_by_value[rating] is defined %}{{ratings_by_value[rating]['percent'] * 100|number_format(0,'.',',')}}{% else %}0{% endif %} %">
-                              </div>
-                            </div>
-                        </td>
-                        <td>{% if ratings_by_value[rating] is defined %}{{ratings_by_value[rating]['percent'] * 100|number_format(0,'.',',')}}%{% endif %}</td>
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
-
-        <div>
-            <a href="{{path('product_reviews', {'product': Product.id})}}" class="btn btn-primary">Click to see individual reviews</a>
-        </div>
-
-        <div>
-            {{Product.description|raw}}
-        </div>
-
-        <div>
-            {% for Author in Product.authors %}
-               {% if loop.index0 > 0 %},{% endif %}{{Author.name}}
-            {% endfor %}
-        </div>
-
-        <div>
-            ${{Product.price|number_format(2,'.',',')}}
-        </div>
-
 </div>
 
 <div>

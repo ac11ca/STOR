@@ -4,16 +4,18 @@
 
 {% block pageclass%}instruction-page{% endblock%}
 
+{% block searchbar %}{% endblock %}
+
 {% block primarybody %}
 
 <h1>{{CustomContent.Title}}</h1>
 
-<div>
+<div id="instructions">
     {{CustomContent.Content|raw}}
 </div>
 
-<div>
-    <a href="{{path('search_results', {term:term} )}}" class="btn btn-submit">Proceed</a>
+<div id="proceed_button">
+    <a href="{{path('search_results', {term:term} )}}" class="btn btn-primary">Proceed</a>
 </div>
 
 {% endblock %}

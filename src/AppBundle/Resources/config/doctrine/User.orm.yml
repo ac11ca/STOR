@@ -20,5 +20,8 @@ AppBundle\Entity\User:
             reviews:
                 targetEntity: AppBundle\Entity\Review
                 mappedBy: User
-        
+            sessions:
+                targetEntity: AppBundle\Entity\Session
+                mappedBy: User
+   
     lifecycleCallbacks: {  }

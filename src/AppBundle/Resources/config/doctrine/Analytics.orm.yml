@@ -1,0 +1,32 @@
+AppBundle\Entity\Analytics:
+    type: entity
+    repositoryClass: AppBundle\Repository\AnalyticsRepository
+    id:
+        id:
+            type: guid
+            id: true
+            generator:
+                strategy: UUID
+    fields:
+            created: 
+                type: integer
+                nullable: false                               
+            event_type:
+                type: string
+                length: 255
+                nullable: false
+            label:
+                type: text            
+                nullable: false
+            category:
+                type: text
+                nullable: true
+    manyToOne:
+        Session:
+            targetEntity: AppBundle\Entity\Session
+            inversedBy: analytics
+            joinColumn:
+                name: session_id
+                referencedColumnName:  id
+                
+    lifecycleCallbacks: {  }
