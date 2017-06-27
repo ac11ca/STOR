@@ -16,6 +16,7 @@ use AppBundle\Entity\RouteEntity;
 use AppBundle\Entity\Transaction;
 use AppBundle\Entity\Machine;
 use AppBundle\Entity\Session as DBSession;
+use AppBundle\Entity\Analytics;
 class DefaultController extends ApplicationMasterController
 {
     public function rootAction(Request $Request, $_render = 'HTML')
@@ -157,6 +158,7 @@ class DefaultController extends ApplicationMasterController
                 if($Request->isMethod('POST'))
                 {
                     $form_data = $Request->request->all();
+                    die(print_r($form_data));
                     $sortdata = ParseData::setArray($form_data, 'sort', 'e.created:DESC');
                     $sortarray = explode(':', $sortdata);
                     $sort = $sortarray[0];
@@ -355,29 +357,41 @@ class DefaultController extends ApplicationMasterController
         );       
     }
 
-    public function trackEvent(Request $Request, $_render = 'JSON')
+    public function trackEventAction(Request $Request, $_render = 'JSON')
     {
-        $success = false;
-        if($Request->isMethod('POST'))
-        {
-            $form_data = $Request->request->all();
-            $type = ParseData::setArray($form_data,'event',null);
-            $label = ParseData::setArray($form_data,'label',null);        
-            $category = ParseData::setArray($form_data,'category',null);        
-            if(empty($type) || empty($label))
-                throw new \Exception('Label and category must be specified');
+         return $this->handleErrors(
+            function ($Session, $messages) use ($Request, $_render)
+            {
 
-            $Analytic = new Analytics($Session->get('SessionID'), $type, $label, $category);
-        }
+                $success = false;
+                if($Request->isMethod('POST'))
+                {
+                    $form_data = $Request->request->all();
+                    $type = ParseData::setArray($form_data,'event',null);
+                    $label = ParseData::setArray($form_data,'label',null);        
+                    $category = ParseData::setArray($form_data,'category',null);        
+                    if(empty($type) || empty($label))
+                        throw new \Exception('Label and category must be specified');
 
-        return $this->renderRoute(
-            null
-            , [
-                'success'=>$success               
-            ]
-            , $_render
-        );       
+                    $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
+                    $Analytic = new Analytics($DBSession, $type, $label, $category);
+                    $EntityManager = $this->getDoctrine()->getManager();
+                    $EntityManager->persist($Analytic);
+                    $EntityManager->flush();
+                    $success = true;
+                }
 
+                return $this->renderRoute(
+                    null
+                    , [
+                        'success'=>$success               
+                    ]
+                    , $_render
+                );       
+            }
+            ,$this->generateUrl('track_event', ['render'=>$_render])
+			,$_render
+        );
     }
 
 }

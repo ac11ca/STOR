@@ -40,7 +40,7 @@
             </head>
         {% endblock %}
 
-        <body class="{% block bodyclass %}{% endblock %}">
+        <body class="{% block bodyclass %}{% endblock %}" {% block bodydata %}{% endblock %}>
 
             {% block primarycontainer %}
                 <div id="app">

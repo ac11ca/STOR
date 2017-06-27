@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block bodydata %}data-trackurl="{{path('track_event')}}"{% endblock %}
+
 {% block baseheader %}
     {{render(controller('AppBundle:Default:gaTag'))}}                     
     {{render(controller('AppBundle:Default:headerHTML'))}}                     
@@ -41,5 +43,6 @@
 
 {% block templatescripts %}
     <script src="/dist/js/messages.js"></script>
+    <script src="/dist/js/analytics.js"></script>
 {% endblock %}
 
