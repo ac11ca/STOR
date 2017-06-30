@@ -4,9 +4,11 @@
 
 {% block pageclass%}details-page{% endblock%}
 
+{% block pageunloadcategory %}PIS_{{Product.Id}}_Time_End{% endblock %}
+
 {% block primarybody %}
 
-<div id="product_details">
+<div id="product_details" class="track-pageview" data-category="PIS_{{Product.Id}}_Time_Start" data-label="Visit: {{visit}}">
 
         <div id="product_detail_image">
             <img src="{{Product.image}}">
@@ -70,15 +72,15 @@
             </div>
 
             <div id="rating_button">
-                <a href="{{path('product_reviews', {'product': Product.id})}}" class="btn btn-primary">Click to see individual reviews</a>
+                <a href="{{path('product_reviews', {'product': Product.id})}}" class="btn btn-primary track-event" data-event="click" data-category="PIS_{{Product.Id}}_Review_Button" data-label="Visit: {{visit}}">Click to see individual reviews</a>
             </div>
         </div>
 </div>
 
 <div>
-    <a href="{{path('abandon_shopping')}}" class="btn btn-primary">Abandon Shopping</a>
-    <a href="{{path('search_results', {term:term})}}" class="btn btn-primary">Back to Search Results</a>
-    <a href="{{path('checkout')}}" class="btn btn-primary">Make a Purchase</a>
+    <a href="{{path('abandon_shopping')}}" class="btn btn-primary track-event" data-event="click" data-category="PIS_{{Product.Id}}_Abandon_Button" label="Visit: {{visit}}">Abandon Shopping</a>
+    <a href="{{path('search_results', {term:term})}}" class="btn btn-primary" data-event="click" data-category="PIS_{{Product.Id}}_Back_Button" label="Visit: {{visit}}">Back to Search Results</a>
+    <a href="{{path('checkout')}}" class="btn btn-primary" data-category="PIS_{{Product.Id}}_Purchase_Button">Make a Purchase</a>
 </div>
 
 {% endblock %}

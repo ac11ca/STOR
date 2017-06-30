@@ -5,9 +5,11 @@
 {% block searchbar %}{% endblock %}
 {% block pageclass%}checkout-page{% endblock%}
 
+{% block pageunloadcategory %}PS_Time_End{% endblock %}
+
 {% block primarybody %}
 
-<h1>Checkout</h1>
+<h1 class="track-pageview" data-category="PS_Time_Start" data-label="Visit: {{visit}}" >Checkout</h1>
 
 <div class="checkout-container" id="checkout_container">
 

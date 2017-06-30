@@ -18,6 +18,7 @@ class User extends BaseUser
     protected $created;
     protected $reviews;
     protected $external_id;
+    protected $ip_address;
     protected $sessions;
 
     public function __construct()
@@ -170,6 +171,17 @@ class User extends BaseUser
         return $this;
     }
 
+    public function setIPAddress($ip_address)
+    {
+        $this->ip_address = $ip_address;
+        return $this;
+    }
+
+    public function getIPAddress()
+    {
+        return $this->ip_address;
+    }
+    
 }
 
 class UserException extends \Exception

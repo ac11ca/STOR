@@ -33,10 +33,15 @@ class DefaultController extends ApplicationMasterController
 
                     return $this->redirect($this->generateUrl('index', ['user'=>$user]));
                 }
+                else 
+                {
+                    $visit = $this->getCurrentVisit('root_visit', $Session);
+                }
 
                 return $this->renderRoute(
                     'default/root.html.twig'
                     ,[
+                        'visit'=>$visit
                     ]
                     , $_render
                 );
@@ -55,6 +60,8 @@ class DefaultController extends ApplicationMasterController
                 if(empty($user))
                     throw new \Exception('Invalid user id');
 
+                $Session->clear();
+                $visit = $this->getCurrentVisit('index_visit', $Session);
                 $UserManager= $this->get('app.user_manager'); 
                 $User = $UserManager->findUserBy(['external_id'=>$user]);
                 if(empty($User))
@@ -64,6 +71,7 @@ class DefaultController extends ApplicationMasterController
                     $User->setEmail($user . '@STOR.com');
                     $User->setPlainPassword($user . '@STOR.com');
                     $User->setExternalId($user);
+                    $User->setIPAddress($Request->getClientIp());
                     $UserManager->updateUser($User);
                 }
 
@@ -84,6 +92,7 @@ class DefaultController extends ApplicationMasterController
                     ,[
                         'CustomContent' => $CustomContent
                         ,'term' => $term['term']
+                        ,'visit' => $visit  
                     ]
                     , $_render
                 );
@@ -100,6 +109,7 @@ class DefaultController extends ApplicationMasterController
          return $this->handleErrors(
             function ($Session, $messages) use ($Request, $term, $page, $_render)
             {            
+                $visit = $this->getCurrentVisit('results_visit', $Session);
                 $pagination_settings = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('pagination');                 
                 $products = $this->getDoctrine()->getRepository('AppBundle:Product')->findByFilter($term,null,$page, $pagination_settings['items_per_page']);               
                 $ratings = $this->getDoctrine()->getRepository('AppBundle:Review')->findByProductAverages($products['result']);
@@ -110,6 +120,7 @@ class DefaultController extends ApplicationMasterController
                         ,'items_per_page' => $pagination_settings['items_per_page']
                         ,'ratings' => $ratings
 						,'page' => $page
+                        ,'visit' => $visit
                     ]
                     , $_render
                 );
@@ -125,6 +136,8 @@ class DefaultController extends ApplicationMasterController
          return $this->handleErrors(
             function ($Session, $messages) use ($Request, $_render, $product)
             {    
+                $visit = $this->getCurrentVisit('details_visit_' . $product, $Session);
+
                 $Product = $this->getDoctrine()->getRepository('AppBundle:Product')->find($product);                                  
                 $ratings = $this->getDoctrine()->getRepository('AppBundle:Review')->findByProductAverages(new ArrayCollection([$Product]));
                 $reviews = $this->getDoctrine()->getRepository('AppBundle:Review')->findBy(['Product'=>$Product], ['rating'=>'DESC']);
@@ -137,6 +150,7 @@ class DefaultController extends ApplicationMasterController
                         ,'ratings' => $ratings  
                         ,'ratings_by_value' => $ratings_by_value
                         ,'term' => $Session->get('term')
+                        ,'visit' => $visit
                     ]
                     , $_render
                 );
@@ -151,14 +165,14 @@ class DefaultController extends ApplicationMasterController
     {
          return $this->handleErrors(
             function ($Session, $messages) use ($Request, $_render, $product, $page)
-            {    
+            {   
+                $visit = $this->getCurrentVisit('reviews_visit_' . $product, $Session);
                 $sort = empty($Session->get('sort')) ? 'e.created' : $Session->get('sort');
                 $dir = empty($Session->get('sort')) ? 'DESC' : $Session->get('dir');
 
                 if($Request->isMethod('POST'))
                 {
                     $form_data = $Request->request->all();
-                    die(print_r($form_data));
                     $sortdata = ParseData::setArray($form_data, 'sort', 'e.created:DESC');
                     $sortarray = explode(':', $sortdata);
                     $sort = $sortarray[0];
@@ -182,6 +196,7 @@ class DefaultController extends ApplicationMasterController
                         ,'term' => $Session->get('term')
                         ,'reviews_per_page' => $settings['reviewsperpage']
                         ,'sort' => $sort . ':' . $dir
+                        ,'visit' => $visit
                     ]
                     , $_render
                 );
@@ -201,6 +216,9 @@ class DefaultController extends ApplicationMasterController
                 $term = $Session->get('term');
                 $products = $this->getDoctrine()->getRepository('AppBundle:Product')->findByFilter($term);               
                 $User = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(['external_id'=>$Session->get('user_id')]);
+
+                $visit = $this->getCurrentVisit('checkout_visit', $Session);
+
                 if(!empty($User))
                     $User = array_pop($User);
                 return $this->renderRoute(
@@ -211,6 +229,7 @@ class DefaultController extends ApplicationMasterController
                         ,'redirect_url' => $settings['formurl']
                         ,'term' => $term
                         ,'User' => $User
+                        ,'visit' => $visit
                     ]
                     , $_render
                 );
@@ -226,7 +245,7 @@ class DefaultController extends ApplicationMasterController
             function ($Session, $messages) use ($Request, $_render)
             {    
                 $Session->clear();
-                $messages[] = ViewMessage::constructMessage('Your cart has been abandoned.', 'danger', null);
+                $messages[] = ViewMessage::constructMessage('Your cart has been abandoned.', 'danger', null);        
                 return $this->redirect($this->generateUrl('root'));
             }
             ,$this->generateUrl('root', ['_render'=>$_render])
@@ -392,6 +411,15 @@ class DefaultController extends ApplicationMasterController
             ,$this->generateUrl('track_event', ['render'=>$_render])
 			,$_render
         );
+    }
+
+
+    private function getCurrentVisit($page_id, $Session)
+    {
+        $visit = empty($Session->get($page_id)) ? 0 : $Session->get($page_id);
+        $visit++;
+        $Session->set($page_id,$visit);
+        return $visit;  
     }
 
 }

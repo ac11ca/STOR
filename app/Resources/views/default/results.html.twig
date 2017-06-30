@@ -4,9 +4,12 @@
 
 {% block pageclass%}results-page{% endblock%}
 
+{% block pageunloadcategory %}SRS_Time_End{% endblock %}
+
 {% block primarybody %}
 
-<h1>Search Results</h1>
+
+<h1 class="track-pageview" data-category="SRS_Time_Start" data-label="Visit: {{visit}}">Search Results</h1>
 
 <div id="results">
 
@@ -19,17 +22,19 @@
             <a href="{{path('product_details', {product:Product.id})}}" class="product-href" id="{{Product.id}}">
                 <div id="{{Product.id}}_container" class="product-panel">
                     <div id="product_image_{{loop.index0}}" class="product-image">
-                        <img src="{{Product.image}}">
+                        <img src="{{Product.image}}" class="track-event" data-event="click" data-category="SRS_Product_{{Product.id}}_image" data-label="View: {{visit}}">
                     </div>
 
                     <div id="product_title_{{loop.index0}}" class="product-name">
-                        {{Product.name}}
+                        <span class="track-event" data-event="click" data-category="SRS_Product_{{Product.id}}_title" data-label="View: {{visit}}">{{Product.name}}
                     </div>
 
                     <div id="product_authors_{{loop.index0}}" class="author-names">
-                        {% for Author in Product.authors %}{% spaceless %}
-                           {% if loop.index0 > 0 %}, {% endif %}{{Author.name}}
-                        {% endspaceless %}{% endfor %}
+                        <span class="track-event" data-event="cick" data-category="SRS_Product_{{Product.id}}_authors" data-label="View: {{visit}}">
+                            {% for Author in Product.authors %}{% spaceless %}
+                                {% if loop.index0 > 0 %}, {% endif %}{{Author.name}}
+                            {% endspaceless %}{% endfor %}
+                        </span>
                     </div>
 
                     <div id="product_ratings_{{loop.index0}}" class="ratings">
@@ -46,8 +51,8 @@
 </div>
 
 <div id="navigation_bar">
-    <a href="{{path('abandon_shopping')}}" class="btn btn-primary">Abandon Shopping</a>
-    <a href="{{path('checkout')}}" class="btn btn-primary">Make a Purchase</a>
+    <a href="{{path('abandon_shopping')}}" class="btn btn-primary track-event" data-event="click" data-category="SRS_Abandon" data-label="Visit {{visit}}">Abandon Shopping</a>
+    <a href="{{path('checkout')}}" class="btn btn-primary" data-event="click" data-category="SRS_Purchase" data-label="Visit {{visit}}">Make a Purchase</a>
 </div>
 
 {% endblock %}

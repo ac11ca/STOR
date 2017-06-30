@@ -2,20 +2,21 @@
 
 {% block title %}{{'Instructions'|trans}}{% endblock %}
 
-{% block pageclass%}instruction-page{% endblock%}
+{% block pageclass %}instruction-page{% endblock%}
+{% block pageunloadcategory %}Instructions_Time_End{% endblock %}
 
 {% block searchbar %}{% endblock %}
 
 {% block primarybody %}
 
-<h1>{{CustomContent.Title}}</h1>
+    <h1 class="track-pageview" data-category="Instructions_Time_Start" data-label="Visit: {{visit}}" >{{CustomContent.Title}}</h1>
 
-<div id="instructions">
-    {{CustomContent.Content|raw}}
-</div>
+    <div id="instructions">
+        {{CustomContent.Content|raw}}
+    </div>
 
-<div id="proceed_button">
-    <a href="{{path('search_results', {term:term} )}}" class="btn btn-primary">Proceed</a>
-</div>
+    <div id="proceed_button">
+        <a href="{{path('search_results', {term:term} )}}" class="btn btn-primary track-event" data-event="click" data-category="Instructions_Proceed_Button" data-label="Visit: {{visit}}">Proceed</a>
+    </div>
 
 {% endblock %}

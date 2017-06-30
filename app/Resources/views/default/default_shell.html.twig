@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block bodydata %}data-trackurl="{{path('track_event')}}"{% endblock %}
-
 {% block baseheader %}
     {{render(controller('AppBundle:Default:gaTag'))}}                     
     {{render(controller('AppBundle:Default:headerHTML'))}}                     
@@ -14,9 +12,18 @@
     {% endblock %}
 {% endblock %}
 
+
+{% block bodyclass %}track-event{% endblock %}
+
 {% block containerclass %}container{% endblock %}
 
 {% block shellclass %}default {% block pageclass%}{% endblock %}{% endblock %}
+
+{% block bodydata %}
+    data-trackurl="{{path('track_event')}}"
+    data-event="unload" data-category="{% block pageunloadcategory %}{% endblock %}" data-label="Visit: {{visit}}"
+    {% block pagebodydata %}{% endblock %}
+{% endblock %}
 
 {% block mainbody %}
         {% block searchbar %}

@@ -4,16 +4,18 @@
 
 {% block pageclass%}reviews-page{% endblock%}
 
+{% block pageunloadcategory %}CRS_{{Product.ID}}_Time_End{% endblock %}
+
 {% block primarybody %}
 
-<div id="review_content">
+<div id="review_content" class="track-pageview" data-category="CRS_{{Product.ID}}_Time_Start" data-label="Visit: {{visit}}" >
 
     <div id="review_header">
         <h2 id="review_heading"> Individual Customer Reviews </h2>
 
         <div id="sort_container">
             <form method="post" id="sortform" name="sortform">
-                <select name="sort" id="sort" onchange="sortform.submit();">
+                <select name="sort" id="sort" onchange="sortform.submit();" data-event="change" data-category="CRS_{{Product.ID}}_Sort" data-label="Visit: {{visit}}">
                     <option value="e.created:DESC" {% if sort == 'e.created:DESC'%}selected{% endif %}>Sort by date (Descending)</option>
                     <option value="e.created:ASC" {% if sort == 'e.created:ASC'%}selected{% endif %}>Sort by date (Ascending)</option>
                     <option value="e.rating:ASC" {% if sort == 'e.rating:ASC'%}selected{% endif %}>Sort by rating (Ascending)</option>
@@ -71,10 +73,10 @@
 </div>
 
 <div id="#navigation_container">
-    <a href="{{path('abandon_shopping')}}" id="#shopping_btn" class="btn btn-primary">Abandon Shopping</a>
-    <a href="{{path('search_results', {term:term})}}"  id="#results_btn" class="btn btn-primary">Back to Search Results</a>
-    <a href="{{path('product_details', {product:Product.id})}}"  id="#product_btn"  class="btn btn-primary">Back to &quot;{{Product.Name}}&quot;</a>
-    <a href="{{path('checkout')}}" class="btn btn-primary"  id="#purchase_btn">Make a Purchase</a>
+    <a href="{{path('abandon_shopping')}}" id="#shopping_btn" class="btn btn-primary track-event" data-event="click" data-category="CRS_{{Product.Id}}_Abandon_Button" data-label="Visit: {{visit}}">Abandon Shopping</a>
+    <a href="{{path('search_results', {term:term})}}"  id="#results_btn" class="btn btn-primary track-event" data-event="click" data-category="CRS_{{Product.Id}}_Back_Button" data-label="Visit: {{visit}}">Back to Search Results</a>
+    <a href="{{path('product_details', {product:Product.id})}}"  id="#product_btn"  class="btn btn-primary track-event" data-event="click" data-category="CRS_{{Product.Id}}_Product_Button" data=label="Visit: {{visit}}">Back to &quot;{{Product.Name}}&quot;</a>
+    <a href="{{path('checkout')}}" class="btn btn-primary track-event" data-event="click" data-category="CRS_{{Product.Id}}_Checkout_Button" data-label="Visit: {{visit}}"  id="#purchase_btn">Make a Purchase</a>
 </div>
 
 {% endblock %}

@@ -7,7 +7,7 @@ use AppBundle\Entity\User;
 
 class UserFactory extends ApplicationMasterFactory
 { 
-    protected $fieldKeys = ['username', 'role', 'plain_password', 'enabled', 'external_id'];
+    protected $fieldKeys = ['username', 'role', 'plain_password', 'enabled', 'external_id', 'ip_address'];
     protected $EntityType = 'AppBundle\Entity\User';
     protected $CryptographyService;
 
@@ -21,6 +21,9 @@ class UserFactory extends ApplicationMasterFactory
             )          
             ,'Username' => $this->initializeField(
                 'text', 'Username/Email','','',['required'] 
+            )
+            ,'IPAddress' => $this->initializeField(
+                'text', 'IP Address', '', '',''
             )
             ,'ExternalId' => $this->initializeField(
                 'text', 'External ID', '', '',['required']
@@ -53,6 +56,7 @@ class UserFactory extends ApplicationMasterFactory
         $Entity->setEmail($this->fields['Username']['value']);
         $Entity->setPlainPassword($this->fields['PlainPassword']['value']);
         $Entity->setEnabled(empty($this->fields['Enabled']['value']) ? false : true);
+        $Entity->setIpAddress($this->fields['IPAddress']['value']);
     }
 
     public function entityEditUnique(&$User)
