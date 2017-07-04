@@ -36,6 +36,7 @@
             </li>
 
             <li class="{%block userclass%}{%endblock%}"><a href="{{path('admin_universal_list', {reponame:'User'})}}">Users</a></li>
+            <li class="{%block reportclass%}{%endblock%}"><a href="{{path('admin_reports')}}">Reports</a></li>
         {% endif %}
 
         {% if app.user is defined and app.user is not null and app.user.role == 'ROLE_ADMIN' %}

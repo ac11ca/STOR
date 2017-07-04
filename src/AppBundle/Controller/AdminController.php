@@ -531,6 +531,62 @@ class AdminController extends ApplicationMasterController
         );
     }
 
+    public function reportsAction(Request $Request, $_render = 'HTML')
+    {
+        return $this->handleErrors(
+            function ($Session, $messages) use ($Request, $_render)
+            {                               
+                return $this->renderRoute("admin/reports/generate.html.twig", [
+                ], $_render);               
+            }
+        ,
+        $this->generateUrl('admin_reports')
+        );
+    }
+
+
+    public function reportViewAction(Request $Request, $_render='HTML')
+    {
+        return $this->handleErrors(
+            function ($Session, $messages) use ($Request, $_render)
+            {                               
+
+                if($Request->isMethod('POST'))
+                {
+                    $form_data = $Request->request->all();
+                    $from = ParseData::setArray($form_data, 'from', null);
+                    $to = ParseData::setArray($form_data, 'to', null);
+                    $y = ParseData::setArray($form_data, 'y', null);
+                    $x = ParseData::setArray($form_data, 'x', null);
+                    $dimension = ParseData::setArray($form_data, 'dimension', []);
+                    $condition = ParseData::setArray($form_data, 'condition', []);
+                    $value = ParseData::setArray($form_data, 'value', []);
+                    $operator = ParseData::setArray($form_data, 'operator', []);
+                 
+                    $results = $this->getDoctrine()->getRepository('AppBundle:Analytics')->findByReport(
+                        $from
+                        ,$to
+                        ,$y
+                        ,$x
+                        ,$dimension
+                        ,$condition
+                        ,$value
+                        ,$operator
+                    );
+                }
+                else
+                    throw new \Exception(403, 'Invalid request');
+
+                return $this->renderRoute("admin/reports/view.html.twig", [
+                    'results'=>$results
+                ], $_render);               
+            }
+        ,
+        $this->generateUrl('admin_report_view')
+        );
+
+    }
+
     public function preRenderRoute()
     {
 

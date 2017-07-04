@@ -10,4 +10,63 @@ namespace AppBundle\Repository;
  */
 class AnalyticsRepository extends ApplicationMasterRepository
 {
+    public function findByReport($from = null, $to = null, $y = null, $x = null, $dimension = [], $condition = [], $value = [], $operator = [])
+    {
+        $query = $this->createQueryBuilder('a');
+                    
+
+        $query->innerJoin('a.Session', 's')
+            ->innerJoin('s.User', 'u');
+
+        if(!empty($from))
+            $query->andWhere('a.created >= :from')
+                ->setParameter(':from', $from);
+
+        if(!empty($to))
+            $query->andWhere('a.created <= :to')
+                ->setParameter(':to', $to);
+
+        switch($y)
+        {
+           case 'duration':
+            $query->select('a');
+           break;
+
+           case 'frequency':
+            $query->select('count(a),' . $x);
+           break; 
+
+           case 'avgduration':
+            $query->select('a');
+           break;
+
+           case 'avgfrequency':
+            $query->select('count(a),' . $x);
+           break;
+        }
+
+        $query->groupBy($x);
+
+        for($i = 0; $i < count($dimension); $i++)
+        {
+            $dimensional = $dimension[$i];
+            $conditional = $condition[$i];
+            $valueset = $value[$i];
+            $clause = $dimensional . ' ' . $conditional . ' :value';
+
+            if($i > 0 && $operator[$i-1] == 1)
+                $query->orWhere($clause);
+            else
+                $query->andWhere($clause);
+
+            if($conditional == 'like')
+                $query->setParameter(':value', "%$valueset%");
+            else
+                $query->setParameter(':value', $valueset);
+        }
+
+        $results = $query->getQuery()->getResult();
+
+        die(print_r($results));
+    }
 }

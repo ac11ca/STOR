@@ -26,5 +26,9 @@ gulp.task('compilelibs',['delete'], function () {
     .src(['./node_modules/smoothstate/src/**/*'])
     .pipe(gulp.dest('./web/dist/lib/smoothstate/'));
 
+    gulp
+    .src(['./node_modules/chart.js/dist/**/*'])
+    .pipe(gulp.dest('./web/dist/lib/chart.js/'));
+
     return true;
 });

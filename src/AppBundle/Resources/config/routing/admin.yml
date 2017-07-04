@@ -33,3 +33,10 @@ logout:
     path: /logout/{_render}
     defaults: { _controller: AppBundle:Admin:logout, _render: 'HTML', _locale: 'en', machine: null }
 
+admin_reports:
+    path: /reports
+    defaults: { _controller:AppBundle:Admin:reports, _render: 'HTML', _locale: 'en' }
+
+admin_report_view:
+    path: /reports/view
+    defaults: { _controller:AppBundle:Admin:reportView, _render: 'HTML', _locale: 'en' }
