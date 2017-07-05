@@ -1,0 +1,29 @@
+{% extends 'admin/universal/list.html.twig' %}
+
+{% block heading %}Configuration{% endblock %}
+
+{% block productclass %}active{% endblock %}
+
+{% block createbutton %}
+    <a href="{{path('configuration_settings', {id:null})}}" class="btn btn-primary">Add Configuration</a>
+{% endblock %}
+
+
+{% block table %}
+    <thead>
+        <th>Label</th>
+        <th>Id</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        {% for Configuration in entity_list %}
+            <tr id="content_{{Configuration.id}}">
+                <td>{{Configuration.label}} {{Configuration.created}}</td>
+                <td>{{Configuration.id}}</td>
+                <td>           
+                    <a href="{{path('configuration_settings', {id:Configuration.id})}}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+{% endblock %}

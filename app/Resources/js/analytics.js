@@ -12,6 +12,13 @@ function trackEvent(event,category,label) {
     });
 }
 
+$(window).on('unload', function () {
+    var category = $('body').data('category'), category_array, start, end, label;
+    category_array = category.split('_') || [category];
+    category = category_array[0] + '_Duration';
+    label = $('body').data('label');
+    
+});
 
 $(document).ready(function () {
     var $pageviews = $('.track-pageview');

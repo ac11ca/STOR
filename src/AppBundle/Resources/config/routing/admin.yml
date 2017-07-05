@@ -40,3 +40,8 @@ admin_reports:
 admin_report_view:
     path: /reports/view
     defaults: { _controller:AppBundle:Admin:reportView, _render: 'HTML', _locale: 'en' }
+
+configuration_settings:
+    path: /configuration/settings/{id}
+    defaults: { _controller: AppBundle:Admin:configurationSettings, id: null }
+

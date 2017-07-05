@@ -1,0 +1,5 @@
+{% extends 'admin/universal/content.html.twig' %}
+
+{% block productclass %}active{% endblock %}
+
+{% block heading %}{% if create %}Create Configuration{% else %}Edit Configuration &quot;{{fields.Label.value}}&quot;{% endif %}{% endblock %}

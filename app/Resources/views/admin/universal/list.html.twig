@@ -21,7 +21,9 @@
         </form>
     {% endblock %}
 
-    <a href="{{path('admin_universal_form_create', {parentid:id, id:null, reponame:reponame})}}" class="btn btn-primary">{% block addbutton %}Add{% endblock %}</a>
+    {% block createbutton %}
+        <a href="{{path('admin_universal_form_create', {parentid:id, id:null, reponame:reponame})}}" class="btn btn-primary">{% block createbuttonlabel %}Add{% endblock %}</a>
+    {% endblock %}
 
     {% if not entity_list is empty %}
         <table class="table table-striped" id="list" data-deleteurl="{{path('admin_universal_delete',{reponame:reponame, id:null})}}">

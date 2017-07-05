@@ -1,0 +1,24 @@
+{% extends 'admin/admin_shell.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block settingsclass %}active{% endblock %}
+
+{% block heading %}Configuration Settings{% endblock %}
+
+{% block adminbody %}
+
+     <form method="post">
+
+        <div class="form-group">
+            <label>Configuration Label</label>
+            <div class="field-group">
+                <input type="text" id="label" name="label" value="{{label|default('')}}" class="form-control" />
+            </div>
+        </div>
+
+        <input type="submit" value="Save" id="submit" name="submit" class="btn btn-primary" />
+
+     </form>
+  
+{% endblock %}

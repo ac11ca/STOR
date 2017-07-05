@@ -1,0 +1,27 @@
+AppBundle\Entity\ConfigurationSetting:
+    type: entity
+    repositoryClass: AppBundle\Repository\ConfigurationSettingRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        created:
+            type: integer
+            nullable: false
+        settingKey:
+            type: string
+            length: 255
+            unique: true
+            column: setting_key
+        value:
+            type: text
+            nullable: true
+    manyToOne:
+        Configuration:
+            targetEntity: AppBundle\Entity\Configuration
+            inversedBy: settings         
+
+    lifecycleCallbacks: {  }

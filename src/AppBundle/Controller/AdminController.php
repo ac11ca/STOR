@@ -16,6 +16,8 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Factory\AnalyticsFactory;
+use AppBundle\Entity\Configuration;
+use AppBundle\Entity\ConfigurationSetting;
 
 class AdminController extends ApplicationMasterController
 {
@@ -596,10 +598,12 @@ class AdminController extends ApplicationMasterController
                     'results'=>$results
                     ,'chart' => $chart
                     ,'dimensions' => $labels['dimensions']
-                    ,'conditions' => $labels['conditions']
+                    ,'conditions' => $labels['conditions']                
                     ,'values' => $value
                     ,'x' => $labels['x']
                     ,'y' => $labels['y']
+                    ,'from' => $from
+                    ,'to' => $to
                     ,'operators' => $operator
                 ], $_render);               
             }
@@ -608,6 +612,70 @@ class AdminController extends ApplicationMasterController
         );
 
     }
+
+    public function configurationSettingsAction(Request $Request, $id = null)
+    {
+        return $this->handleErrors(
+            function ($Session, $messages) use ($Request, $id)
+            {
+
+                $Doctrine = $this->getDoctrine();
+                $settings = null;
+
+                if(!empty($id))
+                    $settings = $Doctrine->getRepository('AppBundle:ConfigurationSetting')->findByConfiguration($id);
+ 
+                $settings_array = [];
+                if(count($settings) > 0)
+                {
+                    foreach($settings as $Setting)
+                    {
+                        $settings_array[$Setting->getSettingKey()] = $Setting;
+                    }       
+                }
+ 
+                if($Request->isMethod('POST'))
+                {
+                    $form_data = $Request->request->all();
+                    $EntityManager = $Doctrine->getManager();            
+
+                    $Configuration = new Configuration();                    
+                    $title = ParseData::setArray($form_data,'title', 'Configuration');
+                    $Configuration->setLabel($title);
+                    unset($form_data['title']);
+                    $EntityManager->persist($Configuration);
+                    
+                    foreach($form_data as $key=>$value)
+                    {
+                        if(!isset($settings_array[$key]))
+                        {
+                            $Setting = new ConfigurationSetting($Configuration);
+                            $Setting->setSettingKey($key);
+                            $settings_array[$key] = $Setting;                    
+                        }
+                        else 
+                        {
+                            $Setting = $settings_array[$key];
+                        }
+
+                        $Setting->setValue($value);               
+                        $EntityManager->persist($Setting);                   
+
+                    }
+                    $EntityManager->flush();
+                    $messages[] = ViewMessage::constructMessage('Setting configuration created..', 'success');
+                    $Session->set('messages', $messages);
+                    return $this->redirect($this->generateUrl('admin_universal_list', ['reponame'=>'Configuration']));
+                }
+
+                return $this->render("admin/Configuration/configuration.html.twig", [
+                    'settings'=>$settings_array
+                ]);
+            },
+            $this->generateUrl('admin_settings', ['id'=>$id])
+        );
+    }
+
 
     public function preRenderRoute()
     {

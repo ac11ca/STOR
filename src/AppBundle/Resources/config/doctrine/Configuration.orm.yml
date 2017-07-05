@@ -1,0 +1,25 @@
+AppBundle\Entity\Configuration:
+    type: entity
+    repositoryClass: AppBundle\Repository\ConfigurationRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+            created: 
+                type: integer
+                nullable: false                               
+            label:
+                type: text            
+                nullable: false
+    oneToMany:
+        settings:
+            targetEntity: AppBundle\Entity\ConfigurationSetting
+            mappedBy: Configuration
+            joinColumn:
+                setting_id:                    
+                    referencedColumnName:  id
+            
+    lifecycleCallbacks: {  }
