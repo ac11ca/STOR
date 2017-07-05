@@ -11,9 +11,9 @@
 
     <form method="post" action="{{path('admin_report_view')}}">
         <div class="form-group">
-            <input type="date" id="from" name="from" />
+            <input type="date" id="from" name="from" /> UTC
             To:
-            <input type="date" id="to" name="to" />
+            <input type="date" id="to" name="to" /> UTC
         </div>
 
         <div class="form-group">
@@ -31,6 +31,9 @@
                 <option value="a.event_type">Event</option>        
                 <option value="a.category">Category</option>
                 <option value="a.label">Label</option>
+                <option value="">Configuration ID</option>
+                <option value="s.id">Session ID</option>
+                <option value="u.externalId">External ID</option>
             </select>
         </div>
 

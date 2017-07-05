@@ -1,0 +1,36 @@
+{% extends 'admin/admin_shell.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+{% block heading %}View Report{% endblock %}
+{% block reportclass %}active{% endblock %}
+
+{% block javascripts %}
+   <script src="/dist/lib/chart.js/Chart.min.js"></script>
+   <script src="/dist/js/charts.js"></script>	
+{% endblock %}
+
+{% block adminbody %}
+
+    <canvas id="report_chart" data-dataset="{{results|json_encode|e}}" data-title="Y vs. X" data-chart="pie"></canvas>
+
+    <table class="table table-striped">
+        <thead>
+            <th>X</th>
+            <th>Y</th>
+        </thead>
+        <tbody>
+            {% for x,data in results %}
+                <tr>
+                    <td>{{data.x}}</td>
+                    <td>{{data.y}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="form-group">
+        <a class="btn btn-primary" href="{{path('admin_reports')}}">Generate new report</a>
+    </div>  
+
+{% endblock %}
+
