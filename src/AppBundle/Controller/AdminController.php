@@ -621,10 +621,13 @@ class AdminController extends ApplicationMasterController
 
                 $Doctrine = $this->getDoctrine();
                 $settings = null;
-
-                if(!empty($id))
+                $label = null;
+                if(!empty($id)) 
+                {
                     $settings = $Doctrine->getRepository('AppBundle:ConfigurationSetting')->findByConfiguration($id);
- 
+                    $Configuration = $Doctrine->getRepository('AppBundle:Configuration')->find($id);
+                    $label = $Configuration->getLabel();
+                }
                 $settings_array = [];
                 if(count($settings) > 0)
                 {
@@ -670,6 +673,7 @@ class AdminController extends ApplicationMasterController
 
                 return $this->render("admin/Configuration/configuration.html.twig", [
                     'settings'=>$settings_array
+                    ,'label'=>$label
                 ]);
             },
             $this->generateUrl('admin_settings', ['id'=>$id])

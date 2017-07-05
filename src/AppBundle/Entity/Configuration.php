@@ -18,11 +18,13 @@ class Configuration
     private $label;
 
     private $settings;
+    private $products;
 
     public function __construct()
     {
         $this->setCreated(time());
         $this->setSettings(new ArrayCollection());
+        $this->setProducts(new ArrayCollection());
     }
 
     public function getId()
@@ -79,5 +81,34 @@ class Configuration
 
         return $this;
     }
+
+    public function setProducts(ArrayCollection $products)
+    {
+        $this->products = $products;
+        return $this;
+    }
+
+    public function getProducts()
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $Product)
+    {
+        if($this->products->contains($Product))
+            return $this;
+
+        $this->products->add($Product);
+        return $this;
+    }
+
+    public function removeProduct(Product $Product)
+    {
+        if($this->products->contains($Product))
+            $this->products->remove($Product);
+
+        return $this;
+    }
+
 }
 

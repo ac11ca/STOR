@@ -55,5 +55,16 @@ AppBundle\Entity\Product:
                 inverseJoinColumns:
                     author_id:
                         referencedColumnName: id
+        configurations:
+            targetEntity: AppBundle\Entity\Configuration
+            inversedBy: products
+            joinTable:
+                name: product_configurations
+                joinColumns:
+                    product_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    configuration_id:
+                        referencedColumnName: id
 
     lifecycleCallbacks: {  }

@@ -52,6 +52,7 @@ class Product
     private $reviews;
     private $authors;
     private $sales;
+    private $configurations;
 
     /**
      * Constructor
@@ -60,6 +61,7 @@ class Product
     {
         $this->setCreated(time());
         $this->setReviews(new ArrayCollection());
+        $this->setConfigurations(new ArrayCollection());
         $this->setSales(0);
     }
 
@@ -361,4 +363,33 @@ class Product
     {
         return $this->sales;
     }
+
+    public function setConfigurations(ArrayCollection $configurations)
+    {
+        $this->configurations = $configurations;
+        return $this;
+    }
+
+    public function getConfigurations()
+    {
+        return $this->configurations;
+    }
+
+    public function addConfiguration(Configuration $Configuration)
+    {
+        if($this->configurations->contains($Configuration))
+            return $this;
+
+        $this->configurations->add($Configuration);
+        return $this;
+    }
+
+    public function removeConfiguration(Configuration $Configuration)
+    {
+        if($this->configurations->contains($Configuration))
+            $this->configurations->remove($Configuration);
+
+        return $this;
+    }
+
 }
