@@ -11,12 +11,19 @@
 
 {% block adminbody %}
 
-    <canvas id="report_chart" data-dataset="{{results|json_encode|e}}" data-title="Y vs. X" data-chart="pie"></canvas>
+    <canvas id="report_chart" data-dataset="{{results|json_encode|e}}" data-title="{{y}} vs. {{x}}" data-chart="{{chart}}"></canvas>
 
+    {% if not dimensions is empty %}
+        <h3>Filtered by</h3>
+        {% for dimension in dimensions %}
+            <div>{% if loop.index0 > 0 %}{{operators[loop.index0-1]}}{% endif %} {{dimension}} {{conditions[loop.index0]}} &quot;{{values[loop.index0]}}&quot;</div>
+
+        {% endfor %}
+    {% endif %}
     <table class="table table-striped">
         <thead>
-            <th>X</th>
-            <th>Y</th>
+            <th>{{x}}</th>
+            <th>{{y}}</th>
         </thead>
         <tbody>
             {% for x,data in results %}

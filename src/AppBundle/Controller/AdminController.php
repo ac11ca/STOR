@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Factory\AnalyticsFactory;
 
 class AdminController extends ApplicationMasterController
 {
@@ -535,8 +536,18 @@ class AdminController extends ApplicationMasterController
     {
         return $this->handleErrors(
             function ($Session, $messages) use ($Request, $_render)
-            {                               
+            {  
+                $Doctrine = $this->getDoctrine();    
+                $dimension_mappings =  AnalyticsFactory::getDimensionMappings();                        
+                $conditional_mappings =  AnalyticsFactory::getConditionalMappings();                        
+                $x_mappings = AnalyticsFactory::getXOptions();                        
+                $y_mappings = AnalyticsFactory::getYOptions();                        
+
                 return $this->renderRoute("admin/reports/generate.html.twig", [
+                    'dimension_mappings' => $dimension_mappings
+                    ,'conditional_mappings' => $conditional_mappings
+                    ,'x_mappings' => $x_mappings
+                    ,'y_mappings' => $y_mappings
                 ], $_render);               
             }
         ,
@@ -562,7 +573,7 @@ class AdminController extends ApplicationMasterController
                     $condition = ParseData::setArray($form_data, 'condition', []);
                     $value = ParseData::setArray($form_data, 'value', []);
                     $operator = ParseData::setArray($form_data, 'operator', []);
-                 
+                    $chart = ParseData::setArray($form_data, 'charttype', 'line'); 
                     $results = $this->getDoctrine()->getRepository('AppBundle:Analytics')->findByReport(
                         $from
                         ,$to
@@ -578,8 +589,18 @@ class AdminController extends ApplicationMasterController
                 else
                     throw new \Exception(403, 'Invalid request');
 
+
+                $labels = AnalyticsFactory::getFilterLabels($dimension, $condition, $x, $y);    
+               
                 return $this->renderRoute("admin/reports/view.html.twig", [
                     'results'=>$results
+                    ,'chart' => $chart
+                    ,'dimensions' => $labels['dimensions']
+                    ,'conditions' => $labels['conditions']
+                    ,'values' => $value
+                    ,'x' => $labels['x']
+                    ,'y' => $labels['y']
+                    ,'operators' => $operator
                 ], $_render);               
             }
         ,

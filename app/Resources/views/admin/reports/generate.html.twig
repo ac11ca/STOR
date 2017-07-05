@@ -5,11 +5,22 @@
 {% block reportclass %}active{% endblock %}
 
 {% block javascripts %}
+    <script src="/dist/js/filter.js"></script>
 {% endblock %}
 
 {% block adminbody %}
 
     <form method="post" action="{{path('admin_report_view')}}">
+        <div class="form-group">
+            <select id="charttype" name="charttype">
+                <option value="line">Line</option>
+                <option value="bar">Bar</option>
+                <option value="pie">Pie</option>
+                <option value="doughnut">Doughnut</option>
+                <option value="polarArea">Polar Area</option>
+            </select>
+        </div>
+
         <div class="form-group">
             <input type="date" id="from" name="from" /> UTC
             To:
@@ -18,54 +29,28 @@
 
         <div class="form-group">
             Y <select id="y" name="y">
-                <option value="frequency">Frequency</option>
-                <option value="duration">Duration</option>
-                <option value="avgduration">Average Duration</option>
-                <option value="avgfrequency">Average Frequency</option>
+                {% for value,key in y_mappings %}
+                    <option value="{{value}}">{{key}}</option>
+                {% endfor %}   
             </select>
 
             Vs.
 
             X <select id="x" name="x">
-                <option value="a.created">Date</option>
-                <option value="a.event_type">Event</option>        
-                <option value="a.category">Category</option>
-                <option value="a.label">Label</option>
-                <option value="">Configuration ID</option>
-                <option value="s.id">Session ID</option>
-                <option value="u.externalId">External ID</option>
+                {% for value,key in x_mappings %}
+                    <option value="{{value}}">{{key}}</option>
+                {% endfor %}
             </select>
         </div>
 
-        <div class="form-group">
-            <select name="dimension[]" id="dimension_0">
-                <option></option>
-                <option value="u.externalId">User external id</option>
-                <option value="u.ip_address">User IP</option>
-                <option value="s.id">Session ID</option>
-                <option value="">Configuration ID</option>
-                <option value="a.event_type">Event Type</option>
-                <option value="a.category">Category</option>
-                <option value="a.label">Label</option>
-            </select>
+        {% set prototype %} 
+            {% include 'admin/components/filter.html.twig' with {'filter_index':'**index**', 'dimension_mappings':dimension_mappings} %}
+        {% endset %}
+        <div id="filter_control" data-prototype="{{prototype|e}}" data-index="1">
 
-            <select name="condition[]" id="condition_0">
-                <option value="=">Equals</option>
-                <option value="like">Contains</option>
-                <option value="<">Is less than</option>
-                <option value="<=">Is less than or equal to</option>
-                <option value=">">Is greater than</option>
-                <option value=">=">Is greater than or equal to</option>            
-            </select>
-  
-            <input type="text" name="value[]" id="value_0" placeholder="Value" />
+            <button class="js-add-filter">Add filter</button>
 
-            <select id="operator_0" name="operator[]">
-                <option>And</option>
-                <option>Or</option>
-            </select>
-
-            <button>Add filter</button>
+            {% include 'admin/components/filter.html.twig' with {'filter_index': '0','dimension_mappings':dimension_mappings, 'conditional_mappings':conditional_mappings} %}
         </div>
 
         <div class="form-group">

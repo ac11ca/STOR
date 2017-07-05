@@ -19,11 +19,11 @@ class AnalyticsRepository extends ApplicationMasterRepository
             ->innerJoin('s.User', 'u');
 
         if(!empty($from))
-            $query->andWhere('a.created >= :from')
+            $query->andWhere('a.time >= :from')
                 ->setParameter(':from', $from);
 
         if(!empty($to))
-            $query->andWhere('a.created <= :to')
+            $query->andWhere('a.time <= :to')
                 ->setParameter(':to', $to);
 
         switch($y)
@@ -52,7 +52,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
             $dimensional = $dimension[$i];
             $conditional = $condition[$i];
             $valueset = $value[$i];
-            $clause = $dimensional . ' ' . $conditional . ' :value';
+            $clause = $dimensional . ' ' . $conditional . ' :value_' . $i;
 
             if($i > 0 && $operator[$i-1] == 1)
                 $query->orWhere($clause);
@@ -60,9 +60,9 @@ class AnalyticsRepository extends ApplicationMasterRepository
                 $query->andWhere($clause);
 
             if($conditional == 'like')
-                $query->setParameter(':value', "%$valueset%");
+                $query->setParameter(':value_' . $i, "%$valueset%");
             else
-                $query->setParameter(':value', $valueset);
+                $query->setParameter(':value_' . $i, $valueset);
         }
 
         $results = $query->getQuery()->getResult();
@@ -80,4 +80,5 @@ class AnalyticsRepository extends ApplicationMasterRepository
     
         return $graph_data;
     }
+
 }

@@ -1,0 +1,30 @@
+    <div class="form-group" id="filter_container_{{filter_index}}">
+
+        {% if not filter_index == 0 %}
+            <select id="operator_{{filter_index}}" name="operator[]">
+                <option>And</option>
+                <option>Or</option>
+            </select>
+        {% endif %}
+
+        <select name="dimension[]" id="dimension_{{filter_index}}">
+            <option></option>
+            {% for value,dimension in dimension_mappings %}
+                <option value="{{value}}">{{dimension}}</option>
+            {% endfor %}
+        </select>
+
+        <select name="condition[]" id="condition_{{filter_index}}">
+            {% for value,condition in conditional_mappings %}
+                <option value="{{value}}">{{condition}}</option>
+            {% endfor %}
+        </select>
+
+        <input type="text" name="value[]" id="value_{{filter_index}}" placeholder="Value" />
+
+        {% if not filter_index == 0 %}
+            <span class="glyphicon glyphicon-remove" id="filter_remove_{{filter_index}}" data-target="#filter_container_{{filter_index}}"></span>
+        {% endif %}
+
+    </div>
+

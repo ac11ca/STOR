@@ -15,7 +15,7 @@ class Analytics
     /**
      * @var integer
      */
-    private $created;
+    private $time;
 
     /**
      * @var string
@@ -33,7 +33,7 @@ class Analytics
         $this->setEventType($event);
         $this->setLabel($label);
         $this->setCategory($category);
-        $this->setCreated(time());
+        $this->setTime(time());
     }
 
     /**
@@ -53,27 +53,27 @@ class Analytics
     }
 
     /**
-     * Set created
+     * Set time
      *
-     * @param integer $created
+     * @param integer $time
      *
      * @return Analytics
      */
-    public function setCreated($created)
+    public function setTime($time)
     {
-        $this->created = $created;
+        $this->time = $time;
 
         return $this;
     }
 
     /**
-     * Get created
+     * Get time
      *
      * @return integer
      */
-    public function getCreated()
+    public function getTime()
     {
-        return $this->created;
+        return $this->time;
     }
 
     /**
