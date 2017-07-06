@@ -6,7 +6,7 @@ use AppBundle\Entity\Product;
 
 class ProductFactory extends ApplicationMasterFactory
 { 
-    protected $fieldKeys = ['name','image','title','authors','price','tags','active','sales'];
+    protected $fieldKeys = ['name','image','title','authors','price','tags','active','sales','configurations'];
     protected $EntityType = 'AppBundle\Entity\Product';
 
     public function __construct($Repository, $Doctrine, $Manager)
@@ -22,6 +22,10 @@ class ProductFactory extends ApplicationMasterFactory
             )
             ,'Image' => $this->initializeField(
                 'image', 'Image', '',''             
+            ),
+            'Configurations' => $this->initializeField(
+                'select', 'Configurations', null, null, ['required'],
+                $this->getConfigurationOptions()
             )
             ,'Description' => $this->initializeField(
                 'richtext', 'Description', '', ''
@@ -68,4 +72,20 @@ class ProductFactory extends ApplicationMasterFactory
            ]
        ]; 
     }
+
+    public function getConfigurationOptions()
+    {
+        $configurations = $this->getDoctrine()->getRepository('AppBundle:Configuration')->findBy([], ['id'=>'DESC']);
+        return [
+           'selectOptions' => [
+               'type' => 'entity'	
+			   ,'multiple' => true
+               ,'options' => $configurations
+               ,'repository' => 'AppBundle:Configuration'
+               ,'valueGetter' => 'getId'
+               ,'labelGetter' => 'getId'
+           ]
+       ]; 
+    }
+
 }
