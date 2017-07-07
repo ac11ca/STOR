@@ -79,7 +79,7 @@ class AnalyticsFactory extends ApplicationMasterFactory
             ,'a.event_type' => 'Event'
             ,'a.category' => 'Category'
             ,'a.label' => 'Label'
-            ,'' => 'Configuration ID'
+            ,'c.id' => 'Configuration ID'
             ,'s.id' => 'Session ID'
             ,'u.externalId' => 'External ID'
         ];

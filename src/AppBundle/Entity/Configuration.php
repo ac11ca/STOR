@@ -19,12 +19,14 @@ class Configuration
 
     private $settings;
     private $products;
+    private $sessions;
 
     public function __construct()
     {
         $this->setCreated(time());
         $this->setSettings(new ArrayCollection());
         $this->setProducts(new ArrayCollection());
+        $this->setSessions(new ArrayCollection());
     }
 
     public function getId()
@@ -104,11 +106,54 @@ class Configuration
 
     public function removeProduct(Product $Product)
     {
-        if($this->products->contains($Product))
-            $this->products->remove($Product);
+        if($this->sessions->contains($Product))
+            $this->sessions->remove($Product);
 
         return $this;
     }
 
+    public function setSessions(ArrayCollection $sessions)
+    {
+        $this->sessions = $sessions;
+        return $this;
+    }
+
+    public function getSessions()
+    {
+        return $this->sessions;
+    }
+
+    public function addSession(Session $Session)
+    {
+        if($this->sessions->contains($Session))
+            return $this;
+
+        $this->sessions->add($Session);
+        return $this;
+    }
+
+    public function removeSession(Session $Session)
+    {
+        if($this->sessions->contains($Session))
+            $this->sessions->remove($Session);
+
+        return $this;
+    }
+
+
+    public function getAllConfigurationSettings()
+    {
+        $settings_formatted = [];
+        $settings = $this->getSettings();
+        if(!empty($settings))
+        {
+            foreach($settings as $ConfigurationSetting)
+            {
+                $settings_formatted[$ConfigurationSetting->getSettingKey()] = $ConfigurationSetting->getValue();
+            }
+        }
+
+        return $settings_formatted;
+    }
 }
 

@@ -28,10 +28,11 @@ class DefaultController extends ApplicationMasterController
                 {
                     $form_data = $Request->request->all();
                     $user = ParseData::setArray($form_data, 'user', null);
+                    $configuration = ParseData::setArray($form_data, 'configuration', null); 
                     if(empty($user))
                         throw new \Exception('Invalid user id');
 
-                    return $this->redirect($this->generateUrl('index', ['user'=>$user]));
+                    return $this->redirect($this->generateUrl('index', ['user'=>$user, 'configuration'=>$configuration]));
                 }
                 else 
                 {
@@ -52,13 +53,16 @@ class DefaultController extends ApplicationMasterController
 		);
     }
 
-    public function indexAction(Request $Request, $user, $_render = 'HTML')
+    public function indexAction(Request $Request, $user, $configuration, $_render = 'HTML')
     {
          return $this->handleErrors(
-            function ($Session, $messages) use ($Request, $user, $_render)
+            function ($Session, $messages) use ($Request, $user, $configuration, $_render)
             {       
                 if(empty($user))
                     throw new \Exception('Invalid user id');
+
+                if(empty($configuration))
+                    throw new \Exception('Invalid configuration id');
 
                 $Session->clear();
                 $visit = $this->getCurrentVisit('index_visit', $Session);
@@ -75,7 +79,14 @@ class DefaultController extends ApplicationMasterController
                     $UserManager->updateUser($User);
                 }
 
-                $DBSession = new DBSession($User);
+
+                $Configuration = $this->getDoctrine()->getRepository('AppBundle:Configuration')->find($configuration);
+                if(empty($Configuration))
+                    throw new \Exception('Invalid configuration id');
+
+                $Session->set('configuration', $configuration);
+
+                $DBSession = new DBSession($User, $Configuration);
                 $EntityManager = $this->getDoctrine()->getManager();
                 $EntityManager->persist($DBSession);
                 $EntityManager->flush();
@@ -110,14 +121,16 @@ class DefaultController extends ApplicationMasterController
             function ($Session, $messages) use ($Request, $term, $page, $_render)
             {            
                 $visit = $this->getCurrentVisit('results_visit', $Session);
-                $pagination_settings = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('pagination');                 
-                $products = $this->getDoctrine()->getRepository('AppBundle:Product')->findByFilter($term,null,$page, $pagination_settings['items_per_page']);               
+                $Configuration = $this->loadConfiguration($Session->get('configuration'));
+                $settings = $Configuration->getAllConfigurationSettings();
+                $products = $this->getDoctrine()->getRepository('AppBundle:Product')->findByFilter($term,null,$page, $settings['srs_products_per_page']);               
                 $ratings = $this->getDoctrine()->getRepository('AppBundle:Review')->findByProductAverages($products['result']);
                 return $this->renderRoute(
                     'default/results.html.twig'
                     ,[
                         'products' => $products
-                        ,'items_per_page' => $pagination_settings['items_per_page']
+                        ,'items_per_page' => $settings['srs_products_per_page']
+                        ,'settings'=> $settings
                         ,'ratings' => $ratings
 						,'page' => $page
                         ,'visit' => $visit
@@ -137,6 +150,8 @@ class DefaultController extends ApplicationMasterController
             function ($Session, $messages) use ($Request, $_render, $product)
             {    
                 $visit = $this->getCurrentVisit('details_visit_' . $product, $Session);
+                $Configuration = $this->loadConfiguration($Session->get('configuration'));
+                $settings = $Configuration->getAllConfigurationSettings();
 
                 $Product = $this->getDoctrine()->getRepository('AppBundle:Product')->find($product);                                  
                 $ratings = $this->getDoctrine()->getRepository('AppBundle:Review')->findByProductAverages(new ArrayCollection([$Product]));
@@ -147,7 +162,8 @@ class DefaultController extends ApplicationMasterController
                     'default/details.html.twig'
                     ,[
                         'Product' => $Product
-                        ,'ratings' => $ratings  
+                        ,'ratings' => $ratings 
+                        ,'settings' => $settings 
                         ,'ratings_by_value' => $ratings_by_value
                         ,'term' => $Session->get('term')
                         ,'visit' => $visit
@@ -182,9 +198,10 @@ class DefaultController extends ApplicationMasterController
                     $page = 1;
                 }
 
-                $settings = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('');
+                $Configuration = $this->loadConfiguration($Session->get('configuration'));
+                $settings = $Configuration->getAllConfigurationSettings();
                 $Product = $this->getDoctrine()->getRepository('AppBundle:Product')->find($product);                                  
-                $reviews = $this->getDoctrine()->getRepository('AppBundle:Review')->findByFilter(null,$Product->getId(), $page, $settings['reviewsperpage'], $sort, $dir);
+                $reviews = $this->getDoctrine()->getRepository('AppBundle:Review')->findByFilter(null,$Product->getId(), $page, $settings['crs_reviews_per_page'], $sort, $dir);
 
                 return $this->renderRoute(
                     'default/reviews.html.twig'
@@ -194,7 +211,7 @@ class DefaultController extends ApplicationMasterController
                         ,'review_count' => $reviews['count']
                         ,'page' => $page
                         ,'term' => $Session->get('term')
-                        ,'reviews_per_page' => $settings['reviewsperpage']
+                        ,'reviews_per_page' => $settings['crs_reviews_per_page']
                         ,'sort' => $sort . ':' . $dir
                         ,'visit' => $visit
                     ]
@@ -413,6 +430,14 @@ class DefaultController extends ApplicationMasterController
         );
     }
 
+    private function loadConfiguration($configuration)
+    {
+        $Configuration = $this->getDoctrine()->getRepository('AppBundle:Configuration')->find($configuration);
+        if(empty($Configuration))
+            throw new \Exception('Invalid configuration id');
+
+        return $Configuration;
+    }
 
     private function getCurrentVisit($page_id, $Session)
     {

@@ -14,7 +14,6 @@ AppBundle\Entity\ConfigurationSetting:
         settingKey:
             type: string
             length: 255
-            unique: true
             column: setting_key
         value:
             type: text

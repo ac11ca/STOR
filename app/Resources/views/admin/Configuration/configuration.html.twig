@@ -10,10 +10,27 @@
 
      <form method="post">
 
+        <h2>Configuration</h2>
         <div class="form-group">
             <label>Configuration Label</label>
             <div class="field-group">
                 <input type="text" id="label" name="label" value="{{label|default('')}}" class="form-control" />
+            </div>
+        </div>
+
+        <h2>Search Results Screen</h2>
+        <div class="form-group">
+            <label>Products per page</label>
+            <div class="field-group">
+                <input type="number" id="srs_products_per_page" name="srs_products_per_page" value="{{srs_products_per_page|default('3')}}" class="form-control" />
+            </div>
+        </div>
+
+        <h2>Customer Reviews Screen</h2>
+        <div class="form-group">
+            <labels>Reviews per page</label>
+            <div class="field-group">
+                <input type="number" id="crs_reviews_per_page" name="crs_reviews_per_page" value="{{crs_reviews_per_page|default('3')}}" class="form-control" />
             </div>
         </div>
 

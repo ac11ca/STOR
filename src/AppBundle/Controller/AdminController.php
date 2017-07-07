@@ -636,35 +636,29 @@ class AdminController extends ApplicationMasterController
                         $settings_array[$Setting->getSettingKey()] = $Setting;
                     }       
                 }
- 
+
                 if($Request->isMethod('POST'))
                 {
                     $form_data = $Request->request->all();
                     $EntityManager = $Doctrine->getManager();            
-
                     $Configuration = new Configuration();                    
-                    $title = ParseData::setArray($form_data,'title', 'Configuration');
+                    $title = ParseData::setArray($form_data,'label', 'Configuration');
                     $Configuration->setLabel($title);
-                    unset($form_data['title']);
+                    unset($form_data['label']);
+                    unset($form_data['submit']);
+
                     $EntityManager->persist($Configuration);
                     
                     foreach($form_data as $key=>$value)
                     {
-                        if(!isset($settings_array[$key]))
-                        {
-                            $Setting = new ConfigurationSetting($Configuration);
-                            $Setting->setSettingKey($key);
-                            $settings_array[$key] = $Setting;                    
-                        }
-                        else 
-                        {
-                            $Setting = $settings_array[$key];
-                        }
-
+                        $Setting = new ConfigurationSetting($Configuration);
+                        $Setting->setSettingKey($key);
+                        $settings_array[$key] = $Setting;                                                
                         $Setting->setValue($value);               
                         $EntityManager->persist($Setting);                   
 
                     }
+
                     $EntityManager->flush();
                     $messages[] = ViewMessage::constructMessage('Setting configuration created..', 'success');
                     $Session->set('messages', $messages);

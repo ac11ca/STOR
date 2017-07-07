@@ -11,21 +11,15 @@ class Session
      * @var guid
      */
     private $id;
-
-    /**
-     * @var integer
-     */
     private $created;
-
-    /**
-     * @var \AppBundle\Entity\User
-     */
     private $User;
+    private $Configuration;
 
-    public function __construct(User $User)
+    public function __construct(User $User, Configuration $Configuration)
     {
         $this->setUser($User);
         $this->setCreated(time());
+        $this->setConfiguration($Configuration);
     }
 
 
@@ -124,5 +118,17 @@ class Session
     public function getAnalytics()
     {
         return $this->analytics;
+    }
+
+
+    public function getConfiguration()
+    {
+        return $this->Configuration;
+    }
+
+    public function setConfiguration(Configuration $Configuration)
+    {
+        $this->Configuration = $Configuration;
+        return $this;
     }
 }

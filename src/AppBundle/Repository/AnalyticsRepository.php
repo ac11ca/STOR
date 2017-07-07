@@ -16,7 +16,8 @@ class AnalyticsRepository extends ApplicationMasterRepository
         $graph_data = [];                
 
         $query->innerJoin('a.Session', 's')
-            ->innerJoin('s.User', 'u');
+            ->innerJoin('s.User', 'u')
+            ->innerJoin('s.Configuration', 'c');
 
         if(!empty($from))
             $query->andWhere('a.time >= :from')
@@ -29,7 +30,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
         switch($y)
         {
            case 'duration':
-            $query->select('a as duration');
+            $query->select('a.time as duration');
            break;
 
            case 'frequency':
@@ -37,11 +38,11 @@ class AnalyticsRepository extends ApplicationMasterRepository
            break; 
 
            case 'avgduration':
-            $query->select('a as avgduration');
+            $query->select('avg(a) as avgduration');
            break;
 
            case 'avgfrequency':
-            $query->select('count(a) as avgfrequency,' . $x);
+            $query->select('avg(a) as avgfrequency,' . $x);
            break;
         }
 

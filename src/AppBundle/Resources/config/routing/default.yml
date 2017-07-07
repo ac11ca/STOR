@@ -3,8 +3,8 @@ root:
     defaults: { _controller: AppBundle:Default:root }
     
 index:
-    path: /start/{user}/{_render}
-    defaults: {_controller: AppBundle:Default:index, user: null, _render:'HTML'}       
+    path: /start/{user}/{configuration}/{_render}
+    defaults: {_controller: AppBundle:Default:index, user: null, configuration: null, _render:'HTML'}       
                                                      
 search_results:
     path: /search/results/{term}/{page}/{_render}

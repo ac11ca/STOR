@@ -21,5 +21,10 @@ AppBundle\Entity\Configuration:
             joinColumn:
                 setting_id:                    
                     referencedColumnName:  id
-            
+        sessions:
+            targetEntity: AppBundle\Entity\Session
+            mappedBy: Configuration
+            joinColumn:
+                session_id:
+                    referencedColumName: id            
     lifecycleCallbacks: {  }
