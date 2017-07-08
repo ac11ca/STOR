@@ -61,11 +61,11 @@
                                     role="progressbar"		 	 
                                     aria-valuemin="0"
                                     aria-valuemax="100" 
-                                    style="width: {% spaceless %}{% if ratings_by_value[rating] is defined %}{{ratings_by_value[rating]['percent'] * 100|number_format(0,'.',',')}}{% else %}0{% endif %}%{% endspaceless %}">
+                                    style="width: {% spaceless %}{% if ratings_by_value[rating] is defined %}{{(ratings_by_value[rating]['percent'] * 100)|number_format(0,'.',',')}}{% else %}0{% endif %}%{% endspaceless %}">
                                   </div>
                                 </div>
                             </td>
-                            <td class="percent-cell">{% spaceless %}{% if ratings_by_value[rating] is defined %}{{ratings_by_value[rating]['percent'] * 100|number_format(0,'.',',')}}%{% else %}0%{% endif %}{% endspaceless %}</td>
+                            <td class="percent-cell">{% spaceless %}{% if ratings_by_value[rating] is defined %}{{(ratings_by_value[rating]['percent'] * 100)|number_format(0,'.',',')}}%{% else %}0%{% endif %}{% endspaceless %}</td>
                         </tr>
                     {% endfor %}
                 </table>

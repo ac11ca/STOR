@@ -18,6 +18,30 @@
             </div>
         </div>
 
+        <h2>Instructions Screen</h2>
+
+        <div class="form-group">
+            <label>Instructions Title Text</label>
+            <div class="field-group">
+                <input type="text" id="instructions_title_text" name="instructions_title_text" value="{{instructions_title_text|default('Proceed')}}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Instructions Text</label>
+            <div class="field-group">
+                <textarea id="instructionsg_text" name="instructions_button_text" value="{{instructions_button_text|default('Proceed')}}" class="form-control">{{instructions_button_text|default('')}}</textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Instructions Button Text</label>
+            <div class="field-group">
+                <input type="number" id="instructions_button_text" name="instructions_button_text" value="{{instructions_button_text|default('Proceed')}}" class="form-control" />
+            </div>
+        </div>
+
+
         <h2>Search Results Screen</h2>
         <div class="form-group">
             <label>Products per page</label>
