@@ -38,6 +38,10 @@ class ReviewFactory extends ApplicationMasterFactory
             ,'Reviewer' => $this->initializeField(
                 'text', 'Reviewer', '','',['required']
             )
+            ,'HelpScore' => $this->initializeField(
+                'number', 'Helpfulness', 0,0,['required']
+            )
+
         ]);
 
         parent::__construct($Repository, $Doctrine, $Manager);

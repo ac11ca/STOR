@@ -1,0 +1,25 @@
+{% extends 'admin/admin_shell.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block globalscripts %}
+{% endblock %}
+
+{% block adminbody %}
+   <form {% block method %}method="post"{% endblock %} {% block action %}{% endblock %} {% block enctype %}enctype="multipart/form-data" {% endblock %} {%block formattr%}{% endblock %}>
+		<div class="form-group">
+			{% block fieldlabel %}
+				<label>
+					{% block entityname %}{% endblock %}File (xlsx)
+				</label>
+			{% endblock %}
+			{% block uploadfield %}
+				<input type="file" name="importdata" id="importdata" />
+			{% endblock %}
+			{% block submitbutton %}
+				<input type="submit" value="Upload" class="btn btn-primary" />
+			{% endblock %}
+		</div>
+	</form> 
+
+{% endblock %}
