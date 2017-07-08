@@ -92,9 +92,12 @@ class ImportCommand extends ApplicationMasterCommand
                 {
                     $row_data = $this->processRow($Row);
                     $Entity = $this->Factory->createEntityFromArray($row_data);
-                    $EntityManager->persist($Entity);
-                    if($row % $batch_size == 0)
-                        $EntityManager->flush();                    
+                    if(!empty($Entity))
+                    {
+                        $EntityManager->persist($Entity);
+                        if($row % $batch_size == 0)
+                            $EntityManager->flush();                    
+                    }
                 }
 
                 $row++;
@@ -102,9 +105,6 @@ class ImportCommand extends ApplicationMasterCommand
 		}
 
         $EntityManager->flush();
-
-		$message = $added_count . " records added, " . $update_count . " records updated.";
-		$output->writeln('Import of ' . $file . ' Completed Successfully. ' . $added_count . ' records added, ' . $update_count . ' records updated');
 
 		unlink($this->file);
 	}

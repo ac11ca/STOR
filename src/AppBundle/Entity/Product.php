@@ -364,9 +364,9 @@ class Product
         return $this->sales;
     }
 
-    public function setConfigurations(ArrayCollection $configurations)
+    public function setConfigurations(ArrayCollection $configurations = null)
     {
-        $this->configurations = $configurations;
+        $this->configurations = empty($configurations) ?  new ArrayCollection() : $configurations;
         return $this;
     }
 

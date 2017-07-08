@@ -21,11 +21,11 @@ class ProductFactory extends ApplicationMasterFactory
                 'text', 'Title','','',['required'] 
             )
              ,'Authors' => $this->initializeField(
-                'select', 'Authors', null,null,['required'],
+                'select', 'Authors', null,null,null,
                 $this->getAuthorOptions()
             )
 	        ,'Price' => $this->initializeField(
-                'number', 'Price', 0.00,null,['required'], ['step'=>0.01]
+                'number', 'Price', 0.00,null,null, ['step'=>0.01]
             )
             ,'Description' => $this->initializeField(
                 'richtext', 'Description', '', ''
@@ -35,7 +35,7 @@ class ProductFactory extends ApplicationMasterFactory
                 'image', 'Image', '',''             
             )
             ,'Configurations' => $this->initializeField(
-                'select', 'Configurations', null, null, ['required'],
+                'select', 'Configurations', null, null,
                 $this->getConfigurationOptions()
             )
             ,'Sales' => $this->initializeField(
