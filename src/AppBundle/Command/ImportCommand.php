@@ -80,7 +80,6 @@ class ImportCommand extends ApplicationMasterCommand
 	{
 		$objPHPExcel = \PHPExcel_IOFactory::load($this->file);
         $row = null;
-        $entity_data = [];      
         $batch_size = empty($this->settings['importbatchsize']) ? 20 : $this->settings['importbatchsize'];
         $EntityManager = $this->Doctrine->getManager();
 
@@ -91,8 +90,8 @@ class ImportCommand extends ApplicationMasterCommand
 			{         
                 if($row > 0)  //Account for a header row                
                 {
-                    $entity_data[] = $this->processRow($Row);
-                    $Entity = $this->Factory->createEntityFromArray($entity_data);
+                    $row_data = $this->processRow($Row);
+                    $Entity = $this->Factory->createEntityFromArray($row_data);
                     $EntityManager->persist($Entity);
                     if($row % $batch_size == 0)
                         $EntityManager->flush();                    
@@ -118,7 +117,7 @@ class ImportCommand extends ApplicationMasterCommand
 
         foreach ($cellIterator as $Cell) 
         {
-            $cellIndex = \PHPExcel_Cell::columnIndexFromString($Cell->getColumn());                         
+            $cellIndex = \PHPExcel_Cell::columnIndexFromString($Cell->getColumn())-1;                         
             $row_data[$cellIndex]['value'] = $Cell->getCalculatedValue();
             $row_data[$cellIndex]['field'] = $this->cell_mappings[$cellIndex];  
         }    
