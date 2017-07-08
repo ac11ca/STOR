@@ -48,7 +48,11 @@
         "cyint/admin-bundle-php":"dev-master",
         "cyint/custom-content-php":"dev-master",
         "cyint/masterrepository":"dev-master",
-        "beberlei/DoctrineExtensions": "^1.0"
+        "cyint/master-command-php":"dev-master",
+        "beberlei/DoctrineExtensions": "^1.0",
+        "PHPOffice/PHPExcel": "dev-master",
+        "dompdf/dompdf": "0.7.x@beta",
+        "phpoffice/phpword": "^0.12.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

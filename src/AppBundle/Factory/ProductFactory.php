@@ -20,25 +20,26 @@ class ProductFactory extends ApplicationMasterFactory
             ,'Name' => $this->initializeField(
                 'text', 'Title','','',['required'] 
             )
-            ,'Image' => $this->initializeField(
-                'image', 'Image', '',''             
-            ),
-            'Configurations' => $this->initializeField(
-                'select', 'Configurations', null, null, ['required'],
-                $this->getConfigurationOptions()
-            )
-            ,'Description' => $this->initializeField(
-                'richtext', 'Description', '', ''
-            )
-            ,'Sales' => $this->initializeField(
-                'number', 'Sales', 0, 0
-            )
-            ,'Authors' => $this->initializeField(
+             ,'Authors' => $this->initializeField(
                 'select', 'Authors', null,null,['required'],
                 $this->getAuthorOptions()
             )
 	        ,'Price' => $this->initializeField(
                 'number', 'Price', 0.00,null,['required'], ['step'=>0.01]
+            )
+            ,'Description' => $this->initializeField(
+                'richtext', 'Description', '', ''
+            )
+
+            ,'Image' => $this->initializeField(
+                'image', 'Image', '',''             
+            )
+            ,'Configurations' => $this->initializeField(
+                'select', 'Configurations', null, null, ['required'],
+                $this->getConfigurationOptions()
+            )
+            ,'Sales' => $this->initializeField(
+                'number', 'Sales', 0, 0
             )
             ,'Tags' => $this->initializeField(
                 'text', 'Tags (comma separated)', '',''
