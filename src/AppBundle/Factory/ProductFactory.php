@@ -35,7 +35,7 @@ class ProductFactory extends ApplicationMasterFactory
                 'image', 'Image', '',''             
             )
             ,'Configurations' => $this->initializeField(
-                'select', 'Configurations', null, null,
+                'select', 'Configurations', null, null, null,
                 $this->getConfigurationOptions()
             )
             ,'Sales' => $this->initializeField(
