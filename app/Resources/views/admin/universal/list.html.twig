@@ -29,6 +29,10 @@
         <a href="{{path('admin_universal_import', {parentid:id, reponame:reponame})}}" class="btn btn-primary">{% block importlabel %}Import{% endblock %}</a>
     {% endblock %}
 
+    {% block exportbutton %}
+        <a href="{{path('admin_universal_export', {parentid:id, reponame:reponame, mode:'excel'})}}" class="btn btn-primary">{% block exportlabel %}Export Excel{% endblock %}</a>  
+    {% endblock %}
+
     {% if not entity_list is empty %}
         <table class="table table-striped" id="list" data-deleteurl="{{path('admin_universal_delete',{reponame:reponame, id:null})}}">
             {% block table %}
