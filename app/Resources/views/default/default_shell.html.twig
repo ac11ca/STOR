@@ -27,14 +27,16 @@
 
 {% block mainbody %}
         {% block searchbar %}
-            <div id="searchbar">
-                <div id="logo_small">
+            {% if settings is not defined or settings['srs_display_search'] %}
+                <div id="searchbar">
+                    <div id="logo_small">
+                    </div>
+                    <div class="input-group">
+                      <input type="text" readonly class="form-control" placeholder="Search" aria-describedby="basic-addon1" value="{% if term is defined %}{{term}}{% endif %}">
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                    </div>
                 </div>
-				<div class="input-group">
-				  <input type="text" readonly class="form-control" placeholder="Search" aria-describedby="basic-addon1" value="{% if term is defined %}{{term}}{% endif %}">
-				  <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-				</div>
-            </div>
+            {% endif %}
         {% endblock %}
         {% block primarybody %}
         {% endblock %}

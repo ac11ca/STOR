@@ -32,7 +32,7 @@ class ReviewRepository extends ApplicationMasterRepository
 			$product_collection = new ArrayCollection($products);
 
         $query = $this->createQueryBuilder('r')
-                    ->select('AVG(r.rating), p.id')
+                    ->select('AVG(r.rating), count(r.rating), p.id')
                     ->innerJoin('r.Product','p')
                     ->where('r.Product in (:products)')
                     ->groupBy('r.Product')
@@ -41,8 +41,8 @@ class ReviewRepository extends ApplicationMasterRepository
 
         for($i = 0; $i < count($result); $i++)
         {
-            $formatted_result[$result[$i]['id']] = $result[$i][1];
-        }
+            $formatted_result[$result[$i]['id']] = ['rating' => $result[$i][1], 'count'=>$result[$i][2]];
+        }        
 
         return $formatted_result;
     }

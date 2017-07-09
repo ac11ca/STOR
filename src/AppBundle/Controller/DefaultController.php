@@ -99,15 +99,12 @@ class DefaultController extends ApplicationMasterController
                 $Session->set('SessionID', $DBSession->getId());
 
                 $CustomContent = $this->getDoctrine()->getRepository('CYINTCustomContentBundle:CustomContent')->find(1);
-                $Session->set('term',$term['term']);
 
-
-                
                 return $this->renderRoute(
                     'default/index.html.twig'
                     ,[
                         'CustomContent' => $CustomContent
-                        ,'term' => $settings['term']
+                        ,'term' => $settings['search_term']
                         ,'visit' => $visit  
                         ,'settings' => $settings
                     ]
@@ -121,16 +118,17 @@ class DefaultController extends ApplicationMasterController
     }
 
 
-    public function searchResultsAction(Request $Request, $term, $page = 1, $_render = 'HTML')
+    public function searchResultsAction(Request $Request, $page = 1, $_render = 'HTML')
     {
          return $this->handleErrors(
-            function ($Session, $messages) use ($Request, $term, $page, $_render)
+            function ($Session, $messages) use ($Request, $page, $_render)
             {           
                 $settings = $this->viewParams['settings']; 
+                $term = $settings['search_term'];
                 $visit = $this->getCurrentVisit('results_visit', $Session);
                 $configuration = $Session->get('configuration');
 
-                $products = $this->getDoctrine()->getRepository('AppBundle:Product')->findByFilter($term,$configuration,$page, $settings['srs_products_per_page']);                
+                $products = $this->getDoctrine()->getRepository('AppBundle:Product')->findByFilter($term, $configuration,$page, $settings['srs_products_per_page']);                
                 if(!empty($settings['srs_display_random']))
                     shuffle($products['result']);
 
@@ -151,7 +149,7 @@ class DefaultController extends ApplicationMasterController
                     , $_render
                 );
             }
-            ,$this->generateUrl('search_results', ['_render'=>$_render, 'term'=>null])
+            ,$this->generateUrl('search_results', ['_render'=>$_render])
 			,$_render
 		);
 
@@ -177,7 +175,6 @@ class DefaultController extends ApplicationMasterController
                         ,'ratings' => $ratings 
                         ,'settings' => $settings 
                         ,'ratings_by_value' => $ratings_by_value
-                        ,'term' => $Session->get('term')
                         ,'visit' => $visit
                     ]
                     , $_render
@@ -221,8 +218,7 @@ class DefaultController extends ApplicationMasterController
                         'Product' => $Product                    
                         ,'reviews' => $reviews['result']
                         ,'review_count' => $reviews['count']
-                        ,'page' => $page
-                        ,'term' => $Session->get('term')
+                        ,'page' => $page                   
                         ,'reviews_per_page' => $settings['crs_reviews_per_page']
                         ,'sort' => $sort . ':' . $dir
                         ,'visit' => $visit
@@ -242,7 +238,6 @@ class DefaultController extends ApplicationMasterController
             function ($Session, $messages) use ($Request, $_render, $product)
             {    
                 $settings = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('');                              
-                $term = $Session->get('term');
                 
                 $User = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(['external_id'=>$Session->get('user_id')]);
 
@@ -269,8 +264,7 @@ class DefaultController extends ApplicationMasterController
                     ,[
                         'products' => $products                
                         ,'items_per_page' => $settings['paginationitemsperpage']
-                        ,'redirect_url' => $settings['formurl']
-                        ,'term' => $term
+                        ,'redirect_url' => $settings['formurl']                   
                         ,'User' => $User
                         ,'visit' => $visit
                     ]
@@ -481,7 +475,7 @@ class DefaultController extends ApplicationMasterController
             $settings = $Configuration->getAllConfigurationSettings();
             $this->viewParams = [
                 'settings' => $settings
-                ,'term' => empty($settings['search_term']) ? : ''
+                ,'term' => empty($settings['search_term']) ? '' : $settings['search_term']
             ];
         }        
     }

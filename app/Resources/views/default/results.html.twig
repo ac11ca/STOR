@@ -10,50 +10,73 @@
 
 
     <h1 class="track-pageview" data-category="SRS_Time_Start" data-label="Visit: {{visit}}">Search Results</h1>
-
     <div id="results">
 
         <div id="page_data">
-            <p>Displaying {{(page-1) * (items_per_page) + 1}}-{{products|length}} of {{total}} results.</p>
+            <p>Displaying {{(page-1) * (items_per_page) + 1}}-{{(products|length) + ((page-1)*(items_per_page))}} of {{total}} results.</p>
         </div>
 
         <div id="product_section">
             {% for Product in products %}
                 <a href="{{path('product_details', {product:Product.id})}}" class="product-href" id="{{Product.id}}">
                     <div id="{{Product.id}}_container" class="product-panel">
-                        <div id="product_image_{{loop.index0}}" class="product-image">
-                            <img src="{{Product.image}}" class="track-event" data-event="click" data-category="SRS_Product_{{Product.id}}_image" data-label="View: {{visit}}">
-                        </div>
+                        {% if settings['srs_display_image'] %}
+                            <div id="product_image_{{loop.index0}}" class="product-image">
+                                <img src="{{Product.image}}" class="track-event" data-event="click" data-category="SRS_Product_{{Product.id}}_image" data-label="View: {{visit}}">
+                            </div>
+                        {% endif %}
 
-                        <div id="product_title_{{loop.index0}}" class="product-name">
-                            <span class="track-event" data-event="click" data-category="SRS_Product_{{Product.id}}_title" data-label="View: {{visit}}">{{Product.name}}
-                        </div>
+                        {% if settings['srs_display_title'] %}
+                            <div id="product_title_{{loop.index0}}" class="product-name">
+                                <span class="track-event" data-event="click" data-category="SRS_Product_{{Product.id}}_title" data-label="View: {{visit}}">{{Product.name}}
+                            </div>
+                        {% endif %}
 
-                        <div id="product_authors_{{loop.index0}}" class="author-names">
-                            <span class="track-event" data-event="cick" data-category="SRS_Product_{{Product.id}}_authors" data-label="View: {{visit}}">
-                                {% for Author in Product.authors %}{% spaceless %}
-                                    {% if loop.index0 > 0 %}, {% endif %}{{Author.name}}
-                                {% endspaceless %}{% endfor %}
-                            </span>
-                        </div>
+                        {% if settings['srs_display_author'] %}
+                            <div id="product_authors_{{loop.index0}}" class="author-names">
+                                <span class="track-event" data-event="cick" data-category="SRS_Product_{{Product.id}}_authors" data-label="View: {{visit}}">
+                                    {% for Author in Product.authors %}{% spaceless %}
+                                        {% if loop.index0 > 0 %}, {% endif %}{{Author.name}}
+                                    {% endspaceless %}{% endfor %}
+                                </span>
+                            </div>
+                        {% endif %}
 
                         <div id="product_ratings_{{loop.index0}}" class="ratings">
-                            <div class="star-ratings-sprite"><span style="width:{% if ratings[Product.id] is defined %}{{(ratings[Product.id]/5)*100}}{% else %}0{% endif %}%" class="star-ratings-sprite-rating"></span></div>
+                            {% if settings['srs_display_stars'] %}
+                                <div class="star-ratings-sprite"><span style="width:{% if ratings[Product.id] is defined %}{{(ratings[Product.id]['rating']/5)*100}}{% else %}0{% endif %}%" class="star-ratings-sprite-rating"></span></div>
+                            {% endif %}
+                            {% if settings['srs_display_reviews'] %}
+                                <span>From {% if ratings[Product.id] is defined %}{{ratings[Product.id]['count']}}{% else %}0{% endif %} review{% if ratings[Product.id] is not defined or ratings[Product.id]['count'] != 1 %}s{% endif %} </span>
+                            {% endif %}    
                         </div>
 
-                        <div id="product_price_{{loop.index0}}" class="price">
-                            ${{Product.price|number_format(2,'.',',')}}
-                        </div>
+                        {% if settings['srs_display_price'] %}
+                            <div id="product_price_{{loop.index0}}" class="price">
+                                ${{Product.price|number_format(2,'.',',')}}                                               
+                            </div>
+                        {% endif %}
+
+                        {% if settings['srs_display_purchase'] %}
+                            <button onclick="event.preventDefault();window.location='{{path('checkout', {product:Product.id})}}';" class="btn btn-primary">Add to Cart</button>
+                        {% endif %}
+
                     </div>
                 </a>
+
             {% endfor %}
         </div>
 
-        {% if index < total %}
-            <a class="btn btn-primary" href="{{path('search_results', {term:term, page:page+1})}}">See More</a>
-        {% endif %}
+        <div class="next-previous">
+            {% if index > products|length %}
+                <a class="btn btn-primary" href="{{path('search_results', {page:page-1})}}">Previous</a>
+            {% endif %}
+            {% if index < total %}
+                <a class="btn btn-primary" href="{{path('search_results', {page:page+1})}}">See More</a>
+            {% endif %}
+        </div>
     </div>
 
-    {% embed 'default/components/navigation.html.twig' with  {'category':'SRS', purchase:true,abandon:true, visit: visit, back: false} %}{% endembed %}
+    {% embed 'default/components/navigation.html.twig' with  {'category':'SRS', purchase:settings['srs_display_purchase'],abandon:settings['srs_display_quit'], visit: visit, back: false} %}{% endembed %}
 
 {% endblock %}

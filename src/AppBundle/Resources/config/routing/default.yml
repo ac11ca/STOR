@@ -7,8 +7,8 @@ index:
     defaults: {_controller: AppBundle:Default:index, user: null, configuration: null, _render:'HTML'}       
                                                      
 search_results:
-    path: /search/results/{term}/{page}/{_render}
-    defaults: {_controller: AppBundle:Default:searchResults, term: null, page: 1, _render:'HTML'}       
+    path: /search/results/{page}/{_render}
+    defaults: {_controller: AppBundle:Default:searchResults, page: 1, _render:'HTML'}       
 
 product_details:
     path: /product/details/{product}/{_render}
