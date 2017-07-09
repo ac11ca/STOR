@@ -30,6 +30,10 @@
                 <div id="product_detail_price">
                     ${{Product.price|number_format(2,'.',',')}}
                 </div>
+
+                <div id="product_add_cart">
+                    <a href="{{path('checkout', {product:Product.id})}}" class="btn btn-primary">Add to Cart</a>
+                </div>
             </div>
 
             <div id="product_detail_decription">
@@ -77,10 +81,6 @@
         </div>
 </div>
 
-<div>
-    <a href="{{path('abandon_shopping')}}" class="btn btn-primary track-event" data-event="click" data-category="PIS_{{Product.Id}}_Abandon_Button" label="Visit: {{visit}}">Abandon Shopping</a>
-    <a href="{{path('search_results', {term:term})}}" class="btn btn-primary" data-event="click" data-category="PIS_{{Product.Id}}_Back_Button" label="Visit: {{visit}}">Back to Search Results</a>
-    <a href="{{path('checkout')}}" class="btn btn-primary" data-category="PIS_{{Product.Id}}_Purchase_Button">Make a Purchase</a>
-</div>
+ {% embed 'default/components/navigation.html.twig' with  {'category':'PIS_{{Product.Id}}', purchase:true,abandon:true, visit: visit, back: true, term: term} %}{% endembed %}
 
 {% endblock %}

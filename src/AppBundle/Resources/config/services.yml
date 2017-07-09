@@ -25,9 +25,6 @@ services:
      app.instagram:
          class: CYINT\ComponentsPHP\Services\InstagramService
          arguments: ["@doctrine", "@app.curl"]
-     app.cart:
-         class: AppBundle\Classes\CartService
-         arguments: ["@doctrine", "@session"]
      app.transaction:
          class: AppBundle\Classes\TransactionService
          arguments: ["@doctrine", "@session"]

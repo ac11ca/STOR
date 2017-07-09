@@ -11,7 +11,11 @@ AppBundle\Entity\Session:
             created: 
                 type: integer
                 nullable: false                               
-
+    manyToMany:
+        products:
+            targetEntity: AppBundle\Entity\Product
+            mappedBy: sessions
+       
     manyToOne:
         User:
             targetEntity: AppBundle\Entity\User

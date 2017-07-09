@@ -19,6 +19,8 @@ use AppBundle\Entity\Session as DBSession;
 use AppBundle\Entity\Analytics;
 class DefaultController extends ApplicationMasterController
 {
+    protected $no_hook = false;
+
     public function rootAction(Request $Request, $_render = 'HTML')
     {
          return $this->handleErrors(
@@ -55,6 +57,7 @@ class DefaultController extends ApplicationMasterController
 
     public function indexAction(Request $Request, $user, $configuration, $_render = 'HTML')
     {
+         $this->no_hook = true;
          return $this->handleErrors(
             function ($Session, $messages) use ($Request, $user, $configuration, $_render)
             {       
@@ -79,10 +82,11 @@ class DefaultController extends ApplicationMasterController
                     $UserManager->updateUser($User);
                 }
 
-
                 $Configuration = $this->getDoctrine()->getRepository('AppBundle:Configuration')->find($configuration);
                 if(empty($Configuration))
                     throw new \Exception('Invalid configuration id');
+
+                $settings = $Configuration->getAllConfigurationSettings();
 
                 $Session->set('configuration', $configuration);
 
@@ -95,15 +99,17 @@ class DefaultController extends ApplicationMasterController
                 $Session->set('SessionID', $DBSession->getId());
 
                 $CustomContent = $this->getDoctrine()->getRepository('CYINTCustomContentBundle:CustomContent')->find(1);
-                $term = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('search');
                 $Session->set('term',$term['term']);
+
+
                 
                 return $this->renderRoute(
                     'default/index.html.twig'
                     ,[
                         'CustomContent' => $CustomContent
-                        ,'term' => $term['term']
+                        ,'term' => $settings['term']
                         ,'visit' => $visit  
+                        ,'settings' => $settings
                     ]
                     , $_render
                 );
@@ -119,18 +125,25 @@ class DefaultController extends ApplicationMasterController
     {
          return $this->handleErrors(
             function ($Session, $messages) use ($Request, $term, $page, $_render)
-            {            
+            {           
+                $settings = $this->viewParams['settings']; 
                 $visit = $this->getCurrentVisit('results_visit', $Session);
-                $Configuration = $this->loadConfiguration($Session->get('configuration'));
-                $settings = $Configuration->getAllConfigurationSettings();
-                $products = $this->getDoctrine()->getRepository('AppBundle:Product')->findByFilter($term,null,$page, $settings['srs_products_per_page']);               
+                $configuration = $Session->get('configuration');
+
+                $products = $this->getDoctrine()->getRepository('AppBundle:Product')->findByFilter($term,$configuration,$page, $settings['srs_products_per_page']);                
+                if(!empty($settings['srs_display_random']))
+                    shuffle($products['result']);
+
+                $index = $page * $settings['srs_products_per_page'];
                 $ratings = $this->getDoctrine()->getRepository('AppBundle:Review')->findByProductAverages($products['result']);
+                
                 return $this->renderRoute(
                     'default/results.html.twig'
                     ,[
-                        'products' => $products
+                        'products' => $products['result']
+                        ,'total' => $products['count']
                         ,'items_per_page' => $settings['srs_products_per_page']
-                        ,'settings'=> $settings
+                        ,'index' => $index
                         ,'ratings' => $ratings
 						,'page' => $page
                         ,'visit' => $visit
@@ -150,7 +163,6 @@ class DefaultController extends ApplicationMasterController
             function ($Session, $messages) use ($Request, $_render, $product)
             {    
                 $visit = $this->getCurrentVisit('details_visit_' . $product, $Session);
-                $Configuration = $this->loadConfiguration($Session->get('configuration'));
                 $settings = $Configuration->getAllConfigurationSettings();
 
                 $Product = $this->getDoctrine()->getRepository('AppBundle:Product')->find($product);                                  
@@ -224,24 +236,38 @@ class DefaultController extends ApplicationMasterController
 
     }
 
-    public function checkoutAction(Request $Request, $_render = 'HTML')
+    public function checkoutAction(Request $Request, $_render = 'HTML', $product = null)
     {
          return $this->handleErrors(
-            function ($Session, $messages) use ($Request, $_render)
+            function ($Session, $messages) use ($Request, $_render, $product)
             {    
                 $settings = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('');                              
                 $term = $Session->get('term');
-                $products = $this->getDoctrine()->getRepository('AppBundle:Product')->findByFilter($term);               
+                
                 $User = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(['external_id'=>$Session->get('user_id')]);
 
                 $visit = $this->getCurrentVisit('checkout_visit', $Session);
 
+                $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
+
+                if($product)
+                {
+                    $Product = $this->getDoctrine()->getRepository('AppBundle:Product')->find($product);
+                    $DBSession->addProduct($Product);
+                    $EntityManager = $this->getDoctrine()->getManager();
+                    $EntityManager->persist($DBSession);
+                    $EntityManager->flush();
+                }
+                
+                $products = $DBSession->getProducts();
+
                 if(!empty($User))
                     $User = array_pop($User);
+
                 return $this->renderRoute(
                     'default/checkout.html.twig'
                     ,[
-                        'products' => $products
+                        'products' => $products                
                         ,'items_per_page' => $settings['paginationitemsperpage']
                         ,'redirect_url' => $settings['formurl']
                         ,'term' => $term
@@ -447,4 +473,16 @@ class DefaultController extends ApplicationMasterController
         return $visit;  
     }
 
+    protected function controllerHook($Session, $messages) 
+    {
+        if(!$this->no_hook && !empty($Session->get('configuration')))
+        {
+            $Configuration = $this->loadConfiguration($Session->get('configuration'));
+            $settings = $Configuration->getAllConfigurationSettings();
+            $this->viewParams = [
+                'settings' => $settings
+                ,'term' => empty($settings['search_term']) ? : ''
+            ];
+        }        
+    }
 }

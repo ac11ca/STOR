@@ -9,50 +9,51 @@
 {% block primarybody %}
 
 
-<h1 class="track-pageview" data-category="SRS_Time_Start" data-label="Visit: {{visit}}">Search Results</h1>
+    <h1 class="track-pageview" data-category="SRS_Time_Start" data-label="Visit: {{visit}}">Search Results</h1>
 
-<div id="results">
+    <div id="results">
 
-    <div id="page_data">
-        <p>Displaying {{products['result']|length}} of {{products['count']}} results.</p>
+        <div id="page_data">
+            <p>Displaying {{(page-1) * (items_per_page) + 1}}-{{products|length}} of {{total}} results.</p>
+        </div>
+
+        <div id="product_section">
+            {% for Product in products %}
+                <a href="{{path('product_details', {product:Product.id})}}" class="product-href" id="{{Product.id}}">
+                    <div id="{{Product.id}}_container" class="product-panel">
+                        <div id="product_image_{{loop.index0}}" class="product-image">
+                            <img src="{{Product.image}}" class="track-event" data-event="click" data-category="SRS_Product_{{Product.id}}_image" data-label="View: {{visit}}">
+                        </div>
+
+                        <div id="product_title_{{loop.index0}}" class="product-name">
+                            <span class="track-event" data-event="click" data-category="SRS_Product_{{Product.id}}_title" data-label="View: {{visit}}">{{Product.name}}
+                        </div>
+
+                        <div id="product_authors_{{loop.index0}}" class="author-names">
+                            <span class="track-event" data-event="cick" data-category="SRS_Product_{{Product.id}}_authors" data-label="View: {{visit}}">
+                                {% for Author in Product.authors %}{% spaceless %}
+                                    {% if loop.index0 > 0 %}, {% endif %}{{Author.name}}
+                                {% endspaceless %}{% endfor %}
+                            </span>
+                        </div>
+
+                        <div id="product_ratings_{{loop.index0}}" class="ratings">
+                            <div class="star-ratings-sprite"><span style="width:{% if ratings[Product.id] is defined %}{{(ratings[Product.id]/5)*100}}{% else %}0{% endif %}%" class="star-ratings-sprite-rating"></span></div>
+                        </div>
+
+                        <div id="product_price_{{loop.index0}}" class="price">
+                            ${{Product.price|number_format(2,'.',',')}}
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+        {% if index < total %}
+            <a class="btn btn-primary" href="{{path('search_results', {term:term, page:page+1})}}">See More</a>
+        {% endif %}
     </div>
 
-    <div id="product_section">
-        {% for Product in products['result'] %}
-            <a href="{{path('product_details', {product:Product.id})}}" class="product-href" id="{{Product.id}}">
-                <div id="{{Product.id}}_container" class="product-panel">
-                    <div id="product_image_{{loop.index0}}" class="product-image">
-                        <img src="{{Product.image}}" class="track-event" data-event="click" data-category="SRS_Product_{{Product.id}}_image" data-label="View: {{visit}}">
-                    </div>
-
-                    <div id="product_title_{{loop.index0}}" class="product-name">
-                        <span class="track-event" data-event="click" data-category="SRS_Product_{{Product.id}}_title" data-label="View: {{visit}}">{{Product.name}}
-                    </div>
-
-                    <div id="product_authors_{{loop.index0}}" class="author-names">
-                        <span class="track-event" data-event="cick" data-category="SRS_Product_{{Product.id}}_authors" data-label="View: {{visit}}">
-                            {% for Author in Product.authors %}{% spaceless %}
-                                {% if loop.index0 > 0 %}, {% endif %}{{Author.name}}
-                            {% endspaceless %}{% endfor %}
-                        </span>
-                    </div>
-
-                    <div id="product_ratings_{{loop.index0}}" class="ratings">
-						<div class="star-ratings-sprite"><span style="width:{% if ratings[Product.id] is defined %}{{(ratings[Product.id]/5)*100}}{% else %}0{% endif %}%" class="star-ratings-sprite-rating"></span></div>
-                    </div>
-
-                    <div id="product_price_{{loop.index0}}" class="price">
-                        ${{Product.price|number_format(2,'.',',')}}
-                    </div>
-                </div>
-            </a>
-        {% endfor %}
-    </div>
-</div>
-
-<div id="navigation_bar">
-    <a href="{{path('abandon_shopping')}}" class="btn btn-primary track-event" data-event="click" data-category="SRS_Abandon" data-label="Visit: {{visit}}">Abandon Shopping</a>
-    <a href="{{path('checkout')}}" class="btn btn-primary" data-event="click" data-category="SRS_Purchase" data-label="Visit {{visit}}">Make a Purchase</a>
-</div>
+    {% embed 'default/components/navigation.html.twig' with  {'category':'SRS', purchase:true,abandon:true, visit: visit, back: false} %}{% endembed %}
 
 {% endblock %}

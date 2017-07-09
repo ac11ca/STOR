@@ -72,11 +72,6 @@
 
 </div>
 
-<div id="#navigation_container">
-    <a href="{{path('abandon_shopping')}}" id="#shopping_btn" class="btn btn-primary track-event" data-event="click" data-category="CRS_{{Product.Id}}_Abandon_Button" data-label="Visit: {{visit}}">Abandon Shopping</a>
-    <a href="{{path('search_results', {term:term})}}"  id="#results_btn" class="btn btn-primary track-event" data-event="click" data-category="CRS_{{Product.Id}}_Back_Button" data-label="Visit: {{visit}}">Back to Search Results</a>
-    <a href="{{path('product_details', {product:Product.id})}}"  id="#product_btn"  class="btn btn-primary track-event" data-event="click" data-category="CRS_{{Product.Id}}_Product_Button" data=label="Visit: {{visit}}">Back to &quot;{{Product.Name}}&quot;</a>
-    <a href="{{path('checkout')}}" class="btn btn-primary track-event" data-event="click" data-category="CRS_{{Product.Id}}_Checkout_Button" data-label="Visit: {{visit}}"  id="#purchase_btn">Make a Purchase</a>
-</div>
+ {% embed 'default/components/navigation.html.twig' with  {'category':'CRS_' ~ Product.Id, purchase:true,abandon:true, visit: visit, back: true, term: term} %}{% endembed %}
 
 {% endblock %}

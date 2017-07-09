@@ -11,18 +11,33 @@
 
 <h1 class="track-pageview" data-category="PS_Time_Start" data-label="Visit: {{visit}}" >Checkout</h1>
 
-<div class="checkout-container" id="checkout_container">
+    <form method="get" action="{{redirect_url}}">
+        <div class="checkout-container" id="checkout_container">
 
-    {% for Product in products %}
-            <div class="checkout-button">
-                    <a href="{{redirect_url}}?product={{Product.id}}&user={{User.ExternalId}}"class="btn btn-primary">Click to confirm &quot;{{Product.name}}&quot; purchase</a>
-            </div>
-    {% endfor %}
-</div>
+            <table class="table table-striped">   
+            <thead>
+                    <th></th>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Purchase</th>
+            </thead>
+            <tbody>
+                {% for Product in products %}
+                    <tr>
+                        <td class="image"><img src="{{Product.image}}" /></td>
+                        <td>{{Product.name}}</td>
+                        <td>${{Product.price|number_format(2,'.',',')}}</td>
+                        <td><input type="radio" name="product" id="product" value="{{Product.id}}" {% if loop.index0 == 0 %}checked{% endif %} /></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
 
-<div>
-    <a href="{{path('abandon_shopping')}}" class="btn btn-primary">Abandon Shopping</a>
-    <a href="{{path('search_results', {term:term})}}" class="btn btn-primary">Back to Search Results</a>
-</div>
+        <input type="hidden" id="user" name="user" value="{{User.ExternalId}}" />
+
+        {% embed 'default/components/navigation.html.twig' with {back:true, category: 'PS', abandon: true, term:term, purchase: false, checkout: true} %}{% endembed %}
+
+    </form>
 
 {% endblock %}

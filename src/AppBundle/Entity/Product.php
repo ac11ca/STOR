@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use \Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Entity\Session;
 
 /**
  * Product
@@ -53,6 +54,7 @@ class Product
     private $authors;
     private $sales;
     private $configurations;
+	private $sessions;
 
     /**
      * Constructor
@@ -62,6 +64,7 @@ class Product
         $this->setCreated(time());
         $this->setReviews(new ArrayCollection());
         $this->setConfigurations(new ArrayCollection());
+		$this->setSessions(new ArrayCollection());
         $this->setSales(0);
     }
 
@@ -391,5 +394,35 @@ class Product
 
         return $this;
     }
+
+    public function setSessions(ArrayCollection $sessions = null)
+    {
+        $this->sessions = empty($sessions) ?  new ArrayCollection() : $sessions;
+        return $this;
+    }
+
+    public function getSessions()
+    {
+        return $this->sessions;
+    }
+
+    public function addSession(Session $Session)
+    {
+        if($this->sessions->contains($Session))
+            return $this;
+
+        $this->sessions->add($Session);
+        return $this;
+    }
+
+    public function removeSession(Session $Session)
+    {
+        if($this->sessions->contains($Session))
+            $this->sessions->remove($Session);
+
+        return $this;
+    }
+
+
 
 }

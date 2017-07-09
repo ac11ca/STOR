@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Entity;
+use \Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Session
@@ -14,12 +15,14 @@ class Session
     private $created;
     private $User;
     private $Configuration;
+    private $products;
 
     public function __construct(User $User, Configuration $Configuration)
     {
         $this->setUser($User);
         $this->setCreated(time());
         $this->setConfiguration($Configuration);
+        $this->setProducts(new ArrayCollection());
     }
 
 
@@ -129,6 +132,34 @@ class Session
     public function setConfiguration(Configuration $Configuration)
     {
         $this->Configuration = $Configuration;
+        return $this;
+    }
+
+    public function setProducts(ArrayCollection $products)
+    {
+        $this->products = $products;
+        return $this;
+    }
+
+    public function getProducts()
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $Product)
+    {
+        if($this->products->contains($Product))
+            return $this;
+
+        $this->products->add($Product);
+        return $this;
+    }
+
+    public function removeProduct(Product $Product)
+    {
+        if($this->products->contains($Product))
+            $this->products->remove($Product);
+
         return $this;
     }
 }

@@ -19,8 +19,8 @@ product_reviews:
     defaults: {_controller: AppBundle:Default:productReviews, product: null, page: 1, _render:'HTML'}       
 
 checkout:
-    path: /checkout/{_render}
-    defaults: {_controller: AppBundle:Default:checkout, _render: 'HTML' }
+    path: /checkout/{product}/{_render}
+    defaults: {_controller: AppBundle:Default:checkout, _render: 'HTML', product: null }
 
 abandon_shopping:
     path: /abandon/cart/{_render}

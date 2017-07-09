@@ -12,4 +12,13 @@ class ProductRepository extends ApplicationMasterRepository
 {
     protected $filter_property = 'name';
     protected $FactoryType = 'AppBundle\Factory\ProductFactory';
+
+    public function prepareFilterByParent($query, $parentid)
+    {
+        $query
+            ->innerJoin('e.configurations', 'c')
+            ->andWhere('c.id = :parentid')
+            ->setParameter(':parentid', $parentid);
+        return $query;
+    }
 }

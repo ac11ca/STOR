@@ -23,21 +23,28 @@
         <div class="form-group">
             <label>Instructions Title Text</label>
             <div class="field-group">
-                <input type="text" id="instructions_title_text" name="instructions_title_text" value="{{instructions_title_text|default('Proceed')}}" class="form-control" />
+                <input type="text" id="instructions_title_text" name="instructions_title_text" value="{{settings['instructions_title_text']|default('')}}" class="form-control" />
             </div>
         </div>
 
         <div class="form-group">
             <label>Instructions Text</label>
             <div class="field-group">
-                <textarea id="instructionsg_text" name="instructions_button_text" value="{{instructions_button_text|default('Proceed')}}" class="form-control">{{instructions_button_text|default('')}}</textarea>
+                <textarea id="instructions_text" name="instructions_text" class="form-control">{{settings['instructions_text']|default('')}}</textarea>
             </div>
         </div>
 
         <div class="form-group">
             <label>Instructions Button Text</label>
             <div class="field-group">
-                <input type="number" id="instructions_button_text" name="instructions_button_text" value="{{instructions_button_text|default('Proceed')}}" class="form-control" />
+                <input type="text" id="instructions_button_text" name="instructions_button_text" value="{{settings['instructions_button_text']|default('Proceed')}}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Search Term</label>
+            <div class="field-group">
+                <input type="text" id="search_term" name="search_term" value="{{settings['search_term']|default('')}}" class="form-control" />
             </div>
         </div>
 
@@ -45,8 +52,108 @@
         <h2>Search Results Screen</h2>
         <div class="form-group">
             <label>Products per page</label>
+            <div class="field-group">             
+                <input type="number" id="srs_products_per_page" name="srs_products_per_page" value="{{settings['srs_products_per_page']|default('3')}}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Price</label>
             <div class="field-group">
-                <input type="number" id="srs_products_per_page" name="srs_products_per_page" value="{{srs_products_per_page|default('3')}}" class="form-control" />
+                <select id="srs_display_price" name="srs_display_price">
+                    <option value="1" {% if settings['srs_display_price'] is not defined or settings['srs_display_price'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['srs_display_price'] is defined and settings['srs_display_price'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Reviews</label>
+            <div class="field-group">
+                <select id="srs_display_reviews" name="srs_display_reviews">
+                    <option value="1" {% if settings['srs_display_reviews'] is not defined or settings['srs_display_reviews'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['srs_display_reviews'] is defined and settings['srs_display_reviews'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Stars</label>
+            <div class="field-group">
+                <select id="srs_display_stars" name="srs_display_stars">
+                    <option value="1" {% if settings['srs_display_stars'] is not defined or settings['srs_display_stars'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['srs_display_stars'] is defined and settings['srs_display_stars'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Author</label>
+            <div class="field-group">
+                <select id="srs_display_author" name="srs_display_author">
+                    <option value="1" {% if settings['srs_display_author'] is not defined or settings['srs_display_author'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['srs_display_author'] is defined and settings['srs_display_author'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Image</label>
+            <div class="field-group">
+                <select id="srs_display_image" name="srs_display_image">
+                    <option value="1" {% if settings['srs_display_image'] is not defined or settings['srs_display_image'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['srs_display_image'] is defined and settings['srs_display_image'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Title</label>
+            <div class="field-group">
+                <select id="srs_display_title" name="srs_display_title">
+                    <option value="1" {% if settings['srs_display_title'] is not defined or settings['srs_display_title'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['srs_display_title'] is defined and settings['srs_display_title'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Purchase</label>
+            <div class="field-group">
+                <select id="srs_display_purchase" name="srs_display_purchase">
+                    <option value="1" {% if settings['srs_display_purchase'] is not defined or settings['srs_display_purchase'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['srs_display_purchase'] is defined and settings['srs_display_purchase'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Quit</label>
+            <div class="field-group">
+                <select id="srs_display_quit" name="srs_display_quit">
+                    <option value="1" {% if settings['srs_display_quit'] is not defined or settings['srs_display_quit'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['srs_display_quit'] is defined and settings['srs_display_quit'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Search Results Text</label>
+            <div class="field-group">
+                <select id="srs_display_search" name="srs_display_search">
+                    <option value="1" {% if settings['srs_display_search'] is not defined or settings['srs_display_search'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['srs_display_search'] is defined and settings['srs_display_search'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Random</label>
+            <div class="field-group">
+                <select id="srs_display_random" name="srs_display_random">
+                    <option value="1" {% if settings['srs_display_random'] is defined and settings['srs_display_random'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['srs_display_random'] is not defined or settings['srs_display_random'] == 0 %}selected{% endif %}>No</option>
+                </select>
             </div>
         </div>
 
@@ -54,12 +161,12 @@
         <div class="form-group">
             <labels>Reviews per page</label>
             <div class="field-group">
-                <input type="number" id="crs_reviews_per_page" name="crs_reviews_per_page" value="{{crs_reviews_per_page|default('3')}}" class="form-control" />
+                <input type="number" id="crs_reviews_per_page" name="crs_reviews_per_page" value="{{settings['crs_reviews_per_page']|default('3')}}" class="form-control" />
             </div>
         </div>
 
         <input type="submit" value="Save" id="submit" name="submit" class="btn btn-primary" />
-
+        <a href="{{path('admin_universal_list', {'reponame':'Configuration'})}}" class="btn btn-danger">Cancel</a>
      </form>
   
 {% endblock %}

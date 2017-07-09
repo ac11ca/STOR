@@ -633,7 +633,7 @@ class AdminController extends ApplicationMasterController
                 {
                     foreach($settings as $Setting)
                     {
-                        $settings_array[$Setting->getSettingKey()] = $Setting;
+                        $settings_array[$Setting->getSettingKey()] = $Setting->getValue();
                     }       
                 }
 

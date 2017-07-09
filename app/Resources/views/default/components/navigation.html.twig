@@ -1,0 +1,17 @@
+<div id="navigation_bar">
+	{% if abandon is defined and abandon %}
+	    <a href="{{path('abandon_shopping')}}" class="btn btn-primary track-event" data-event="click" data-category="{{category}}_Abandon_Button" data-label="Visit: {{visit}}">Abandon Shopping</a>
+	{% endif %}
+    {% if back is defined and back %}
+        <a href="{{path('search_results', {term:term})}}" class="track-event btn btn-primary" data-event="click" data-category="{{category}}_Back_Button" label="Visit: {{visit}}">Back to Search Results</a>
+    {% endif %}
+	{% if purchase  is defined and purchase %}
+	    <a href="{{path('checkout')}}" class="track-event btn btn-primary" data-event="click" data-category="{{category}}_Purchase_Button" data-label="Visit {{visit}}">Make a Purchase</a>
+	{% endif %}
+	{% if checkout is defined and checkout %}
+	    <input type="submit" class="btn btn-primary track-event" data-event="click" data-category="{{category}}_Checkout_Button" data-label="Visit {{visit}}" value="Make a Purchase">
+	{% endif %}
+
+</div>
+
+

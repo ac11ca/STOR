@@ -10,14 +10,6 @@
 
      <form method="post">
 
-        <h3> Pagination </h3>
-        <div class="form-group">
-            <label>Items Per Page</label>
-            <div class="form-field">
-                <input class="form-control" type="text" name="pagination_items_per_page" id="pagination_items_per_page" value="{{settings['pagination_items_per_page']|default('6')}}"/>
-            </div>
-        </div>
-
         <h3> Cloudinary </h3>
         <div class="form-group">
             <label>Cloud Name</label>
@@ -44,14 +36,6 @@
             </div>
         </div>
 
-        <h3> Search </h3>
-        <div class="form-group">
-            <label>Term</label>
-            <div class="form-field">
-                <input class="form-control" type="text" name="search_term" id="search_term" value="{{settings['search_term']|default('')}}"/>
-            </div>
-        </div>
-
         <h3> Redirect </h3>
         <div class="form-group">
             <label>Form URL</label>
@@ -59,30 +43,6 @@
                 <input class="form-control" type="text" name="form_url" id="form_url" value="{{settings['form_url']|default('')}}">
             </div>
         </div>       
-
-        <h3> Reviews </h3>
-        <div class="form-group">
-            <label>Reviews per Page</label>
-            <div class="form-field">
-                <input class="form-control" type="text" name="reviews_per_page" id="reviews_per_page" value="{{settings['reviews_per_page']|default('1')}}">
-            </div>
-        </div>       
-
-        <h3> Custom HTML </h3>
-        <div class="form-group">
-            <label>Header</label>
-            <div class="form-field">
-                <textarea class="form-control" name="html_header" id="html_header" rows="5">{{settings['html_header']|default('')}}</textarea>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>Footer</label>
-            <div class="form-field">
-                <textarea class="form-control" name="html_footer" id="html_footer" rows="5">{{settings['html_footer']|default('')}}</textarea>
-            </div>
-        </div>
-
 
         <input type="submit" value="Save" id="submit" name="submit" class="btn btn-primary" />
 
