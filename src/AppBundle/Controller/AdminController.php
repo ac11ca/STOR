@@ -618,7 +618,6 @@ class AdminController extends ApplicationMasterController
         return $this->handleErrors(
             function ($Session, $messages) use ($Request, $id)
             {
-
                 $Doctrine = $this->getDoctrine();
                 $settings = null;
                 $label = null;
@@ -636,6 +635,7 @@ class AdminController extends ApplicationMasterController
                         $settings_array[$Setting->getSettingKey()] = $Setting->getValue();
                     }       
                 }
+
 
                 if($Request->isMethod('POST'))
                 {
@@ -656,7 +656,6 @@ class AdminController extends ApplicationMasterController
                         $settings_array[$key] = $Setting;                                                
                         $Setting->setValue($value);               
                         $EntityManager->persist($Setting);                   
-
                     }
 
                     $EntityManager->flush();

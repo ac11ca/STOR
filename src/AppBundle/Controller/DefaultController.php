@@ -166,7 +166,7 @@ class DefaultController extends ApplicationMasterController
                 $Product = $this->getDoctrine()->getRepository('AppBundle:Product')->find($product);                                  
                 $ratings = $this->getDoctrine()->getRepository('AppBundle:Review')->findByProductAverages(new ArrayCollection([$Product]));
                 $reviews = $this->getDoctrine()->getRepository('AppBundle:Review')->findBy(['Product'=>$Product], ['rating'=>'DESC']);
-                $ratings_by_value = $this->getDoctrine()->getRepository('AppBundle:Review')->findByProductAndValue($Product);
+                $ratings_by_value = $this->getDoctrine()->getRepository('AppBundle:Review')->findByProductAndValue($Product);                
 
                 return $this->renderRoute(
                     'default/details.html.twig'

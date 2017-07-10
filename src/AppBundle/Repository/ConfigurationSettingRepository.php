@@ -32,7 +32,11 @@ class ConfigurationSettingRepository extends \CYINT\ComponentsPHP\Bundles\Settin
         if(empty($id))
             throw new \Exception('Invalid configuration id');
 
-        $query = $this->createQueryBuilder('s');
+        $query = $this->createQueryBuilder('s')
+            ->innerJoin('s.Configuration', 'c')
+            ->andWhere('c.id = :id')
+            ->setParameter(':id', $id);
+
         return $query->getQuery()->getResult();
     }
 }
