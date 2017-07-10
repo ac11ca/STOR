@@ -14,29 +14,35 @@
     <form method="get" action="{{redirect_url}}">
         <div class="checkout-container" id="checkout_container">
 
-            <table class="table table-striped">   
-            <thead>
-                    <th></th>
-                    <th>Title</th>
-                    <th>Price</th>
-                    <th>Purchase</th>
-            </thead>
-            <tbody>
-                {% for Product in products %}
-                    <tr>
-                        <td class="image"><img src="{{Product.image}}" /></td>
-                        <td>{{Product.name}}</td>
-                        <td>${{Product.price|number_format(2,'.',',')}}</td>
-                        <td><input type="radio" name="product" id="product" value="{{Product.id}}" {% if loop.index0 == 0 %}checked{% endif %} /></td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-            </table>
+            {% if products is not empty %}
+                <table class="table table-striped">   
+                <thead>
+                        <th></th>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th>Purchase</th>
+                </thead>
+                <tbody>
+                    {% for Product in products %}
+                        <tr>
+                            <td class="image"><img src="{{Product.image}}" /></td>
+                            <td>{{Product.name}}</td>
+                            <td>${{Product.price|number_format(2,'.',',')}}</td>
+                            <td><input type="radio" name="product" id="product" value="{{Product.id}}" {% if loop.index0 == 0 %}checked{% endif %} /></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+            {% else %}
+                <p class="empty-cart">There are no items in your shopping cart. Please go back and select an item to checkout.</p>
+            {% endif %}
+
+            
         </div>
 
         <input type="hidden" id="user" name="user" value="{{User.ExternalId}}" />
 
-        {% embed 'default/components/navigation.html.twig' with {back:true, category: 'PS', abandon: true, term:term, purchase: false, checkout: true} %}{% endembed %}
+        {% embed 'default/components/navigation.html.twig' with {back:true, category: 'PS', abandon: true, term:term, purchase: false, checkout: products|length > 0} %}{% endembed %}
 
     </form>
 
