@@ -12,22 +12,11 @@ class AnalyticsRepository extends ApplicationMasterRepository
 {
     protected $FactoryType = 'AppBundle\Factory\AnalyticsFactory';
     protected $filter_property = 'created'; 
-    public function findByReport($from = null, $to = null, $y = null, $x = null, $dimension = [], $condition = [], $value = [], $operator = [])
+    public function findByReport($from = null, $to = null, $y = null, $x = null, $dimension = [], $condition = [], $value = [], $operator = [], $raw = false)
     {
-        $query = $this->createQueryBuilder('a');
         $graph_data = [];                
 
-        $query->innerJoin('a.Session', 's')
-            ->innerJoin('s.User', 'u')
-            ->innerJoin('s.Configuration', 'c');
-
-        if(!empty($from))
-            $query->andWhere('a.created >= :from')
-                ->setParameter(':from', $from);
-
-        if(!empty($to))
-            $query->andWhere('a.created <= :to')
-                ->setParameter(':to', $to);
+        $query = $this->prepareReportQuery($from, $to, $y);
 
         switch($y)
         {
@@ -49,10 +38,59 @@ class AnalyticsRepository extends ApplicationMasterRepository
         }
 
         $query->groupBy($x);
+        $query = $this->constructQueryFilter($dimension, $condition, $value, $query);
+        $results = $query->getQuery()->getResult();
 
-        if(stristr($y, 'duration') > -1)
-            $query->andWhere('a.event_type = \'duration\'');
+        if(!empty($raw))
+            return $results;
+        
+        if(count($results) > 0)
+        {
+            foreach($results as $result)
+            {
+                $a = array_pop($result);
+                $b = array_pop($result);
+                $graph_data[] = ['x'=>$a, 'y'=>$b];
+            }
 
+        }
+    
+        return $graph_data;
+    }
+
+    public function findByReportRaw($from = null, $to = null, $y = null, $x = null, $dimension = [], $condition = [], $value = [], $operator = [], $raw = false)
+    {
+        $query = $this->prepareReportQuery($from, $to, $y);
+        $query->addSelect('u');
+        $query->addSelect('s');
+        $query->addSelect('c');
+        $query = $this->constructQueryFilter($dimension, $condition, $value, $query);
+        $results = $query->getQuery()->getResult();
+        $result_array = [];
+        
+        foreach($results as $Result)
+        {
+            $result_array[] = [
+                'id' => $Result->getId()      
+                ,'event' => $Result->getEventType()
+                ,'category' => $Result->getCategory()
+                ,'label' => $Result->getLabel()
+                ,'time' => $Result->getTime()
+                ,'created' => $Result->getCreated()
+                ,'session_id'=> $Result->getSession()->getId()
+                ,'user_id'=> $Result->getSession()->getUser()->getId()
+                ,'user_external_id'=> $Result->getSession()->getUser()->getExternalId()
+                ,'user_ip'=> $Result->getSession()->getUser()->getIpAddress()
+                ,'configuration_id'=> $Result->getSession()->getConfiguration()->getId()
+                ,'configuration_settings' => json_encode($this->getConfigurationSettingsString($Result->getSession()->getConfiguration()->getSettings()))
+            ];
+        }
+
+        return $result_array;        
+    }
+
+    protected function constructQueryFilter($dimension, $condition, $value, $query)
+    {
         if(!empty($dimension) && !empty($dimension[0]))
         {
             for($i = 0; $i < count($dimension); $i++)
@@ -74,20 +112,41 @@ class AnalyticsRepository extends ApplicationMasterRepository
             }
         }
 
-        $results = $query->getQuery()->getResult();
+        return $query;
+    }
 
-        if(count($results) > 0)
+    public function prepareReportQuery($from, $to, $y)
+    {
+        $query = $this->createQueryBuilder('a');
+       
+        $query->innerJoin('a.Session', 's')
+            ->innerJoin('s.User', 'u')
+            ->innerJoin('s.Configuration', 'c');
+
+        if(!empty($from))
+            $query->andWhere('a.created >= :from')
+                ->setParameter(':from', $from);
+
+        if(!empty($to))
+            $query->andWhere('a.created <= :to')
+                ->setParameter(':to', $to);
+
+
+        if(stristr($y, 'duration') > -1)
+            $query->andWhere('a.event_type = \'duration\'');
+
+        return $query;
+    }
+
+    public function getConfigurationSettingsString($configuration_settings)
+    {
+        $result = [];
+        foreach($configuration_settings as $ConfigurationSetting) 
         {
-            foreach($results as $result)
-            {
-                $a = array_pop($result);
-                $b = array_pop($result);
-                $graph_data[] = ['x'=>$a, 'y'=>$b];
-            }
-
+            $result[$ConfigurationSetting->getSettingKey()] = $ConfigurationSetting->getValue();
         }
-    
-        return $graph_data;
+
+        return $result;
     }
 
 }

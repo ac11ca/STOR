@@ -163,6 +163,9 @@ class AdminController extends ApplicationMasterController
                 $filename = $ExcelService->convertToExcel($report_data['results'], 'Report');
                 return $this->sendExcelFileResponse($Request, $filename, 'Report');
             }
+            ,
+            $this->generateUrl('admin_report_export')
+
          );      
     }
 
@@ -173,10 +176,12 @@ class AdminController extends ApplicationMasterController
             {                               
                 $ExcelService = $this->get('app.excel');
                 $form_data = $Session->get('report_form_data');
-                $report_data = $tis->prepareReport($form_data);
-                $filename = $ExcelService->convertToExcel($report_data['results'], 'Report');
+                $report_data = $this->prepareReport($form_data, 'findByReportRaw');
+                $filename = $ExcelService->convertToExcel($report_data['results'], 'Raw_Analytics');
                 return $this->sendExcelFileResponse($Request, $filename, 'Report');
             }
+            ,
+            $this->generateUrl('admin_report_export_raw')
          );      
     }
 
@@ -279,7 +284,7 @@ class AdminController extends ApplicationMasterController
         );
     }
 
-    protected function prepareReport($form_data)
+    protected function prepareReport($form_data, $method='findByReport')
     {
         $from = ParseData::setArray($form_data, 'from', null);
         $to = ParseData::setArray($form_data, 'to', null);
@@ -290,7 +295,7 @@ class AdminController extends ApplicationMasterController
         $value = ParseData::setArray($form_data, 'value', []);
         $operator = ParseData::setArray($form_data, 'operator', []);
         $chart = ParseData::setArray($form_data, 'charttype', 'line'); 
-        $results = $this->getDoctrine()->getRepository('AppBundle:Analytics')->findByReport(
+        $results = $this->getDoctrine()->getRepository('AppBundle:Analytics')->$method(
             $from
             ,$to
             ,$y
