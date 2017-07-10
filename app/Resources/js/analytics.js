@@ -1,29 +1,34 @@
-function trackEvent(event,category,label) {
+function trackEvent(event,category,label,duration) {
     var message = event + ' Category:' + category + ', Label: ' + label;
     var url = $('body').data('trackurl');
-    var async = event=='unload' ? false :  true;
+    var async = event=='unload'||'duration' ? false :  true;
+	duration = duration ||  null;
     $.ajax({
         url: url
         ,method: 'POST'
         ,async: async
-        ,data: {event:event, category:category, label:label}
+        ,data: {event:event, category:category, label:label, duration:  duration}
         ,success: function () { console.log('Tracked event: ' + message); }
         ,error: function () { console.log('Failed to track event: ' + message); }
     });
 }
 
 $(window).on('unload', function () {
-    var category = $('body').data('category'), category_array, start, end, label;
+    var category = $('body').data('category'), category_array, start, end, label, duration;
     category_array = category.split('_') || [category];
     category = category_array[0] + '_Duration';
     label = $('body').data('label');
-    
+	start = $('body').data('starttime');
+	end = + new Date();
+	duration = end - start;
+	trackEvent('duration', category, label, duration);
 });
 
 $(document).ready(function () {
     var $pageviews = $('.track-pageview');
     var $eventtracks = $('.track-event');
     var track_event, category, label;
+    $('body').data('starttime', + new Date());
     if($pageviews.length > 0) {
         $pageviews.each(function() {
             var $this = $(this);

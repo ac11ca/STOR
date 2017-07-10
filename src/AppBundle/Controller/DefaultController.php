@@ -424,11 +424,16 @@ class DefaultController extends ApplicationMasterController
                     $type = ParseData::setArray($form_data,'event',null);
                     $label = ParseData::setArray($form_data,'label',null);        
                     $category = ParseData::setArray($form_data,'category',null);        
+                    $duration = ParseData::setArray($form_data, 'duration', null);
+
                     if(empty($type) || empty($label))
                         throw new \Exception('Label and category must be specified');
 
                     $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
                     $Analytic = new Analytics($DBSession, $type, $label, $category);
+                    if($type == 'duration')
+                        $Analytic->setTime($duration);
+
                     $EntityManager = $this->getDoctrine()->getManager();
                     $EntityManager->persist($Analytic);
                     $EntityManager->flush();
