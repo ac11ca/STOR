@@ -161,7 +161,6 @@ class DefaultController extends ApplicationMasterController
             function ($Session, $messages) use ($Request, $_render, $product)
             {    
                 $visit = $this->getCurrentVisit('details_visit_' . $product, $Session);
-                $settings = $Configuration->getAllConfigurationSettings();
 
                 $Product = $this->getDoctrine()->getRepository('AppBundle:Product')->find($product);                                  
                 $ratings = $this->getDoctrine()->getRepository('AppBundle:Review')->findByProductAverages(new ArrayCollection([$Product]));
@@ -173,7 +172,6 @@ class DefaultController extends ApplicationMasterController
                     ,[
                         'Product' => $Product
                         ,'ratings' => $ratings 
-                        ,'settings' => $settings 
                         ,'ratings_by_value' => $ratings_by_value
                         ,'visit' => $visit
                     ]

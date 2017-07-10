@@ -157,6 +157,177 @@
             </div>
         </div>
 
+        <h2>Product Information Screen</h2>
+
+        <div class="form-group">
+            <label>See more reviews button text</label>
+            <div class="field-group">
+                <input type="text" id="pis_click_reviews_text" name="pis_click_reviews_text" value="{{settings['pis_click_reviews_text']|default('')}}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Price</label>
+            <div class="field-group">
+                <select id="pis_display_price" name="pis_display_price">
+                    <option value="1" {% if settings['pis_display_price'] is not defined or settings['pis_display_price'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['pis_display_price'] is defined and settings['pis_display_price'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Review</label>
+            <div class="field-group">
+                <select id="pis_display_review" name="pis_display_review">
+                    <option value="1" {% if settings['pis_display_review'] is not defined or settings['pis_display_review'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['pis_display_review'] is defined and settings['pis_display_review'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Stars</label>
+            <div class="field-group">
+                <select id="pis_display_stars" name="pis_display_stars">
+                    <option value="1" {% if settings['pis_display_stars'] is not defined or settings['pis_display_stars'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['pis_display_stars'] is defined and settings['pis_display_stars'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Author</label>
+            <div class="field-group">
+                <select id="pis_display_author" name="pis_display_author">
+                    <option value="1" {% if settings['pis_display_author'] is not defined or settings['pis_display_author'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['pis_display_author'] is defined and settings['pis_display_author'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Images</label>
+            <div class="field-group">
+                <select id="pis_display_images" name="pis_display_images">
+                    <option value="1" {% if settings['pis_display_images'] is not defined or settings['pis_display_images'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['pis_display_images'] is defined and settings['pis_display_images'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Title</label>
+            <div class="field-group">
+                <select id="pis_display_title" name="pis_display_title">
+                    <option value="1" {% if settings['pis_display_title'] is not defined or settings['pis_display_title'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['pis_display_title'] is defined and settings['pis_display_title'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Ratings</label>
+            <div class="field-group">
+                <select id="pis_display_ratings" name="pis_display_ratings">
+                    <option value="1" {% if settings['pis_display_ratings'] is not defined or settings['pis_display_ratings'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['pis_display_ratings'] is defined and settings['pis_display_ratings'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Display Stars</label>
+            <div class="field-group">
+                <select id="pis_display_stars" name="pis_display_stars">
+                    <option value="1" {% if settings['pis_display_stars'] is not defined or settings['pis_display_stars'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['pis_display_stars'] is defined and settings['pis_display_stars'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label>Display Barchart</label>
+            <div class="field-group">
+                <select id="pis_display_barchart" name="pis_display_barchart">
+                    <option value="1" {% if settings['pis_display_barchart'] is not defined or settings['pis_display_barchart'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['pis_display_barchart'] is defined and settings['pis_display_barchart'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Percentages</label>
+            <div class="field-group">
+                <select id="pis_display_percentages" name="pis_display_percentages">
+                    <option value="1" {% if settings['pis_display_percentages'] is not defined or settings['pis_display_percentages'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['pis_display_percentages'] is defined and settings['pis_display_percentages'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Sales</label>
+            <div class="field-group">
+                <select id="pis_display_sales" name="pis_display_sales">
+                    <option value="1" {% if settings['pis_display_sales'] is not defined or settings['pis_display_sales'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['pis_display_sales'] is defined and settings['pis_display_sales'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Purchasing Buttons</label>
+            <div class="field-group">
+                <select id="pis_display_purchase" name="pis_display_purchase">
+                    <option value="1" {% if settings['pis_display_purchase'] is not defined or settings['pis_display_purchase'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['pis_display_purchase'] is defined and settings['pis_display_purchase'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Description</label>
+            <div class="field-group">
+                <select id="pis_display_description" name="pis_display_description">
+                    <option value="1" {% if settings['pis_display_description'] is not defined or settings['pis_display_description'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['pis_display_description'] is defined and settings['pis_display_description'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Abandon Cart</label>
+            <div class="field-group">
+                <select id="pis_display_abandon" name="pis_display_abandon">
+                    <option value="1" {% if settings['pis_display_abandon'] is not defined or settings['pis_display_abandon'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['pis_display_abandon'] is defined and settings['pis_display_abandon'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Back Button</label>
+            <div class="field-group">
+                <select id="pis_display_back" name="pis_display_back">
+                    <option value="1" {% if settings['pis_display_back'] is not defined or settings['pis_display_back'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['pis_display_back'] is defined and settings['pis_display_back'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Back Search</label>
+            <div class="field-group">
+                <select id="pis_display_search" name="pis_display_search">
+                    <option value="1" {% if settings['pis_display_search'] is not defined or settings['pis_display_search'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['pis_display_search'] is defined and settings['pis_display_search'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+
+
         <h2>Customer Reviews Screen</h2>
         <div class="form-group">
             <labels>Reviews per page</label>

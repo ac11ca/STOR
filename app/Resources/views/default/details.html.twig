@@ -10,77 +10,103 @@
 
 <div id="product_details" class="track-pageview" data-category="PIS_{{Product.Id}}_Time_Start" data-label="Visit: {{visit}}">
 
-        <div id="product_detail_image">
-            <img src="{{Product.image}}">
-        </div>
+        {% if settings['pis_display_images'] %}
+            <div id="product_detail_image">
+                <img src="{{Product.image}}">
+            </div>
+        {% endif %}
 
         <div id="product_detail_column_container">
- 
-            <div id="product_detail_title">
-                <h3>{{Product.name}}</h3>
-            </div>
-       
+
+            {% if settings['pis_display_title'] %} 
+                <div id="product_detail_title">
+                    <h3>{{Product.name}}</h3>
+                </div>
+            {% endif %}
+
             <div id="product_detail_author_container">
-                <div id="product_detail_author">
-                    {% for Author in Product.authors %}{% spaceless %}
-                       {% if loop.index0 > 0 %}, {% endif %}{{Author.name}}
-                    {% endspaceless %}{% endfor %}
+                {% if settings['pis_display_author'] %}
+                    <div id="product_detail_author">
+                        {% for Author in Product.authors %}{% spaceless %}
+                           {% if loop.index0 > 0 %}, {% endif %}{{Author.name}}
+                        {% endspaceless %}{% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if settings['pis_display_price'] %}
+                    <div id="product_detail_price">
+                        ${{Product.price|number_format(2,'.',',')}}
+                    </div>
+                {% endif %}
+
+                {% if settings['pis_display_purchase'] %}
+                    <div id="product_add_cart">
+                        <a href="{{path('checkout', {product:Product.id})}}" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                {% endif %}
+            </div>
+
+            {% if settings['pis_display_description'] %}
+                <div id="product_detail_decription">
+                    {{Product.description|raw}}
                 </div>
+            {% endif %}
 
-                <div id="product_detail_price">
-                    ${{Product.price|number_format(2,'.',',')}}
+            {% if settings['pis_display_ratings'] or settings['pis_display_stars'] %}
+                <h2 id="heading"> Customer Reviews </h2>  
+
+                <div id="rating">
+
+                    {% if settings['pis_display_stars'] %}
+                        <div class="star-ratings-sprite">
+                            <span style="width:{% if ratings[Product.id] is defined %}{{(ratings[Product.id]['rating']/5)*100}}{% else %}0{% endif %}%" class="star-ratings-sprite-rating"></span>
+                        </div>
+                    {% endif %}
+
+                    {% if settings['pis_display_ratings'] %}
+                        {% if ratings[Product.id] is defined %}
+                            {{ratings[Product.id]['rating']|number_format(1,'.',',')}}
+                        {% else %}
+                            0
+                        {% endif %} 
+                        out of 5 stars
+                        <span>from {% if ratings[Product.id] is defined %}{{ratings[Product.id]['count']}}{% else %}0{% endif %} review{% if ratings[Product.id]['count'] is not defined or ratings[Product.id]['count'] != 1 %}s{% endif %}.</span>
+                    {%  endif %}
                 </div>
-
-                <div id="product_add_cart">
-                    <a href="{{path('checkout', {product:Product.id})}}" class="btn btn-primary">Add to Cart</a>
+            {% endif %}
+    
+            {% if settings['pis_display_barchart'] %}
+                <div id="ratings">
+                    <table id="ratings_table">        
+                        {% for rating in 5..1 %}
+                            <tr>
+                                <td id="rating_value_{{rating}}" class="rating-cell">{{rating}} star{% if rating != 1 %}s{% endif %}</td>
+                                <td class="progress-cell">
+                                    <div class="progress"> 
+                                     <div 
+                                        class="progress-bar progress-bar-success"
+                                        role="progressbar"		 	 
+                                        aria-valuemin="0"
+                                        aria-valuemax="100" 
+                                        style="width: {% spaceless %}{% if ratings_by_value[rating] is defined %}{{(ratings_by_value[rating]['percent'] * 100)|number_format(0,'.',',')}}{% else %}0{% endif %}%{% endspaceless %}">
+                                      </div>
+                                    </div>
+                                </td>
+                                {% if settings['pis_display_percentages'] %}
+                                    <td class="percent-cell">{% spaceless %}{% if ratings_by_value[rating] is defined %}{{(ratings_by_value[rating]['percent'] * 100)|number_format(0,'.',',')}}%{% else %}0%{% endif %}{% endspaceless %}</td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </table>
                 </div>
-            </div>
-
-            <div id="product_detail_decription">
-                {{Product.description|raw}}
-            </div>
-
-            <h2 id="heading"> Customer Reviews </h2>  
-
-            <div id="rating">
-    			<div class="star-ratings-sprite"><span style="width:{% if ratings[Product.id] is defined %}{{(ratings[Product.id]/5)*100}}{% else %}0{% endif %}%" class="star-ratings-sprite-rating"></span></div>
-
-                {% if ratings[Product.id] is defined %}
-                    {{ratings[Product.id]|number_format(1,'.',',')}}
-                {% else %}
-                    0
-                {% endif %} 
-                out of 5 stars
-            </div>
-
-            <div id="ratings">
-                <table id="ratings_table">        
-                    {% for rating in 5..1 %}
-                        <tr>
-                            <td id="rating_value_{{rating}}" class="rating-cell">{{rating}} star{% if rating != 1 %}s{% endif %}</td>
-                            <td class="progress-cell">
-                                <div class="progress"> 
-                                 <div 
-                                    class="progress-bar progress-bar-success"
-                                    role="progressbar"		 	 
-                                    aria-valuemin="0"
-                                    aria-valuemax="100" 
-                                    style="width: {% spaceless %}{% if ratings_by_value[rating] is defined %}{{(ratings_by_value[rating]['percent'] * 100)|number_format(0,'.',',')}}{% else %}0{% endif %}%{% endspaceless %}">
-                                  </div>
-                                </div>
-                            </td>
-                            <td class="percent-cell">{% spaceless %}{% if ratings_by_value[rating] is defined %}{{(ratings_by_value[rating]['percent'] * 100)|number_format(0,'.',',')}}%{% else %}0%{% endif %}{% endspaceless %}</td>
-                        </tr>
-                    {% endfor %}
-                </table>
-            </div>
+            {% endif %}
 
             <div id="rating_button">
-                <a href="{{path('product_reviews', {'product': Product.id})}}" class="btn btn-primary track-event" data-event="click" data-category="PIS_{{Product.Id}}_Review_Button" data-label="Visit: {{visit}}">Click to see individual reviews</a>
+                <a href="{{path('product_reviews', {'product': Product.id})}}" class="btn btn-primary track-event" data-event="click" data-category="PIS_{{Product.Id}}_Review_Button" data-label="Visit: {{visit}}">{{settings['pis_click_reviews_text']}}</a>
             </div>
         </div>
 </div>
 
- {% embed 'default/components/navigation.html.twig' with  {'category':'PIS_{{Product.Id}}', purchase:true,abandon:true, visit: visit, back: true, term: term} %}{% endembed %}
+ {% embed 'default/components/navigation.html.twig' with  {'category':'PIS_{{Product.Id}}', purchase:settings['pis_display_purchase'],abandon:settings['pis_display_abandon'], visit: visit, back: settings['pis_display_back'], term: term} %}{% endembed %}
 
 {% endblock %}
