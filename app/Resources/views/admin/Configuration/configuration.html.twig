@@ -23,7 +23,7 @@
         <div class="form-group">
             <label>Instructions Title Text</label>
             <div class="field-group">
-                <input type="text" id="instructions_title_text" name="instructions_title_text" value="{{settings['instructions_title_text']|default('')}}" class="form-control" />
+                <input type="text" id="instructions_title_text" name="instructions_title_text" value="{{settings['instructions_title_text']|default('Instructions')}}" class="form-control" />
             </div>
         </div>
 
@@ -48,6 +48,13 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label>Custom HTML</label>
+            <div class="field-group">
+                <textarea id="instructions_custom_html" name="instructions_custom_html" class="form-control">{{settings['instructions_custom_html']|default('')}} </textarea>
+            </div>
+        </div>
+
 
         <h2>Search Results Screen</h2>
         <div class="form-group">
@@ -56,6 +63,21 @@
                 <input type="number" id="srs_products_per_page" name="srs_products_per_page" value="{{settings['srs_products_per_page']|default('3')}}" class="form-control" />
             </div>
         </div>
+
+        <div class="form-group">
+            <label>Next Button Text</label>
+            <div class="field-group">
+                <input type="text" id="srs_next_button_text" name="srs_next_button_text" value="{{settings['srs_next_button_text']|default('Next')}}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Previous Button Text</label>
+            <div class="field-group">
+                <input type="text" id="srs_previous_button_text" name="srs_previous_button_text" value="{{settings['srs_previous_button_text']|default('Previous')}}" class="form-control" />
+            </div>
+        </div>
+
 
         <div class="form-group">
             <label>Display Price</label>
@@ -157,6 +179,15 @@
             </div>
         </div>
 
+
+        <div class="form-group">
+            <label>Custom HTML</label>
+            <div class="field-group">
+                <textarea id="srs_custom_html" name="srs_custom_html" class="form-control">{{settings['srs_custom_html']|default('')}} </textarea>
+            </div>
+        </div>
+
+
         <h2>Product Information Screen</h2>
 
         <div class="form-group">
@@ -165,6 +196,21 @@
                 <input type="text" id="pis_click_reviews_text" name="pis_click_reviews_text" value="{{settings['pis_click_reviews_text']|default('')}}" class="form-control" />
             </div>
         </div>
+
+        <div class="form-group">
+            <label>Next Button Text</label>
+            <div class="field-group">
+                <input type="text" id="pis_next_button_text" name="pis_next_button_text" value="{{settings['pis_next_button_text']|default('Next')}}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Previous Button Text</label>
+            <div class="field-group">
+                <input type="text" id="pis_previous_button_text" name="pis_previous_button_text" value="{{settings['pis_previous_button_text']|default('Previous')}}" class="form-control" />
+            </div>
+        </div>
+
 
         <div class="form-group">
             <label>Display Price</label>
@@ -326,7 +372,12 @@
             </div>
         </div>
 
-
+        <div class="form-group">
+            <label>Custom HTML</label>
+            <div class="field-group">
+                <textarea id="pis_custom_html" name="pis_custom_html" class="form-control">{{settings['pis_custom_html']|default('')}} </textarea>
+            </div>
+        </div>
 
         <h2>Customer Reviews Screen</h2>
         <div class="form-group">
@@ -335,6 +386,28 @@
                 <input type="number" id="crs_reviews_per_page" name="crs_reviews_per_page" value="{{settings['crs_reviews_per_page']|default('3')}}" class="form-control" />
             </div>
         </div>
+
+        <div class="form-group">
+            <label>Next Button Text</label>
+            <div class="field-group">
+                <input type="text" id="crs_next_button_text" name="crs_next_button_text" value="{{settings['crs_next_button_text']|default('Next')}}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Previous Button Text</label>
+            <div class="field-group">
+                <input type="text" id="crs_previous_button_text" name="crs_previous_button_text" value="{{settings['crs_previous_button_text']|default('Previous')}}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Custom HTML</label>
+            <div class="field-group">
+                <textarea id="crs_custom_html" name="crs_custom_html" class="form-control">{{settings['crs_custom_html']|default('')}} </textarea>
+            </div>
+        </div>
+
 
         <input type="submit" value="Save" id="submit" name="submit" class="btn btn-primary" />
         <a href="{{path('admin_universal_list', {'reponame':'Configuration'})}}" class="btn btn-danger">Cancel</a>

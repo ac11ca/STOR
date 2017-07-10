@@ -109,4 +109,10 @@
 
  {% embed 'default/components/navigation.html.twig' with  {'category':'PIS_{{Product.Id}}', purchase:settings['pis_display_purchase'],abandon:settings['pis_display_abandon'], visit: visit, back: settings['pis_display_back'], term: term} %}{% endembed %}
 
+{% block custom_html %}
+    {% if settings['pis_custom_html'] is defined %}
+        {{settings['pis_custom_html']|raw}}
+    {% endif %}
+{% endblock %}
+
 {% endblock %}

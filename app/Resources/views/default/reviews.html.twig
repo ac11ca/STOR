@@ -85,6 +85,11 @@
 
 </div>
 
- {% embed 'default/components/navigation.html.twig' with  {'category':'CRS_' ~ Product.Id, purchase:true,abandon:true, visit: visit, back: true, term: term} %}{% endembed %}
+ {% embed 'default/components/navigation.html.twig' with  {'category':'CRS_' ~ Product.Id, purchase:settings['crs_display_purchase'],abandon:settings['crs_display_abandon'], visit: visit, back: true, term: term} %}{% endembed %}
+{% endblock %}
 
+{% block custom_html %}
+    {% if settings['crs_custom_html'] is defined %}
+        {{settings['crs_custom_html']|raw}}
+    {% endif %}
 {% endblock %}

@@ -69,14 +69,20 @@
 
         <div class="next-previous">
             {% if index > products|length %}
-                <a class="btn btn-primary" href="{{path('search_results', {page:page-1})}}">Previous</a>
+                <a class="btn btn-primary" href="{{path('search_results', {page:page-1})}}">{{settings['srs_previous_button_text']|default('Previous')}}</a>
             {% endif %}
             {% if index < total %}
-                <a class="btn btn-primary" href="{{path('search_results', {page:page+1})}}">See More</a>
+                <a class="btn btn-primary" href="{{path('search_results', {page:page+1})}}">{{settings['srs_next_buttn_text']|default('Next')}}</a>
             {% endif %}
         </div>
     </div>
 
     {% embed 'default/components/navigation.html.twig' with  {'category':'SRS', purchase:settings['srs_display_purchase'],abandon:settings['srs_display_quit'], visit: visit, back: false} %}{% endembed %}
 
+{% endblock %}
+
+{% block custom_html %}
+    {% if settings['srs_custom_html'] is defined %}
+        {{settings['srs_custom_html']|raw}}
+    {% endif %}
 {% endblock %}

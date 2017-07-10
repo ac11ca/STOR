@@ -20,3 +20,9 @@
     </div>
 
 {% endblock %}
+
+{% block custom_html %}
+    {% if settings['instructions_custom_html'] is defined %}
+        {{settings['instructions_custom_html']|raw}}
+    {% endif %}
+{% endblock %}
