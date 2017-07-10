@@ -235,20 +235,20 @@ class DefaultController extends ApplicationMasterController
          return $this->handleErrors(
             function ($Session, $messages) use ($Request, $_render, $product)
             {    
-                $settings = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('');                              
-                
+                $settings = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('');                                              
                 $User = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(['external_id'=>$Session->get('user_id')]);
-
                 $visit = $this->getCurrentVisit('checkout_visit', $Session);
 
                 $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
 
-                if($product)
+                if(!empty($product))
                 {
                     $Product = $this->getDoctrine()->getRepository('AppBundle:Product')->find($product);
                     $DBSession->addProduct($Product);
+                    $Product->addSession($DBSession);
                     $EntityManager = $this->getDoctrine()->getManager();
                     $EntityManager->persist($DBSession);
+                    $EntityManager->persist($Product);
                     $EntityManager->flush();
                 }
                 

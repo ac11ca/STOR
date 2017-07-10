@@ -408,6 +408,53 @@
             </div>
         </div>
 
+        <h2>Purchase Screen</h2>
+
+        <div class="form-group">
+            <label>Empty Cart Text</label>
+            <div class="field-group">
+                <textarea id="ps_empty_cart_text" name="ps_empty_cart_text" class="form-control">{{settings['ps_empty_cart_text']|default('There are no items in your shopping cart. Please go back and select an item to checkout.')}} </textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Abandon Cart</label>
+            <div class="field-group">
+                <select id="ps_display_abandon" name="ps_display_abandon">
+                    <option value="1" {% if settings['ps_display_abandon'] is not defined or settings['ps_display_abandon'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['ps_display_abandon'] is defined and settings['ps_display_abandon'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Back Button</label>
+            <div class="field-group">
+                <select id="ps_display_back" name="ps_display_back">
+                    <option value="1" {% if settings['ps_display_back'] is not defined or settings['ps_display_back'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['ps_display_back'] is defined and settings['ps_display_back'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Back Search</label>
+            <div class="field-group">
+                <select id="ps_display_search" name="ps_display_search">
+                    <option value="1" {% if settings['ps_display_search'] is not defined or settings['ps_display_search'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['ps_display_search'] is defined and settings['ps_display_search'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Custom HTML</label>
+            <div class="field-group">
+                <textarea id="ps_custom_html" name="ps_custom_html" class="form-control">{{settings['ps_custom_html']|default('')}} </textarea>
+            </div>
+        </div>
+
+
 
         <input type="submit" value="Save" id="submit" name="submit" class="btn btn-primary" />
         <a href="{{path('admin_universal_list', {'reponame':'Configuration'})}}" class="btn btn-danger">Cancel</a>

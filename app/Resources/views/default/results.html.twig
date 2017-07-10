@@ -68,7 +68,7 @@
         </div>
 
         <div class="next-previous">
-            {% if index > products|length %}
+            {% if page > 1 %}
                 <a class="btn btn-primary" href="{{path('search_results', {page:page-1})}}">{{settings['srs_previous_button_text']|default('Previous')}}</a>
             {% endif %}
             {% if index < total %}

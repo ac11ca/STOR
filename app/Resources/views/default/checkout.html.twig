@@ -13,7 +13,6 @@
 
     <form method="get" action="{{redirect_url}}">
         <div class="checkout-container" id="checkout_container">
-
             {% if products is not empty %}
                 <table class="table table-striped">   
                 <thead>
@@ -34,15 +33,13 @@
                 </tbody>
                 </table>
             {% else %}
-                <p class="empty-cart">There are no items in your shopping cart. Please go back and select an item to checkout.</p>
+                <p class="empty-cart">{{settings['ps_empty_cart_text']|default('')}}</p>
             {% endif %}
-
-            
         </div>
 
         <input type="hidden" id="user" name="user" value="{{User.ExternalId}}" />
 
-        {% embed 'default/components/navigation.html.twig' with {back:true, category: 'PS', abandon: true, term:term, purchase: false, checkout: products|length > 0} %}{% endembed %}
+        {% embed 'default/components/navigation.html.twig' with {back:settings['ps_display_back'], category: 'PS', abandon: settings['ps_display_abandon'], term:term, purchase: false, checkout: products|length > 0} %}{% endembed %}
 
     </form>
 
