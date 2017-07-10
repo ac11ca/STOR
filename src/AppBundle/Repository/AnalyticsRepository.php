@@ -10,6 +10,8 @@ namespace AppBundle\Repository;
  */
 class AnalyticsRepository extends ApplicationMasterRepository
 {
+    protected $FactoryType = 'AppBundle\Factory\AnalyticsFactory';
+    protected $filter_property = 'created'; 
     public function findByReport($from = null, $to = null, $y = null, $x = null, $dimension = [], $condition = [], $value = [], $operator = [])
     {
         $query = $this->createQueryBuilder('a');

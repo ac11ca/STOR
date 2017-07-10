@@ -13,6 +13,9 @@
 
     <canvas id="report_chart" data-dataset="{{results|json_encode|e}}" data-title="{{y}} vs. {{x}}" data-chart="{{chart}}"></canvas>
 
+    <a href="{{path('admin_report_export_raw')}}" class="btn btn-primary">Export Raw Data</a>
+    <a href="{{path('admin_report_export')}}" class="btn btn-primary">Export Graph Data</a>
+
     {% if not dimensions is empty %}
         {% if dimensions|length > 0 and dimensions[0] is not empty %}
             <h3>Filtered by</h3>

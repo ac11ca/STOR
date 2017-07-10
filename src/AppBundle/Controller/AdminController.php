@@ -152,6 +152,34 @@ class AdminController extends ApplicationMasterController
         );
     }
 
+    public function reportExportAction(Request $Request, $_render='HTML')
+    {
+         return $this->handleErrors(
+            function ($Session, $messages) use ($Request, $_render)
+            {                               
+                $ExcelService = $this->get('app.excel');
+                $form_data = $Session->get('report_form_data');
+                $report_data = $this->prepareReport($form_data);
+                $filename = $ExcelService->convertToExcel($report_data['results'], 'Report');
+                return $this->sendExcelFileResponse($Request, $filename, 'Report');
+            }
+         );      
+    }
+
+    public function reportExportRawAction(Request $Request, $_render='HTML')
+    {
+         return $this->handleErrors(
+            function ($Session, $messages) use ($Request, $_render)
+            {                               
+                $ExcelService = $this->get('app.excel');
+                $form_data = $Session->get('report_form_data');
+                $report_data = $tis->prepareReport($form_data);
+                $filename = $ExcelService->convertToExcel($report_data['results'], 'Report');
+                return $this->sendExcelFileResponse($Request, $filename, 'Report');
+            }
+         );      
+    }
+
 
     public function reportViewAction(Request $Request, $_render='HTML')
     {
@@ -162,44 +190,27 @@ class AdminController extends ApplicationMasterController
                 if($Request->isMethod('POST'))
                 {
                     $form_data = $Request->request->all();
-                    $from = ParseData::setArray($form_data, 'from', null);
-                    $to = ParseData::setArray($form_data, 'to', null);
-                    $y = ParseData::setArray($form_data, 'y', null);
-                    $x = ParseData::setArray($form_data, 'x', null);
-                    $dimension = ParseData::setArray($form_data, 'dimension', []);
-                    $condition = ParseData::setArray($form_data, 'condition', []);
-                    $value = ParseData::setArray($form_data, 'value', []);
-                    $operator = ParseData::setArray($form_data, 'operator', []);
-                    $chart = ParseData::setArray($form_data, 'charttype', 'line'); 
-                    $results = $this->getDoctrine()->getRepository('AppBundle:Analytics')->findByReport(
-                        $from
-                        ,$to
-                        ,$y
-                        ,$x
-                        ,$dimension
-                        ,$condition
-                        ,$value
-                        ,$operator
-                    );
-
+                    $Session->set('report_form_data', $form_data);
+                    $report_data = $this->prepareReport($form_data);
+                    
                 }
                 else
                     throw new \Exception(403, 'Invalid request');
 
 
-                $labels = AnalyticsFactory::getFilterLabels($dimension, $condition, $x, $y);    
+                $labels = AnalyticsFactory::getFilterLabels($report_data['dimension'], $report_data['condition'], $report_data['x'], $report_data['y']);    
                
                 return $this->renderRoute("admin/reports/view.html.twig", [
-                    'results'=>$results
-                    ,'chart' => $chart
+                    'results'=>$report_data['results']
+                    ,'chart' => $report_data['chart']
                     ,'dimensions' => $labels['dimensions']
                     ,'conditions' => $labels['conditions']                
-                    ,'values' => $value
+                    ,'values' => $report_data['value']
                     ,'x' => $labels['x']
                     ,'y' => $labels['y']
-                    ,'from' => $from
-                    ,'to' => $to
-                    ,'operators' => $operator
+                    ,'from' => $report_data['from']
+                    ,'to' => $report_data['to']
+                    ,'operators' => $report_data['operator']
                 ], $_render);               
             }
         ,
@@ -268,6 +279,41 @@ class AdminController extends ApplicationMasterController
         );
     }
 
+    protected function prepareReport($form_data)
+    {
+        $from = ParseData::setArray($form_data, 'from', null);
+        $to = ParseData::setArray($form_data, 'to', null);
+        $y = ParseData::setArray($form_data, 'y', null);
+        $x = ParseData::setArray($form_data, 'x', null);
+        $dimension = ParseData::setArray($form_data, 'dimension', []);
+        $condition = ParseData::setArray($form_data, 'condition', []);
+        $value = ParseData::setArray($form_data, 'value', []);
+        $operator = ParseData::setArray($form_data, 'operator', []);
+        $chart = ParseData::setArray($form_data, 'charttype', 'line'); 
+        $results = $this->getDoctrine()->getRepository('AppBundle:Analytics')->findByReport(
+            $from
+            ,$to
+            ,$y
+            ,$x
+            ,$dimension
+            ,$condition
+            ,$value
+            ,$operator
+        );
+
+        return [
+            'from' => $from
+            ,'to' => $to
+            ,'x' => $x
+            ,'y' => $y
+            ,'dimension' => $dimension
+            ,'condition' => $condition
+            ,'value' => $value
+            ,'operator' => $operator
+            ,'chart' => $chart
+            ,'results' => $results
+        ];
+    }
 
     public function preRenderRoute()
     {

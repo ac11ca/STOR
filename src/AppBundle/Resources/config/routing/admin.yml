@@ -41,6 +41,14 @@ admin_report_view:
     path: /reports/view
     defaults: { _controller:AppBundle:Admin:reportView, _render: 'HTML', _locale: 'en' }
 
+admin_report_export:
+    path: /reports/export
+    defaults: { _controller:AppBundle:Admin:reportExport, _render: 'HTML', _locale: 'en' }
+
+admin_report_export_raw:
+    path: /reports/export/raw
+    defaults: { _controller:AppBundle:Admin:reportExportRaw, _render: 'HTML', _locale: 'en' }
+
 configuration_settings:
     path: /configuration/settings/{id}
     defaults: { _controller: AppBundle:Admin:configurationSettings, id: null }
