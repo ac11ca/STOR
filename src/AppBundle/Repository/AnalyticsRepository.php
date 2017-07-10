@@ -20,17 +20,17 @@ class AnalyticsRepository extends ApplicationMasterRepository
             ->innerJoin('s.Configuration', 'c');
 
         if(!empty($from))
-            $query->andWhere('a.time >= :from')
+            $query->andWhere('a.created >= :from')
                 ->setParameter(':from', $from);
 
         if(!empty($to))
-            $query->andWhere('a.time <= :to')
+            $query->andWhere('a.created <= :to')
                 ->setParameter(':to', $to);
 
         switch($y)
         {
            case 'duration':
-            $query->select('a.time as duration');
+            $query->select('sum(a.time) as duration, ' . $x);
            break;
 
            case 'frequency':
@@ -38,7 +38,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
            break; 
 
            case 'avgduration':
-            $query->select('avg(a) as avgduration');
+            $query->select('avg(a.time) as avgduration, ' . $x);
            break;
 
            case 'avgfrequency':
@@ -48,22 +48,28 @@ class AnalyticsRepository extends ApplicationMasterRepository
 
         $query->groupBy($x);
 
-        for($i = 0; $i < count($dimension); $i++)
+        if(stristr($y, 'duration') > -1)
+            $query->andWhere('a.event_type = \'duration\'');
+
+        if(!empty($dimension) && !empty($dimension[0]))
         {
-            $dimensional = $dimension[$i];
-            $conditional = $condition[$i];
-            $valueset = $value[$i];
-            $clause = $dimensional . ' ' . $conditional . ' :value_' . $i;
+            for($i = 0; $i < count($dimension); $i++)
+            {
+                $dimensional = $dimension[$i];
+                $conditional = $condition[$i];
+                $valueset = $value[$i];
+                $clause = $dimensional . ' ' . $conditional . ' :value_' . $i;
 
-            if($i > 0 && $operator[$i-1] == 1)
-                $query->orWhere($clause);
-            else
-                $query->andWhere($clause);
+                if($i > 0 && $operator[$i-1] == 1)
+                    $query->orWhere($clause);
+                else
+                    $query->andWhere($clause);
 
-            if($conditional == 'like')
-                $query->setParameter(':value_' . $i, "%$valueset%");
-            else
-                $query->setParameter(':value_' . $i, $valueset);
+                if($conditional == 'like')
+                    $query->setParameter(':value_' . $i, "%$valueset%");
+                else
+                    $query->setParameter(':value_' . $i, $valueset);
+            }
         }
 
         $results = $query->getQuery()->getResult();

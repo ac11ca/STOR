@@ -8,9 +8,12 @@ AppBundle\Entity\Analytics:
             generator:
                 strategy: UUID
     fields:
+            created:
+                type: integer
+                nullable: false
             time: 
                 type: integer
-                nullable: false                               
+                nullable: true                               
             event_type:
                 type: string
                 length: 255

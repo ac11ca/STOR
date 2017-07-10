@@ -14,15 +14,17 @@
     <canvas id="report_chart" data-dataset="{{results|json_encode|e}}" data-title="{{y}} vs. {{x}}" data-chart="{{chart}}"></canvas>
 
     {% if not dimensions is empty %}
-        <h3>Filtered by</h3>
-        {% for dimension in dimensions %}
-            <div>{% if loop.index0 > 0 %}{{operators[loop.index0-1]}}{% endif %} {{dimension}} {{conditions[loop.index0]}} &quot;{{values[loop.index0]}}&quot;</div>
-        {% endfor %}
-        {% if from is defined and from is not empty %}
-            <div>From {{from}}</td>
-        {% endif %}
-        {% if to is defined and to is not empty %}
-            <div>To {{to}}</td>
+        {% if dimensions|length > 0 and dimensions[0] is not empty %}
+            <h3>Filtered by</h3>
+            {% for dimension in dimensions %}
+                <div>{% if loop.index0 > 0 %}{{operators[loop.index0-1]}}{% endif %} {{dimension}} {{conditions[loop.index0]}} &quot;{{values[loop.index0]}}&quot;</div>
+            {% endfor %}
+            {% if from is defined and from is not empty %}
+                <div>From {{from}}</td>
+            {% endif %}
+            {% if to is defined and to is not empty %}
+                <div>To {{to}}</td>
+            {% endif %}
         {% endif %}
     {% endif %}
     <table class="table table-striped">

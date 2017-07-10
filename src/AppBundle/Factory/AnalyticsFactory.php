@@ -56,10 +56,10 @@ class AnalyticsFactory extends ApplicationMasterFactory
     {
         return [
             '' => ''
-           ,'u.externalId' => 'User external id'
+           ,'u.external_id' => 'User external id'
            ,'u.ip_address' => 'User IP'
            ,'s.id' => 'Session ID'
-           ,'' => 'Configuration ID'
+           ,'c.id' => 'Configuration ID'
            ,'a.event_type' => 'Event Type'
            ,'a.category' => 'Category'
           ,'a.label' => 'Label'
@@ -75,13 +75,13 @@ class AnalyticsFactory extends ApplicationMasterFactory
     public static function getXOptions()
     {
         return [
-            'a.time' => 'Date'
+            'a.created' => 'Date'
             ,'a.event_type' => 'Event'
             ,'a.category' => 'Category'
             ,'a.label' => 'Label'
             ,'c.id' => 'Configuration ID'
             ,'s.id' => 'Session ID'
-            ,'u.externalId' => 'External ID'
+            ,'u.external_id' => 'External ID'
         ];
     }
 

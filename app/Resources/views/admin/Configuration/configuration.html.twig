@@ -387,6 +387,8 @@
             </div>
         </div>
 
+
+
         <div class="form-group">
             <label>Next Button Text</label>
             <div class="field-group">
@@ -402,11 +404,54 @@
         </div>
 
         <div class="form-group">
+            <label>Display Abandon Cart</label>
+            <div class="field-group">
+                <select id="crs_display_abandon" name="crs_display_abandon">
+                    <option value="1" {% if settings['crs_display_abandon'] is not defined or settings['crs_display_abandon'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['crs_display_abandon'] is defined and settings['crs_display_abandon'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Back Button</label>
+            <div class="field-group">
+                <select id="crs_display_back" name="crs_display_back">
+                    <option value="1" {% if settings['crs_display_back'] is not defined or settings['crs_display_back'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['crs_display_back'] is defined and settings['crs_display_back'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Back Search</label>
+            <div class="field-group">
+                <select id="crs_display_search" name="crs_display_search">
+                    <option value="1" {% if settings['crs_display_search'] is not defined or settings['crs_display_search'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['crs_display_search'] is defined and settings['crs_display_search'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Display Purchase</label>
+            <div class="field-group">
+                <select id="crs_display_purchase" name="crs_display_purchase">
+                    <option value="1" {% if settings['crs_display_purchase'] is not defined or settings['crs_display_purchase'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['crs_display_purchase'] is defined and settings['crs_display_purchase'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
             <label>Custom HTML</label>
             <div class="field-group">
                 <textarea id="crs_custom_html" name="crs_custom_html" class="form-control">{{settings['crs_custom_html']|default('')}} </textarea>
             </div>
         </div>
+
 
         <h2>Purchase Screen</h2>
 

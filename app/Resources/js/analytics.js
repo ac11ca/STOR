@@ -19,7 +19,7 @@ $(window).on('unload', function () {
     category = category_array[0] + '_Duration';
     label = $('body').data('label');
 	start = $('body').data('starttime');
-	end = + new Date();
+	end = Math.floor((+ new Date()) / 1000);
 	duration = end - start;
 	trackEvent('duration', category, label, duration);
 });
@@ -28,7 +28,7 @@ $(document).ready(function () {
     var $pageviews = $('.track-pageview');
     var $eventtracks = $('.track-event');
     var track_event, category, label;
-    $('body').data('starttime', + new Date());
+    $('body').data('starttime', Math.floor((+ new Date() / 1000)));
     if($pageviews.length > 0) {
         $pageviews.each(function() {
             var $this = $(this);

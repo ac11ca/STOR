@@ -16,7 +16,7 @@ class Analytics
      * @var integer
      */
     private $time;
-
+    private $created;
     /**
      * @var string
      */
@@ -33,7 +33,7 @@ class Analytics
         $this->setEventType($event);
         $this->setLabel($label);
         $this->setCategory($category);
-        $this->setTime(time());
+        $this->setCreated(time());
     }
 
     /**
@@ -204,5 +204,16 @@ class Analytics
     public function getSession()
     {
         return $this->Session;
+    }
+
+    public function setCreated($created)
+    {
+        $this->created = $created;
+        return $this;
+    }
+
+    public function getCreated()
+    {
+        return $this->created;
     }
 }
