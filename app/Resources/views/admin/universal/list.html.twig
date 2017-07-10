@@ -30,7 +30,7 @@
     {% endblock %}
 
     {% block exportbutton %}
-        <a href="{{path('admin_universal_export', {parentid:id, reponame:reponame, mode:'excel'})}}" class="btn btn-primary">{% block exportlabel %}Export Excel{% endblock %}</a>  
+        <a href="{{path('admin_universal_export', {parentid:id, reponame:reponame, mode:'excel', filter: filter})}}" class="btn btn-primary">{% block exportlabel %}Export Excel{% endblock %}</a>  
     {% endblock %}
 
     {% if not entity_list is empty %}
