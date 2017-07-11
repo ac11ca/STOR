@@ -29,4 +29,3 @@ abandon_shopping:
 track_event:
     path: /track/event/{_render}
     defaults: { _controller:  AppBundle:Default:trackEvent, _render: 'JSON' }
-

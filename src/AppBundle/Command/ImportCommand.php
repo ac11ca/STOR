@@ -72,7 +72,7 @@ class ImportCommand extends ApplicationMasterCommand
 		$this->repository_name = $this->input->getArgument('repository');     
         $this->Repository = $this->Doctrine->getRepository($this->repository_name);
         $this->Factory = $this->Repository->getFactory($this->Doctrine, $this->getContainer());
-        $this->cell_mappings = $this->Factory->getExcelMappings();
+        $this->cell_mappings = $this->Factory->getFieldKeys();
 	}    
 
 

@@ -21,7 +21,9 @@ services:
          arguments: []
      app.jsonformatter:
          class: CYINT\ComponentsPHP\Services\JsonFormatterService
-         arguments: []
+         arguments: ["@doctrine"]
+         calls:
+            - [ setContainer, ["@service_container"] ]
      app.instagram:
          class: CYINT\ComponentsPHP\Services\InstagramService
          arguments: ["@doctrine", "@app.curl"]
