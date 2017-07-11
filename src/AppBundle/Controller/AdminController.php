@@ -280,7 +280,7 @@ class AdminController extends ApplicationMasterController
                     ,'label'=>$label
                 ]);
             },
-            $this->generateUrl('admin_settings', ['id'=>$id])
+            $this->generateUrl('configuration_settings', ['id'=>$id])
         );
     }
 

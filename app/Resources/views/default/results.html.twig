@@ -31,7 +31,7 @@
                 <a class="btn btn-primary" href="{{path('search_results', {page:page-1})}}">{{settings['srs_previous_button_text']|default('Previous')}}</a>
             {% endif %}
             {% if index < total %}
-                <a class="btn btn-primary js-load-ajax" data-max="{{total}}" href="{{path('search_results', {page:page+1})}}" data-page="{{page+1}}" data-target="#product_section" data-url="{{path('search_results', {page:'**page**','_render':'JSON'})}}">{{settings['srs_next_buttn_text']|default('Next')}}</a>
+                <a class="btn btn-primary {% if settings['srs_load_ajax'] %}js-load-ajax{% endif %} product-loader" data-max="{{total}}" href="{{path('search_results', {page:page+1})}}" data-page="{{page+1}}" data-target="#product_section" data-url="{{path('search_results', {page:'**page**','_render':'JSON'})}}">{{settings['srs_next_buttn_text']|default('Next')}}</a>
             {% endif %}
         </div>
     </div>

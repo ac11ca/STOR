@@ -8,7 +8,7 @@
 
 {% block primarybody %}
 
-<div id="review_content" class="track-pageview" data-category="CRS_{{Product.ID}}_Time_Start" data-label="Visit: {{visit}}" >
+<div id="review_content" class="track-pageview" data-category="CRS_{{Product.ID}}_Time_Start" data-label="Visit: {{visit}}">
 
     <div id="review_header">
         <h2 id="review_heading"> Individual Customer Reviews </h2>
@@ -34,41 +34,16 @@
         <p>Displaying {{(page-1) * (reviews_per_page) + 1}}-{{(reviews|length) + ((page-1)*(reviews_per_page))}} of {{review_count}} results.</p>
     </div>
 
+    {% set prototype %}
+        {% embed 'default/components/review.html.twig' with {Review:null, settings:settings, index:'**index**', visit:'**visit**'} %}{% endembed %}
+    {% endset %}
 
-    {% for Review in reviews %}
-        <div id="review_{{loop.index0}}" class="review-listing">
-            <div class="review-data">
 
-                <div class="review-row">
-                    <div class="review-data-rating">
-                        <div class="star-ratings-sprite"><span style="width:{% if Review.rating is defined %}{{(Review.Rating/5)*100}}{% else %}0{% endif %}%" class="star-ratings-sprite-rating"></span></div>
-                    </div>
-
-                    <div class="review-data-title">
-                        {{Review.title}}
-                    </div>
-                </div>
-
-                <div class="review-row">
-                    <div class="review-data-reviewer">
-                       By {{Review.reviewer}}
-                    </div>     
-                
-                    <div class="review-data-created">
-                       on <span class="js-date" data-timestamp="{{Review.created}}" data-format="MMM DD, YYYY"></span>
-                    </div> 
-                </div>
-            </div>
-
-            <div class="review-comment">
-                {{Review.comment|raw}}
-            </div>
-
-            <div class="review-helpscore">
-                {{Review.helpScore}} <span>Number of people who found this review helpful.</span>
-            </div>
-        </div>
-    {% endfor %}
+    <div id="review_container" data-index="{{(reviews|length) + ((page-1)*(reviews_per_page))}}" data-prototype="{{prototype|e}}">
+        {% for Review in reviews %}
+                {% embed 'default/components/review.html.twig' with {Review:Review, index:loop.index0 } %}{% endembed %}
+        {% endfor %}
+    </div>
 
 
     {% if page > 1 %}
@@ -79,7 +54,7 @@
 
     {% if (reviews_per_page * page) < review_count %}
         <div id="review_more_button">
-            <a href="{{path('product_reviews', {product:Product.id, page:(page+1)})}}" class="btn btn-primary track-event" data-category="CRS_More_Button" data-label="Visit: {{visit}}" data-event="click" >See more</a>
+            <a href="{{path('product_reviews', {product:Product.id, page:(page+1)})}}" class="btn btn-primary review-loader track-event {% if settings['crs_load_ajax'] %}js-load-ajax{% endif %}" data-category="CRS_More_Button" data-label="Visit: {{visit}}" data-event="click" data-max="{{review_count}}" data-page="{{page + 1}}" data-target="#review_container" data-url="{{path('product_reviews', {product:Product.id, page:'**page**', '_render':'JSON'})}}">See more</a>
         </div>
     {% endif %}
 

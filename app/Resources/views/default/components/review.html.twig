@@ -1,0 +1,33 @@
+<div id="review_{{index}}" class="review-listing">
+    <div class="review-data">
+
+        <div class="review-row">
+            <div class="review-data-rating">
+                <div class="star-ratings-sprite"><span style="width:{% if Review is not null %}{% if Review.rating is defined %}{{(Review.Rating/5)*100}}{% else %}0{% endif %}{% else %}**rating_width**{% endif %}%" class="star-ratings-sprite-rating"></span></div>
+            </div>
+
+            <div class="review-data-title">
+                {% if Review is not null %}{{Review.title}}{% else %}**title**{% endif %}
+            </div>
+        </div>
+
+        <div class="review-row">
+            <div class="review-data-reviewer">
+               By {% if Review is not null %}{{Review.reviewer}}{% else %}**reviewer**{% endif %}
+            </div>     
+        
+            <div class="review-data-created">
+               on <span class="js-date" data-timestamp="{% if Review is not null %}{{Review.created}}{% else %}**created**{% endif %}" data-format="MMM DD, YYYY"></span>
+            </div> 
+        </div>
+    </div>
+
+    <div class="review-comment">
+        {% if Review is not null %}{{Review.comment|raw}}{% else %}**comment**{% endif %}
+    </div>
+
+    <div class="review-helpscore">
+        {% if Review is not null %}{{Review.helpScore}}{% else %}**helpscore**{% endif %} <span>Number of people who found this review helpful.</span>
+    </div>
+</div>
+
