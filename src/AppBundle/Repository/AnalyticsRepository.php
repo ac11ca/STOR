@@ -58,7 +58,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
         else
             $query->groupBy($x);                  
 
-        $query = $this->constructQueryFilter($dimension, $condition, $value, $query);
+        $query = $this->constructQueryFilter($dimension, $condition, $operator, $value, $query);
         $results = $query->getQuery()->getResult();
 
         if(!empty($raw))
@@ -84,7 +84,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
         $query->addSelect('u');
         $query->addSelect('s');
         $query->addSelect('c');
-        $query = $this->constructQueryFilter($dimension, $condition, $value, $query);
+        $query = $this->constructQueryFilter($dimension, $condition, $operator, $value, $query);
         $results = $query->getQuery()->getResult();
         $result_array = [];
         
@@ -109,7 +109,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
         return $result_array;        
     }
 
-    protected function constructQueryFilter($dimension, $condition, $value, $query)
+    protected function constructQueryFilter($dimension, $condition, $operator, $value, $query)
     {
         if(!empty($dimension) && !empty($dimension[0]))
         {
@@ -129,7 +129,9 @@ class AnalyticsRepository extends ApplicationMasterRepository
                     $query->setParameter(':value_' . $i, "%$valueset%");
                 else
                     $query->setParameter(':value_' . $i, $valueset);
+  
             }
+
         }
 
         return $query;

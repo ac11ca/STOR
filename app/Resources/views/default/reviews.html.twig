@@ -79,7 +79,7 @@
 
     {% if (reviews_per_page * page) < review_count %}
         <div id="review_more_button">
-            <a href="{{path('product_reviews', {product:Product.id, page:(page+1)})}}" class="btn btn-primary">See more</a>
+            <a href="{{path('product_reviews', {product:Product.id, page:(page+1)})}}" class="btn btn-primary track-event" data-category="CRS_More_Button" data-label="Visit: {{visit}}" data-event="click" >See more</a>
         </div>
     {% endif %}
 
