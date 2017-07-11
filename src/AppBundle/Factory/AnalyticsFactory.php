@@ -54,9 +54,8 @@ class AnalyticsFactory extends ApplicationMasterFactory
 
     public static function getDimensionMappings()
     {
-        return [
-            '' => ''
-           ,'u.external_id' => 'User external id'
+        return [   
+           'u.external_id' => 'User external id'
            ,'u.ip_address' => 'User IP'
            ,'s.id' => 'Session ID'
            ,'c.id' => 'Configuration ID'
@@ -75,7 +74,8 @@ class AnalyticsFactory extends ApplicationMasterFactory
     public static function getXOptions()
     {
         return [
-            'a.created' => 'Date'
+            'month' => 'Month'
+            ,'day' => 'Day'
             ,'a.event_type' => 'Event'
             ,'a.category' => 'Category'
             ,'a.label' => 'Label'

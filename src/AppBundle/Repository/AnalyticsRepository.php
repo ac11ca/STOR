@@ -17,6 +17,22 @@ class AnalyticsRepository extends ApplicationMasterRepository
         $graph_data = [];                
 
         $query = $this->prepareReportQuery($from, $to, $y);
+        $xisdate = false;
+		$datemods = [
+			'day' => 'DAY'
+            ,'month' => 'MONTH'
+		];
+
+        if($x == 'day' || $x == 'week' || $x == 'month')
+        {
+            $xisdate = true;
+            $DoctrineConfig = $this->getEntityManager()->getConfiguration(); 
+            $DoctrineConfig->addCustomDatetimeFunction('MONTH', 'DoctrineExtensions\Query\Mysql\Month');
+            $DoctrineConfig->addCustomDatetimeFunction('DAY', 'DoctrineExtensions\Query\Mysql\Day');
+            $DoctrineConfig->addCustomDatetimeFunction('FROM_UNIXTIME', 'DoctrineExtensions\Query\Mysql\UnixTimestamp');
+
+			$x = $datemods[$x] . '(FROM_UNIXTIME(a.created)) as x';
+        }
 
         switch($y)
         {
@@ -36,8 +52,12 @@ class AnalyticsRepository extends ApplicationMasterRepository
             $query->select('avg(a) as avgfrequency,' . $x);
            break;
         }
+  
+        if($xisdate)
+            $query->groupBy('x');
+        else
+            $query->groupBy($x);                  
 
-        $query->groupBy($x);
         $query = $this->constructQueryFilter($dimension, $condition, $value, $query);
         $results = $query->getQuery()->getResult();
 
