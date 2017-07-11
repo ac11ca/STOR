@@ -17,21 +17,21 @@
         </div>
 
         {% set prototype %}
-            {% embed 'default/components/product_result.html.twig' with {Product:null, settings:settings, index:'**index**', visit:'**visit**'} %}{% endembed %}
+            {% embed 'default/components/product_result.html.twig' with {Product:null, settings:settings, index:'**index**', visit:'**visit**', category: 'SRS'} %}{% endembed %}
         {% endset %}
 
         <div id="product_section" data-prototype="{{prototype|e}}" data-index="{{(products|length) + ((page-1)*(items_per_page))}}">
             {% for Product in products %}
-                {% embed 'default/components/product_result.html.twig' with {Product:Product, settings:settings, index:loop.index0, visit: visit} %}{% endembed %}
+                {% embed 'default/components/product_result.html.twig' with {Product:Product, settings:settings, index:loop.index0, visit: visit, 'category':'SRS'} %}{% endembed %}
             {% endfor %}
         </div>
 
         <div class="next-previous">
             {% if page > 1 %}
-                <a class="btn btn-primary" href="{{path('search_results', {page:page-1})}}">{{settings['srs_previous_button_text']|default('Previous')}}</a>
+                <a class="btn btn-primary track-event" data-event="click" data-category="SRS_Previous_Button" data-label="Visit: {{visit}}" data-href="{{path('search_results', {page:page-1})}}">{{settings['srs_previous_button_text']|default('Previous')}}</a>
             {% endif %}
             {% if index < total %}
-                <a class="btn btn-primary {% if settings['srs_load_ajax'] %}js-load-ajax{% endif %} product-loader" data-max="{{total}}" href="{{path('search_results', {page:page+1})}}" data-page="{{page+1}}" data-target="#product_section" data-url="{{path('search_results', {page:'**page**','_render':'JSON'})}}">{{settings['srs_next_buttn_text']|default('Next')}}</a>
+                <a class="btn btn-primary track-event {% if settings['srs_load_ajax'] %}js-load-ajax{% endif %} product-loader" data-max="{{total}}" href="{{path('search_results', {page:page+1})}}" data-page="{{page+1}}" data-target="#product_section" data-url="{{path('search_results', {page:'**page**','_render':'JSON'})}}" data-event="click" data-category="SRS_Next_Button" data-label="Visit: {{visit}}">{{settings['srs_next_buttn_text']|default('Next')}}</a>
             {% endif %}
         </div>
     </div>

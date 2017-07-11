@@ -1,4 +1,4 @@
-<a href="{% if Product is not null %}{{path('product_details', {product:Product.id})}}{% else %}{{path('product_details',{product:'**id**'})}}{% endif %}" class="product-href" id="{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}">
+<a href="{% if Product is not null %}{{path('product_details', {product:Product.id})}}{% else %}{{path('product_details',{product:'**id**'})}}{% endif %}" class="product-href track-event" id="{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}" data-event="click" data-category="{{category}}_Product_{% if Product is not null %}{%Product.id%}{% else %}**id**{% endif %}" data-label="Visit: {{visit}}">
     <div id="{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_container" class="product-panel">
         {% if settings['srs_display_image'] %}
             <div id="product_image_{{index}}" class="product-image">
