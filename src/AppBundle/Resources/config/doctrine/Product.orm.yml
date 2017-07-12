@@ -35,6 +35,11 @@ AppBundle\Entity\Product:
                 nullable: false
                 options:
                     default: 0
+            sort_order:
+                type: integer
+                nullable: true
+                options:
+                    default: 0
             active:
                 type: boolean
                 options: 

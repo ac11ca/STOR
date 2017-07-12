@@ -55,6 +55,7 @@ class Product
     private $sales;
     private $configurations;
 	private $sessions;
+    private $sort_order;
 
     /**
      * Constructor
@@ -423,4 +424,15 @@ class Product
         return $this;
     }
 
+
+    public function getSortOrder()
+    {
+        return $this->sort_order;
+    }
+
+    public function setSortOrder($sort_order)
+    {
+        $this->sort_order = $sort_order;
+        return $this;
+    }
 }

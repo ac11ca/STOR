@@ -41,6 +41,10 @@ class ProductFactory extends ApplicationMasterFactory
             ,'Sales' => $this->initializeField(
                 'number', 'Sales', 0, 0
             )
+            ,'SortOrder' => $this->initializeField(
+                'number', 'Sort Order', 0, 0
+            )
+
             ,'Tags' => $this->initializeField(
                 'text', 'Tags (comma separated)', '',''
             )			

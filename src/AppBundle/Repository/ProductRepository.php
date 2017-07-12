@@ -21,4 +21,15 @@ class ProductRepository extends ApplicationMasterRepository
             ->setParameter(':parentid', $parentid);
         return $query;
     }
+
+
+    public function orderByMethod($query, $order_by, $direction)
+    {
+        if(!empty($order_by))        
+            $query->orderBy($order_by, $direction);       
+        else
+            $query->orderBy('e.sort_order,e.name', 'ASC');
+
+        return $query;
+    }
 }
