@@ -24,10 +24,10 @@
                 <tbody>
                     {% for Product in products %}
                         <tr>
-                            <td class="image"><img src="{{Product.image}}" /></td>
-                            <td>{{Product.name}}</td>
-                            <td>${{Product.price|number_format(2,'.',',')}}</td>
-                            <td><input type="radio" name="product" id="product" value="{{Product.id}}" {% if loop.index0 == 0 %}checked{% endif %} /></td>
+                            <td class="image"><img src="{{Product.image}}" class="track-event" data-event="click" data-category="PS_{{Product.image}}_Image" data-label="Visit: {{visit}}" /></td>
+                            <td><span class="track-event" data-event="click" data-category="PS_{{Product.image}}_Title" data-label="Visit: {{visit}}">{{Product.name}}</span></td>
+                            <td><span class="track-event" data-event="click" data-category="PS_{{Product.image}}_Price" data-label="Visit: {{visit}}">${{Product.price|number_format(2,'.',',')}}</span></td>
+                            <td><input type="radio" name="product" id="product" value="{{Product.id}}" {% if loop.index0 == 0 %}checked{% endif %} class="track-event" data-category="PS_{{Product.image}}_Purchase" data-label="Visit: {{visit}}" /></td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -39,7 +39,7 @@
 
         <input type="hidden" id="user" name="user" value="{{User.ExternalId}}" />
 
-        {% embed 'default/components/navigation.html.twig' with {back:settings['ps_display_back'], category: 'PS', abandon: settings['ps_display_abandon'], term:term, purchase: false, checkout: products|length > 0} %}{% endembed %}
+        {% embed 'default/components/navigation.html.twig' with {back:settings['ps_display_back'], category: 'PS', abandon: settings['ps_display_abandon'], term:term, purchase: false, checkout: products|length > 0, visit: visit} %}{% endembed %}
 
     </form>
 

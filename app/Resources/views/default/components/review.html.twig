@@ -2,31 +2,31 @@
     <div class="review-data">
 
         <div class="review-row">
-            <div class="review-data-rating">
+            <div class="review-data-rating track-event" data-event="click" data-category="{{category}}_Reviews" data-label="Visit: {{visit}}">
                 <div class="star-ratings-sprite"><span style="width:{% if Review is not null %}{% if Review.rating is defined %}{{(Review.Rating/5)*100}}{% else %}0{% endif %}{% else %}**rating_width**{% endif %}%" class="star-ratings-sprite-rating"></span></div>
             </div>
 
-            <div class="review-data-title">
+            <div class="review-data-title track-event" data-event="click" data-category="{{category}}_Title" data-label="Visit: {{visit}}">
                 {% if Review is not null %}{{Review.title}}{% else %}**title**{% endif %}
             </div>
         </div>
 
         <div class="review-row">
-            <div class="review-data-reviewer">
+            <div class="review-data-reviewer track-event" data-event="click" data-category="{{category}}_Reviewer" data-label="Visit: {{visit}}">
                By {% if Review is not null %}{{Review.reviewer}}{% else %}**reviewer**{% endif %}
             </div>     
         
-            <div class="review-data-created">
+            <div class="review-data-created track-event" data-event="click" data-category="{{category}}_Created" data-label="Visit: {{visit}}">
                on <span class="js-date" data-timestamp="{% if Review is not null %}{{Review.created}}{% else %}**created**{% endif %}" data-format="MMM DD, YYYY"></span>
             </div> 
         </div>
     </div>
 
-    <div class="review-comment">
+    <div class="review-comment track-event" data-event="click" data-label="Visit: {{visit}}" data-category="{{category}}_Review">
         {% if Review is not null %}{{Review.comment|raw}}{% else %}**comment**{% endif %}
     </div>
 
-    <div class="review-helpscore">
+    <div class="review-helpscore track-event" data-event="click" data-label="Visit: {{visit}}" data-category="{{category}}_Helpscore">
         {% if Review is not null %}{{Review.helpScore}}{% else %}**helpscore**{% endif %} <span>Number of people who found this review helpful.</span>
     </div>
 </div>

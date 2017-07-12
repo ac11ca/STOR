@@ -30,31 +30,33 @@
     </div>
 
 
-    <div id="page_data">
-        <p>Displaying {{(page-1) * (reviews_per_page) + 1}}-{{(reviews|length) + ((page-1)*(reviews_per_page))}} of {{review_count}} results.</p>
-    </div>
+    {% if not settings['crs_load_ajax'] %}
+        <div id="page_data">
+            <p>Displaying {{(page-1) * (reviews_per_page) + 1}}-{{(reviews|length) + ((page-1)*(reviews_per_page))}} of {{review_count}} results.</p>
+        </div>
+    {% endif %}
 
     {% set prototype %}
-        {% embed 'default/components/review.html.twig' with {Review:null, settings:settings, index:'**index**', visit:'**visit**'} %}{% endembed %}
+        {% embed 'default/components/review.html.twig' with {Review:null, settings:settings, index:'**index**', visit:visit, category:'CRS_' ~ Product.id} %}{% endembed %}
     {% endset %}
 
 
     <div id="review_container" data-index="{{(reviews|length) + ((page-1)*(reviews_per_page))}}" data-prototype="{{prototype|e}}">
         {% for Review in reviews %}
-                {% embed 'default/components/review.html.twig' with {Review:Review, index:loop.index0 } %}{% endembed %}
+                {% embed 'default/components/review.html.twig' with {Review:Review, index:loop.index0, settings:settings, visit:visit, category:'CRS_' ~ Product.id } %}{% endembed %}
         {% endfor %}
     </div>
 
 
     {% if page > 1 %}
-        <div id="review_more_button">
+        <div id="review_more_button" class="track-event" data-event="click" data-category="CRS_{{Product.id}}_Previous" data-label="Visit: {{visit}}">
             <a href="{{path('product_reviews', {product:Product.id, page:(page-1)})}}" class="btn btn-primary">Previous</a>
         </div>
     {% endif %}
 
     {% if (reviews_per_page * page) < review_count %}
-        <div id="review_more_button">
-            <a href="{{path('product_reviews', {product:Product.id, page:(page+1)})}}" class="btn btn-primary review-loader track-event {% if settings['crs_load_ajax'] %}js-load-ajax{% endif %}" data-category="CRS_More_Button" data-label="Visit: {{visit}}" data-event="click" data-max="{{review_count}}" data-page="{{page + 1}}" data-target="#review_container" data-url="{{path('product_reviews', {product:Product.id, page:'**page**', '_render':'JSON'})}}">See more</a>
+        <div id="review_more_button" class="track-event" data-event="click" data-category="CRS_{{Product.id}}_Next" data-label="Visit: {{visit}}">
+            <a href="{{path('product_reviews', {product:Product.id, page:(page+1)})}}" class="btn btn-primary review-loader {% if settings['crs_load_ajax'] %}js-load-ajax{% endif %}" data-max="{{review_count}}" data-page="{{page + 1}}" data-target="#review_container" data-url="{{path('product_reviews', {product:Product.id, page:'**page**', '_render':'JSON'})}}">See more</a>
         </div>
     {% endif %}
 
