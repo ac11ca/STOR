@@ -12,7 +12,7 @@
 
         {% if settings['pis_display_images'] %}
             <div id="product_detail_image">
-                <img src="{{Product.image}}">
+                <img src="{{Product.image}}" class="track-event" data-event="click" data-category="PIS_{{Product.Id}}_image" data-label="Visit: {{visit}}">
             </div>
         {% endif %}
 
@@ -20,13 +20,13 @@
 
             {% if settings['pis_display_title'] %} 
                 <div id="product_detail_title">
-                    <h3>{{Product.name}}</h3>
+                    <h3 class="track-event" data-event="click" data-category="PIS_{{Product.id}}_Title">{{Product.name}}</h3>
                 </div>
             {% endif %}
 
             <div id="product_detail_author_container">
                 {% if settings['pis_display_author'] %}
-                    <div id="product_detail_author">
+                    <div id="product_detail_author" class="track-event" data-category="PIS_{{Product.id}}_Author" data-label="Visit: {{visit}}" data-event="click">
                         {% for Author in Product.authors %}{% spaceless %}
                            {% if loop.index0 > 0 %}, {% endif %}{{Author.name}}
                         {% endspaceless %}{% endfor %}
@@ -34,20 +34,20 @@
                 {% endif %}
 
                 {% if settings['pis_display_price'] %}
-                    <div id="product_detail_price">
+                    <div id="product_detail_price" class="track-event" data-category="PIS_{{Product.id}}" data-label="Visit: {{visit}}" data-event="click">
                         ${{Product.price|number_format(2,'.',',')}}
                     </div>
                 {% endif %}
 
                 {% if settings['pis_display_purchase'] %}
                     <div id="product_add_cart">
-                        <a href="{{path('checkout', {product:Product.id})}}" class="btn btn-primary">Add to Cart</a>
+                        <a href="{{path('checkout', {product:Product.id})}}" class="btn btn-primary track-event" data-event="click" data-category="PIS_{{Product.id}}_Add_Cart" data-label="Visit: {{visit}}">Add to Cart</a>
                     </div>
                 {% endif %}
             </div>
 
             {% if settings['pis_display_description'] %}
-                <div id="product_detail_decription">
+                <div id="product_detail_decription" class="track-event" data-event="click" data-category="PIS_{{Product.id}}_Description">
                     {{Product.description|raw}}
                 </div>
             {% endif %}

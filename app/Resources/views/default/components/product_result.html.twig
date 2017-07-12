@@ -1,20 +1,20 @@
-<a href="{% if Product is not null %}{{path('product_details', {product:Product.id})}}{% else %}{{path('product_details',{product:'**id**'})}}{% endif %}" class="product-href track-event" id="{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}" data-event="click" data-category="{{category}}_Product_{% if Product is not null %}{%Product.id%}{% else %}**id**{% endif %}" data-label="Visit: {{visit}}">
+<a href="{% if Product is not null %}{{path('product_details', {product:Product.id})}}{% else %}{{path('product_details',{product:'**id**'})}}{% endif %}" class="product-href" id="{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}" data-label="Visit: {{visit}}">
     <div id="{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_container" class="product-panel">
         {% if settings['srs_display_image'] %}
             <div id="product_image_{{index}}" class="product-image">
-                <img src="{% if Product is not null %}{{Product.image}}{% else %}**image**{% endif %}" class="track-event" data-event="click" data-category="SRS_Product_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_image" data-label="View: {{visit}}">
+                <img src="{% if Product is not null %}{{Product.image}}{% else %}**image**{% endif %}" class="track-event" data-event="click" data-category="{{category}}_Product_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_image" data-label="View: {{visit}}">
             </div>
         {% endif %}
 
         {% if settings['srs_display_title'] %}
             <div id="product_title_{{index}}" class="product-name">
-                <span class="track-event" data-event="click" data-category="SRS_Product_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_title" data-label="View: {{visit}}">{% if Product is not null %}{{Product.name}}{% else %}**name**{% endif %}
+                <span class="track-event" data-event="click" data-category="{{category}}_Product_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_title" data-label="View: {{visit}}">{% if Product is not null %}{{Product.name}}{% else %}**name**{% endif %}
             </div>
         {% endif %}
 
         {% if settings['srs_display_author'] %}
             <div id="product_authors_{{index}}" class="author-names">
-                <span class="track-event" data-event="cick" data-category="SRS_Product_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_authors" data-label="View: {{visit}}">
+                <span class="track-event" data-event="cick" data-category="{{category}}_Product_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_authors" data-label="View: {{visit}}">
                     {% if Product is not null %}
                         {% for Author in Product.authors %}{% spaceless %}
                             {% if loop.index0 > 0 %}, {% endif %}{{Author.name}}
@@ -28,15 +28,15 @@
 
         <div id="product_ratings_{{index}}" class="ratings">
             {% if settings['srs_display_stars'] %}
-                <div class="star-ratings-sprite"><span style="width:{% if Product is not null %}{% if ratings[Product.id] is defined %}{{(ratings[Product.id]['rating']/5)*100}}{% else %}0{% endif %}{% else %}**rating_width**{% endif %}%" class="star-ratings-sprite-rating"></span></div>
+                <div class="star-ratings-sprite track-event" data-event="click" data-category="{{category}}_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_Rating" data-label="Visit: {{visit}}"><span style="width:{% if Product is not null %}{% if ratings[Product.id] is defined %}{{(ratings[Product.id]['rating']/5)*100}}{% else %}0{% endif %}{% else %}**rating_width**{% endif %}%" class="star-ratings-sprite-rating"></span></div>
             {% endif %}
             {% if settings['srs_display_reviews'] %}
-                <span>From {% if Product is not null %}{% if ratings[Product.id] is defined %}{{ratings[Product.id]['count']}}{% else %}0{% endif %} review{% if ratings[Product.id] is not defined or ratings[Product.id]['count'] != 1 %}s{% endif %}{% else %}**rating_count**{% endif %}</span>
+                <span class="track-event" data-event="click" data-category="{{category}}_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_Reviews" data-labe="Visit: {{visit}}">From {% if Product is not null %}{% if ratings[Product.id] is defined %}{{ratings[Product.id]['count']}}{% else %}0{% endif %} review{% if ratings[Product.id] is not defined or ratings[Product.id]['count'] != 1 %}s{% endif %}{% else %}**rating_count**{% endif %}</span>
             {% endif %}    
         </div>
 
         {% if settings['srs_display_price'] %}
-            <div id="product_price_{{index}}" class="price">
+            <div id="product_price_{{index}}" class="price track-event" data-event="click" data-category="{{category}}}_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif%}_price" data-label="Visit: {{visit}}">
                 {% if Product is not null %}
                     ${{Product.price|number_format(2,'.',',')}}                                               
                 {% else %}
@@ -46,7 +46,7 @@
         {% endif %}
 
         {% if settings['srs_display_purchase'] %}
-            <button onclick="event.preventDefault();window.location='{% if Product is not null %}{{path('checkout', {product:Product.id})}}{% else %}{{path('checkout', {product:'**id**'})}}{% endif %}';" class="btn btn-primary">Add to Cart</button>
+            <button onclick="event.preventDefault();window.location='{% if Product is not null %}{{path('checkout', {product:Product.id})}}{% else %}{{path('checkout', {product:'**id**'})}}{% endif %}';" class="btn btn-primary track-event" data-event="click" data-category="{{category}}_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_Add_Cart">Add to Cart</button>
         {% endif %}
 
     </div>
