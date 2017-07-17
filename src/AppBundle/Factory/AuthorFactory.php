@@ -29,9 +29,6 @@ class AuthorFactory extends ApplicationMasterFactory
             ,'Bio' => $this->initializeField(
                 'richtext', 'Bio', '', ''
             )
-            ,'Active' => $this->initializeField(
-                'checkbox', 'Active', true, false, []
-            )
         ]);
 
         $this->settings = ['cloudinary' => $Doctrine->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('cloudinary') ];
