@@ -14,7 +14,6 @@
         <th>Price</th>
         <th>Authors</th>
         <th>Sales</th>          
-        <th>Active</th>
         <th>Sort Order</th>
         <th>Actions</th>
     </thead>
@@ -27,7 +26,6 @@
                 <td>${{Product.price|number_format(2,'.',',')}}</td>
                 <td>{% for Author in Product.authors %} {% if loop.index0 > 0 %},{% endif %}{{Author.name}}{% endfor %}</td>
                 <td>{{Product.sales}}</td>
-                <td><input type="checkbox" disabled {% if Product.active %}checked{% endif %} /></td>
                 <td>{{Product.sortOrder}}</td>
                 <td><a href="{{path('admin_universal_form', {id:Product.id, reponame:reponame})}}"><span class="glyphicon glyphicon-pencil"></span></a> <a href="#" class="js-remove" data-target="{{Product.id}}"><span class="glyphicon glyphicon-remove"></span></a></td>
             </tr>
