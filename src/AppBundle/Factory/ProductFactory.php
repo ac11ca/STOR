@@ -48,9 +48,6 @@ class ProductFactory extends ApplicationMasterFactory
             ,'Tags' => $this->initializeField(
                 'text', 'Tags (comma separated)', '',''
             )			
-            ,'Active' => $this->initializeField(
-                'checkbox', 'Active', true, false, []
-            )
         ]);
 
         $this->settings = ['cloudinary' => $Doctrine->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('cloudinary') ];
