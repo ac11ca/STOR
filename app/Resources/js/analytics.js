@@ -32,9 +32,7 @@ $(document).ready(function () {
     if($pageviews.length > 0) {
         $pageviews.each(function() {
             var $this = $(this);
-            $this.category = $this.data('category');
-            $this.label = $this.data('label');
-            trackEvent('pageview', $this.category, $this.label);
+            trackPageview($this);
         });
         
     }
@@ -69,3 +67,10 @@ $(document).ready(function () {
     }
 
 } );
+
+function trackPageview($this) {
+    $this.event = $this.data('event') || 'pageview';
+    $this.category = $this.data('category');
+    $this.label = $this.data('label');
+    trackEvent($this.event, $this.category, $this.label);
+}

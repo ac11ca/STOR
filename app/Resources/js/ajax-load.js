@@ -41,7 +41,6 @@ AjaxLoader.prototype.loadMore = function(event, $loadbutton) {
 
 AjaxLoader.prototype.loadReviews = function(response) {    
     var current_review;
-    console.log(response);
     if(response.data.reviews.length) {       
         for(var i = 0; i < response.data.reviews.length; i++) {                   
             index = this.$target.data('index');
@@ -56,6 +55,10 @@ AjaxLoader.prototype.loadReviews = function(response) {
             current_review = current_review.replace(/\*\*index\*\*/g, index);
              
             this.$target.append(current_review);
+            if($(current_review).hasClass('track-pageview')) {
+                trackPageview($(current_review));
+            }
+
             this.$target.data('index', index+1);
         }
 
@@ -66,7 +69,6 @@ AjaxLoader.prototype.loadReviews = function(response) {
 
 AjaxLoader.prototype.loadProducts = function(response) {
     var current_product, rating_obj, rating, rating_count, index;
-    console.log(response);
     if(response.data.products.length) {
         for(var i = 0; i < response.data.products.length; i++) {                   
             index = this.$target.data('index');
@@ -85,6 +87,10 @@ AjaxLoader.prototype.loadProducts = function(response) {
             current_product = current_product.replace(/\*\*index\*\*/g,  index);
             current_product = current_product.replace(/\*\*visit\*\*/g,  this.visit);
             this.$target.append(current_product);
+            if($(current_review).hasClass('track-pageview')) {
+                trackPageview($(current_review));
+            }
+
             this.$target.data('index', index+1);
         }
 

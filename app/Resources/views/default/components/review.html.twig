@@ -1,4 +1,4 @@
-<div id="review_{{index}}" class="review-listing">
+<div id="review_{{index}}" class="review-listing track-pageview" data-event="seen" data-category="{{category}}_{% if Review is not null %}{{Review.id}}{% else %}**id**{% endif %}_Seen" data-label="Visit: {{visit}}">
     <div class="review-data">
 
         <div class="review-row">
