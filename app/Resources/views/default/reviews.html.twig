@@ -62,7 +62,7 @@
 
 </div>
 
- {% embed 'default/components/navigation.html.twig' with  {'category':'CRS_' ~ Product.Id, purchase:settings['crs_display_purchase'],abandon:settings['crs_display_abandon'], visit: visit, back: true, term: term} %}{% endembed %}
+ {% embed 'default/components/navigation.html.twig' with  {'category':'CRS_' ~ Product.Id, purchase:settings['crs_display_purchase'],abandon:settings['crs_display_abandon'], visit: visit, back: true, term: term, settings: settings} %}{% endembed %}
 {% endblock %}
 
 {% block custom_html %}
