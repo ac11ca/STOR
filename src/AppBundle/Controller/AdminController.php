@@ -140,9 +140,14 @@ class AdminController extends ApplicationMasterController
                 $x_mappings = AnalyticsFactory::getXOptions();                        
                 $y_mappings = AnalyticsFactory::getYOptions();                        
 
+                $categories = $Doctrine->getRepository('AppBundle:Analytics')->findCategoryNames();
+                $events = $Doctrine->getRepository('AppBundle:Analytics')->findEventNames();
+
                 return $this->renderRoute("admin/reports/generate.html.twig", [
                     'dimension_mappings' => $dimension_mappings
                     ,'conditional_mappings' => $conditional_mappings
+                    ,'categories' => $categories
+                    ,'events' => $events
                     ,'x_mappings' => $x_mappings
                     ,'y_mappings' => $y_mappings
                 ], $_render);               

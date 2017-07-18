@@ -36,7 +36,7 @@
         </div>
 
         {% if settings['srs_display_price'] %}
-            <div id="product_price_{{index}}" class="price track-event" data-event="click" data-category="{{category}}}_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif%}_price" data-label="Visit: {{visit}}">
+            <div id="product_price_{{index}}" class="price track-event" data-event="click" data-category="{{category}}_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_price" data-label="Visit: {{visit}}">
                 {% if Product is not null %}
                     ${{Product.price|number_format(2,'.',',')}}                                               
                 {% else %}

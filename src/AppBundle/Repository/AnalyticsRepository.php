@@ -171,4 +171,24 @@ class AnalyticsRepository extends ApplicationMasterRepository
         return $result;
     }
 
+    public function findCategoryNames()
+    {
+        $query = $this->createQueryBuilder('a');
+        $query->select('a.category');
+        $query->groupBy('a.category');
+        $query->orderBy('a.category');
+
+        return $query->getQuery()->getResult();
+    }
+
+    public function findEventNames()
+    {
+        $query = $this->createQueryBuilder('a');
+        $query->select('a.event_type');
+        $query->groupBy('a.event_type');
+        $query->orderBy('a.event_type');
+
+        return $query->getQuery()->getResult();
+    }
+
 }

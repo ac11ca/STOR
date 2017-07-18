@@ -54,9 +54,90 @@
         </div>
 
         <div class="form-group">
+            <a href="#example" role="button" data-toggle="collapse" class="btn btn-warning"><span class="glyphicon glyphicon-info-sign" title="Help" alt="Help"></span></a>
             <input type="submit" class="btn btn-primary" value="Generate" />
         </div>
     </form> 
+
+    <div class="collapse" id="example">
+        <h2>Examples</h2>
+
+        <p>The tool is best used by selecting a Y axis (frequency or duration), to be mapped against an X axis (a time factor such as month or day, configuration id, event type, category name, or label). Then you can filter the result set based on a set of filter conditions. For example, if you wanted to see the average number of clicks per configuration id of the &quot;Load More&quot; button on the customer review screen, then you would take the following steps: 
+
+        <pre>
+            Select "Average Frequency" as the Y value
+            Select "Configuration ID" as the X value<
+            Set the filter dimension to "Event Type"
+            Enter "click" in the value field. (The filter fields together should read "Event Type Equals click")
+            Click the "Add filter" button
+            Set the new dimenson field to "Category"     
+            Enter "CRS_More_Button" as the value. (The new filter row should read "Category Equals CRS_More_Button")
+            Click generate report.           
+        </pre>
+
+        <p>If you want to see the results for the entire CRS set you can use the &quot;Contains&quot; operator instead of the &quot;Equals&quot; operator.</p>
+
+        <pre>
+            Select "Average Frequency" as the Y value
+            Select "Configuration ID" as the X value<
+            Set the filter dimension to "Event Type"
+            Enter "click" in the value field. (The filter fields together should read "Event Type Equals click")
+            Click the "Add filter" button
+            Set the new dimenson field to "Category"     
+            Change the new condition field from "Equals" to "Contains"
+            Enter "CRS" as the value. (The new filter row should read "Category Contains CRS")
+            Click generate report.           
+        </pre>
+
+        <p>At any time once you generate a report, you can export the raw data used to create it by clicking the &quot;Export Raw Data&quot; button on the report view.</p>
+
+        <h3>Possible Categories</h3>
+
+        <table>
+            <tr>
+                <td>CRS = Customer Review Screen</td>
+            </tr>
+            <tr>
+                <td>PIS = Product Information Screen</td>
+            </tr>
+            <tr>
+                <td>PS = Purchase Screen</td>
+            </tr>
+            <tr>
+                <td>SRS = Search Results Screen</td>
+            </tr>
+        </table>
+
+        <table class="table table-striped">
+             <thead>
+                <tr>
+                    <th>Events</th>       
+                </tr>
+            </thead>
+            <tbody>     
+                {% for event_type in events %}
+                    <tr>
+                        <td>{{event_type['event_type']}}</td>          
+                    </tr>
+                {% endfor %}
+            </tbody>
+       </table>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Categories</th>       
+                </tr>
+            </thead>
+            <tbody>     
+                {% for category_name in categories %}
+                    <tr>
+                        <td>{{category_name['category']}}</td>          
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock %}
 
