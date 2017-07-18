@@ -41,7 +41,7 @@
 
                 {% if settings['pis_display_purchase'] %}
                     <div id="product_add_cart">
-                        <a href="{{path('checkout', {product:Product.id})}}" class="btn btn-primary track-event" data-event="click" data-category="PIS_{{Product.id}}_Add_Cart" data-label="Visit: {{visit}}">Add to Cart</a>
+                        <a href="{{path('checkout', {product:Product.id})}}" class="btn btn-primary track-event add-cart" data-event="click" data-category="PIS_{{Product.id}}_Add_Cart" data-label="Visit: {{visit}}">Add to Cart</a>
                     </div>
                 {% endif %}
             </div>
