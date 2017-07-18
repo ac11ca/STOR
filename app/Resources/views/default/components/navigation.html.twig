@@ -1,6 +1,6 @@
 <div id="navigation_bar">
 	{% if abandon is defined and abandon %}
-	    <a href="{{path('abandon_shopping')}}" class="btn btn-primary track-event" data-event="click" data-category="{{category}}_Abandon_Button" data-label="Visit: {{visit}}">{{settings['abandon_shopping']}}</a>
+	    <a href="{{path('abandon_shopping')}}" class="btn btn-primary track-event" data-event="click" data-category="{{category}}_Abandon_Button" data-label="Visit: {{visit}}" onclick="return confirm('Are you sure you wish to abandon shopping?');">{{settings['abandon_shopping']}}</a>
 	{% endif %}
     {% if back is defined and back %}
         <a href="{{path('search_results', {term:term})}}" class="track-event btn btn-primary" data-event="click" data-category="{{category}}_Back_Button" data-label="Visit: {{visit}}">{{settings['search_results_text']}}</a>
@@ -9,7 +9,7 @@
 	    <a href="{{path('checkout')}}" class="track-event btn btn-primary" data-event="click" data-category="{{category}}_Purchase_Button" data-label="Visit: {{visit}}">{{settings['make_purchase_text']}}</a>
 	{% endif %}
 	{% if checkout is defined and checkout %}
-	    <input type="submit" class="btn btn-primary track-event" data-event="click" data-category="{{category}}_Checkout_Button" data-label="Visit: {{visit}}" value="{{settings['make_purchase_text']}}">
+	    <input type="submit" class="btn btn-primary track-event" data-event="click" data-category="{{category}}_Checkout_Button" data-label="Visit: {{visit}}" value="{{settings['make_purchase_text']}}" onclick="return confirm('Are you sure you wish to checkout with the selected product?');">
 	{% endif %}
 
 </div>
