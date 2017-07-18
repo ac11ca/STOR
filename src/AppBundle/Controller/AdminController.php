@@ -200,7 +200,7 @@ class AdminController extends ApplicationMasterController
                     
                 }
                 else
-                    throw new \Exception(403, 'Invalid request');
+                    throw new \Exception('Invalid request', 403);
 
 
                 $labels = AnalyticsFactory::getFilterLabels($report_data['dimension'], $report_data['condition'], $report_data['x'], $report_data['y']);    
@@ -215,6 +215,10 @@ class AdminController extends ApplicationMasterController
                     ,'y' => $labels['y']
                     ,'from' => $report_data['from']
                     ,'to' => $report_data['to']
+                    ,'from_hour' => $report_data['from_hour']
+                    ,'to_hour' => $report_data['to_hour']
+                    ,'from_minute' => $report_data['from_minute']
+                    ,'to_minute' => $report_data['to_minute']
                     ,'operators' => $report_data['operator']
                 ], $_render);               
             }
@@ -288,6 +292,11 @@ class AdminController extends ApplicationMasterController
     {
         $from = ParseData::setArray($form_data, 'from', null);
         $to = ParseData::setArray($form_data, 'to', null);
+        $from_hour = ParseData::setArray($form_data, 'from_hour', null);
+        $to_hour = ParseData::setArray($form_data, 'to_hour', null);
+        $from_minute = ParseData::setArray($form_data, 'from_minute', null);
+        $to_minute = ParseData::setArray($form_data, 'to_minute', null);
+
         $y = ParseData::setArray($form_data, 'y', null);
         $x = ParseData::setArray($form_data, 'x', null);
         $dimension = ParseData::setArray($form_data, 'dimension', []);
@@ -296,8 +305,8 @@ class AdminController extends ApplicationMasterController
         $operator = ParseData::setArray($form_data, 'operator', []);
         $chart = ParseData::setArray($form_data, 'charttype', 'line'); 
         $results = $this->getDoctrine()->getRepository('AppBundle:Analytics')->$method(
-            $from
-            ,$to
+            strtotime($from . ' ' . $from_hour . ':'  . $from_minute)
+            ,strtotime($to . ' ' . $to_hour . ':' . $to_minute)
             ,$y
             ,$x
             ,$dimension
@@ -309,6 +318,12 @@ class AdminController extends ApplicationMasterController
         return [
             'from' => $from
             ,'to' => $to
+            ,'from_hour' => $from_hour
+            ,'to_hour' => $to_hour
+            ,'from_minute' => $from_minute
+            ,'to_minute' => $to_minute
+            ,'from_hour' => $from_hour
+            ,'to_hour' => $to_hour
             ,'x' => $x
             ,'y' => $y
             ,'dimension' => $dimension

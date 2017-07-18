@@ -17,16 +17,18 @@
     <a href="{{path('admin_report_export')}}" class="btn btn-primary">Export Graph Data</a>
 
     {% if not dimensions is empty %}
-        {% if dimensions|length > 0 and dimensions[0] is not empty %}
+        {% if dimensions|length > 0 and dimensions[0] is not empty or (to is defined and to is not empty) or (from is defined and from is not empty) %}
             <h3>Filtered by</h3>
-            {% for dimension in dimensions %}
-                <div>{% if loop.index0 > 0 %}{{operators[loop.index0-1]}}{% endif %} {{dimension}} {{conditions[loop.index0]}} &quot;{{values[loop.index0]}}&quot;</div>
-            {% endfor %}
+            {% if dimension is defined and dimension is not empty %}
+                {% for dimension in dimensions %}
+                    <div>{% if loop.index0 > 0 %}{{operators[loop.index0-1]}}{% endif %} {{dimension}} {{conditions[loop.index0]}} &quot;{{values[loop.index0]}}&quot;</div>
+                {% endfor %}
+            {% endif %}
             {% if from is defined and from is not empty %}
-                <div>From {{from}}</td>
+                <div>From {{from}} {% if from_hour < 10 %}0{% endif %}{{from_hour|number_format(0,'.',',')}}:{% if from_minute <  10 %}0{% endif %}{{from_minute|number_format(0,'.',',')}}</td>
             {% endif %}
             {% if to is defined and to is not empty %}
-                <div>To {{to}}</td>
+                <div>To {{to}} {% if to_hour <  10 %}0{% endif %}{{to_hour|number_format(0,'.',',')}}:{% if to_minute < 10 %}0{% endif %}{{to_minute|number_format(0,'.',',')}}</td>
             {% endif %}
         {% endif %}
     {% endif %}
