@@ -22,5 +22,5 @@ AppBundle\Entity\ConfigurationSetting:
         Configuration:
             targetEntity: AppBundle\Entity\Configuration
             inversedBy: settings         
-
+            cascade: ['remove']
     lifecycleCallbacks: {  }

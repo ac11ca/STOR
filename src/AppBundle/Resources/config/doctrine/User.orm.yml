@@ -21,11 +21,9 @@ AppBundle\Entity\User:
                 length: 255
                 nullable: false
     oneToMany:
-            reviews:
-                targetEntity: AppBundle\Entity\Review
-                mappedBy: User
             sessions:
                 targetEntity: AppBundle\Entity\Session
                 mappedBy: User
+                cascade: ['remove']
    
     lifecycleCallbacks: {  }

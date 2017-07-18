@@ -22,17 +22,17 @@ AppBundle\Entity\Session:
             inversedBy: sessions
             joinColumn:
                 name: user_id
-                referencedColumnName:  id
+                referencedColumnName:  id        
         Configuration:
             targetEntity: AppBundle\Entity\Configuration
             inversedBy: sessions
             joinColumn:
                 name: configuration_id
                 referencedColumnName:  id
-
     oneToMany:
             analytics:
                targetEntity: AppBundle\Entity\Analytics
                mappedBy: Session
+               cascade: ['remove']
         
     lifecycleCallbacks: {  }
