@@ -27,7 +27,7 @@ class ReviewFactory extends ApplicationMasterFactory
                  , $this->getProductOptions()
             )           
             ,'Created' => $this->initializeField(
-                'date', 'Posted',date('Y-m-d'),'',['required'] 
+                'date', 'Posted',date('Y-m-d'),'',['required'], ['format'=>'d/m/Y'] 
             )
             ,'Comment' => $this->initializeField(
                 'textarea', 'Comment',''
