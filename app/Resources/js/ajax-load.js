@@ -40,14 +40,18 @@ AjaxLoader.prototype.loadMore = function(event, $loadbutton) {
 };
 
 AjaxLoader.prototype.loadReviews = function(response) {    
-    var current_review;
+    var current_review, timestamp, explode, international_date;
     if(response.data.reviews.length) {       
         for(var i = 0; i < response.data.reviews.length; i++) {                   
             index = this.$target.data('index');
-            current_review = this.prototype;
+            explode = response.data.reviews[i].Created.split('/');
+            international_date = explode[2] + '-' + explode[1] + '-' + explode[0];
+            timestamp = Math.floor(new Date(international_date).getTime() / 1000);
+            console.log(timestamp);
+            current_review = this.prototype;            
             current_review = current_review.replace(/\*\*id\*\*/g, response.data.reviews[i].Id);
             current_review = current_review.replace(/\*\*comment\*\*/g, response.data.reviews[i].Comment);
-            current_review = current_review.replace(/\*\*created\*\*/g, response.data.reviews[i].Created);
+            current_review = current_review.replace(/\*\*created\*\*/g, timestamp);
             current_review = current_review.replace(/\*\*helpscore\*\*/g, response.data.reviews[i].HelpScore);
             current_review = current_review.replace(/\*\*rating_width\*\*/g, (response.data.reviews[i].Rating/5)*100);
             current_review = current_review.replace(/\*\*title\*\*/g, response.data.reviews[i].Title);
@@ -59,6 +63,7 @@ AjaxLoader.prototype.loadReviews = function(response) {
                 trackPageview($(current_review));
             }
 
+            initializeDateFormatting();
             this.$target.data('index', index+1);
         }
 
