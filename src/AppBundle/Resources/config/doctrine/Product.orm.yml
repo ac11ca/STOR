@@ -48,6 +48,7 @@ AppBundle\Entity\Product:
         reviews:
             targetEntity: AppBundle\Entity\Review
             mappedBy: Product
+            cascade: ['remove']
     manyToMany:
         authors:
             targetEntity: AppBundle\Entity\Author

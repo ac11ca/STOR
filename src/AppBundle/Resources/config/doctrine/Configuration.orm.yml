@@ -29,4 +29,9 @@ AppBundle\Entity\Configuration:
                 session_id:
                     referencedColumName: id            
             cascade: ['remove']
+    manyToMany:
+        products:
+            targetEntity: AppBundle\Entity\Product
+            mappedBy: configurations
+            cascade: ['persist']
     lifecycleCallbacks: {  }

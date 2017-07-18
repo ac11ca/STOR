@@ -22,6 +22,7 @@
                 <td>{{Configuration.id}}</td>
                 <td>           
                     <a href="{{path('configuration_settings', {id:Configuration.id})}}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                    &nbsp;<a href="#" class="js-remove" data-target="{{Configuration.id}}"><span class="glyphicon glyphicon-remove"></span></a> 
                 </td>
             </tr>
         {% endfor %}

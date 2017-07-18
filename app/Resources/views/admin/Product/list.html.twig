@@ -22,7 +22,7 @@
             <tr id="content_{{Product.id}}">
                 <td><a href="{% if Product.image is not empty %}{{Product.image}}{% else %}/dist/img/noimage.png"{% endif %}" target="_blank"><img src="{% if Product.image is not empty %}{{Product.image}}{% else %}/dist/img/noimage.png{% endif %}" class="thumbnail" /></a></td>
                 <td>{{Product.name}}</td>
-                <td>{{Product.description|striptags|replace({'&nbsp;':' '})}}</td>
+                <td>{{Product.description|raw}}</td>
                 <td>${{Product.price|number_format(2,'.',',')}}</td>
                 <td>{% for Author in Product.authors %} {% if loop.index0 > 0 %},{% endif %}{{Author.name}}{% endfor %}</td>
                 <td>{{Product.sales}}</td>
