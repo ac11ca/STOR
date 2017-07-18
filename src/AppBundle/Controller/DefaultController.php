@@ -23,6 +23,7 @@ class DefaultController extends ApplicationMasterController
 
     public function rootAction(Request $Request, $_render = 'HTML')
     {
+         $this->no_hook = true;
          return $this->handleErrors(
             function ($Session, $messages) use ($Request, $_render)
             {

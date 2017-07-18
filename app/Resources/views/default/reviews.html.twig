@@ -15,7 +15,7 @@
 
         <div id="sort_container">
             <form method="post" id="sortform" name="sortform">
-                <select name="sort" id="sort" onchange="sortform.submit();" data-event="change" data-category="CRS_{{Product.ID}}_Sort" data-label="Visit: {{visit}}">
+                <select name="sort" id="sort" class="track-event" onchange="sortform.submit();" data-event="change" data-category="CRS_{{Product.ID}}_Sort" data-label="Visit: {{visit}}">
                     <option value="e.created:DESC" {% if sort == 'e.created:DESC'%}selected{% endif %}>Sort by date (Descending)</option>
                     <option value="e.created:ASC" {% if sort == 'e.created:ASC'%}selected{% endif %}>Sort by date (Ascending)</option>
                     <option value="e.rating:ASC" {% if sort == 'e.rating:ASC'%}selected{% endif %}>Sort by rating (Ascending)</option>
