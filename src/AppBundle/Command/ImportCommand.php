@@ -120,7 +120,8 @@ class ImportCommand extends ApplicationMasterCommand
             $cellIndex = \PHPExcel_Cell::columnIndexFromString($Cell->getColumn())-1;                         
             $row_data[$cellIndex] = [];
             $row_data[$cellIndex]['value'] = $Cell->getFormattedValue();
-            $row_data[$cellIndex]['field'] = $this->cell_mappings[$cellIndex];  
+            if(!empty($this->cell_mappings[$cellIndex]))
+                $row_data[$cellIndex]['field'] = $this->cell_mappings[$cellIndex];  
         }    
         
         return $row_data;
