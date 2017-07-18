@@ -114,11 +114,12 @@ class ImportCommand extends ApplicationMasterCommand
         $cellIterator = $Row->getCellIterator();
         $cellIterator->setIterateOnlyExistingCells(false);       
         $row_data = [];
-
+  
         foreach ($cellIterator as $Cell) 
         {
             $cellIndex = \PHPExcel_Cell::columnIndexFromString($Cell->getColumn())-1;                         
-            $row_data[$cellIndex]['value'] = $Cell->getCalculatedValue();
+            $row_data[$cellIndex] = [];
+            $row_data[$cellIndex]['value'] = $Cell->getFormattedValue();
             $row_data[$cellIndex]['field'] = $this->cell_mappings[$cellIndex];  
         }    
         

@@ -126,7 +126,7 @@
                         </div>
                     </div>
 
-                {% elseif field.type == 'datetime' %}
+                {% elseif field.type == 'datetime' or field.type == 'date' %}
 
                     <div class="form-group">
                         <label for="{{key}}_date">{{field.label}}</label>
@@ -147,37 +147,40 @@
                                     title="{% if field.title is defined %}{{field.title}} {% endif %}"
                                 />
                             </div>
-                            <div class="column">
-                                <select                           
-                                    class="form-control js-date" 
-                                    name="{{key}}_hours" 
-                                    id="{{key}}_hours"
-                                    data-format="HH"   
-                                    data-timestamp="{% if field.value is not empty%}{{field.value}}{%else%}{% if field.value|date('i') > 29 %}{{"now"|date('U') + 3600}}{% else %}{{"now"|date('U')}}{%endif%}{% endif %}"
-                                    {% if 'required' in field.validation %}required{% endif %} 
-                                    {% if 'pattern' in field.validation %}pattern="{{field.pattern}}"{% endif %}
-                                    title="{% if field.title is defined %}{{field.title}} {% endif %}"
-                                />
-                                    {% for hour in range(0,23) %}
-                                        <option value="{% if hour < 10%}0{% endif %}{{hour}}">{% if hour < 10%}0{%endif%}{{hour}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="column">
-                                <select                           
-                                    class="form-control" 
-                                    name="{{key}}_minutes" 
-                                    id="{{key}}_minutes" 
-                                    {% if 'required' in field.validation %}required{% endif %} 
-                                    {% if 'pattern' in field.validation %}pattern="{{field.pattern}}"{% endif %}
-                                    title="{% if field.title is defined %}{{field.title}} {% endif %}"
-                                />
-                                    {% for minute in range(00,30,30) %}
-                                        <option value="{% if minute < 10 %}0{% endif %}{{minute}}" {% if (field.value|date('i') > 30 and minute == 0 and create) or (field.value|date('i') < 30 and minute == 30 and create) or (minute == field.value|date('i') and not create)  %}selected{% endif %}>{% if minute < 10%}0{%endif%}{{minute}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <input type="hidden" name="{{key}}_offset" id="{{key}}_offset" data-key="{{key}}" value="" class="js-datetime" />
+                            {% if field.type != 'date' %}
+                                <div class="column">
+                                    <select                           
+                                        class="form-control js-date" 
+                                        name="{{key}}_hours" 
+                                        id="{{key}}_hours"
+                                        data-format="HH"   
+                                        data-timestamp="{% if field.value is not empty%}{{field.value}}{%else%}{% if field.value|date('i') > 29 %}{{"now"|date('U') + 3600}}{% else %}{{"now"|date('U')}}{%endif%}{% endif %}"
+                                        {% if 'required' in field.validation %}required{% endif %} 
+                                        {% if 'pattern' in field.validation %}pattern="{{field.pattern}}"{% endif %}
+                                        title="{% if field.title is defined %}{{field.title}} {% endif %}"
+                                    />
+                                        {% for hour in range(0,23) %}
+                                            <option value="{% if hour < 10%}0{% endif %}{{hour}}">{% if hour < 10%}0{%endif%}{{hour}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="column">
+                                    <select                           
+                                        class="form-control" 
+                                        name="{{key}}_minutes" 
+                                        id="{{key}}_minutes" 
+                                        {% if 'required' in field.validation %}required{% endif %} 
+                                        {% if 'pattern' in field.validation %}pattern="{{field.pattern}}"{% endif %}
+                                        title="{% if field.title is defined %}{{field.title}} {% endif %}"
+                                    />
+                                        {% for minute in range(00,30,30) %}
+                                            <option value="{% if minute < 10 %}0{% endif %}{{minute}}" {% if (field.value|date('i') > 30 and minute == 0 and create) or (field.value|date('i') < 30 and minute == 30 and create) or (minute == field.value|date('i') and not create)  %}selected{% endif %}>{% if minute < 10%}0{%endif%}{{minute}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            
+                                <input type="hidden" name="{{key}}_offset" id="{{key}}_offset" data-key="{{key}}" value="" class="js-datetime" />
+                            {% endif %}
                         </div>
                     </div>
 
