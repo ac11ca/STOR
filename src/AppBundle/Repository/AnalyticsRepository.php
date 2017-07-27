@@ -23,14 +23,15 @@ class AnalyticsRepository extends ApplicationMasterRepository
             ,'month' => 'MONTH'
 		];
 
+        $DoctrineConfig = $this->getEntityManager()->getConfiguration(); 
+        $DoctrineConfig->addCustomNumericFunction('Round', 'DoctrineExtensions\Query\Mysql\Round');
+
         if($x == 'day' || $x == 'week' || $x == 'month')
         {
             $xisdate = true;
-            $DoctrineConfig = $this->getEntityManager()->getConfiguration(); 
             $DoctrineConfig->addCustomDatetimeFunction('MONTH', 'DoctrineExtensions\Query\Mysql\Month');
             $DoctrineConfig->addCustomDatetimeFunction('DAY', 'DoctrineExtensions\Query\Mysql\Day');
             $DoctrineConfig->addCustomDatetimeFunction('FROM_UNIXTIME', 'DoctrineExtensions\Query\Mysql\UnixTimestamp');
-
 			$x = $datemods[$x] . '(FROM_UNIXTIME(a.created)) as x';
         }
 
@@ -45,11 +46,11 @@ class AnalyticsRepository extends ApplicationMasterRepository
            break; 
 
            case 'avgduration':
-            $query->select('avg(a.time) as avgduration, ' . $x);
+            $query->select('Round(avg(a.time),3) as avgduration, ' . $x);
            break;
 
            case 'avgfrequency':
-            $query->select('avg(a) as avgfrequency,' . $x);
+            $query->select('Round(avg(a),3) as avgfrequency,' . $x);
            break;
         }
   

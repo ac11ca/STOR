@@ -78,6 +78,15 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label>Display Abandon Cart</label>
+            <div class="field-group">
+                <select id="srs_display_abandon" name="srs_display_abandon">
+                    <option value="1" {% if settings['srs_display_abandon'] is not defined or settings['srs_display_abandon'] == 1 %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if settings['srs_display_abandon'] is defined and settings['srs_display_abandon'] == 0 %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
 
         <div class="form-group">
             <label>Display Price</label>
@@ -145,16 +154,6 @@
                 <select id="srs_display_purchase" name="srs_display_purchase">
                     <option value="1" {% if settings['srs_display_purchase'] is not defined or settings['srs_display_purchase'] == 1 %}selected{% endif %}>Yes</option>
                     <option value="0" {% if settings['srs_display_purchase'] is defined and settings['srs_display_purchase'] == 0 %}selected{% endif %}>No</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>Display Quit</label>
-            <div class="field-group">
-                <select id="srs_display_quit" name="srs_display_quit">
-                    <option value="1" {% if settings['srs_display_quit'] is not defined or settings['srs_display_quit'] == 1 %}selected{% endif %}>Yes</option>
-                    <option value="0" {% if settings['srs_display_quit'] is defined and settings['srs_display_quit'] == 0 %}selected{% endif %}>No</option>
                 </select>
             </div>
         </div>

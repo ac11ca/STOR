@@ -58,9 +58,11 @@
                 <div id="rating">
 
                     {% if settings['pis_display_stars'] %}
-                        <div class="star-ratings-sprite">
-                            <span style="width:{% if ratings[Product.id] is defined %}{{(ratings[Product.id]['rating']/5)*100}}{% else %}0{% endif %}%" class="star-ratings-sprite-rating"></span>
-                        </div>
+                        <a href="">
+                            <div class="star-ratings-sprite">
+                                <span style="width:{% if ratings[Product.id] is defined %}{{(ratings[Product.id]['rating']/5)*100}}{% else %}0{% endif %}%" class="star-ratings-sprite-rating"></span>
+                            </div>
+                        </a>
                     {% endif %}
 
                     {% if settings['pis_display_ratings'] %}
@@ -82,15 +84,17 @@
                             <tr>
                                 <td id="rating_value_{{rating}}" class="rating-cell">{{rating}} star{% if rating != 1 %}s{% endif %}</td>
                                 <td class="progress-cell">
-                                    <div class="progress"> 
-                                     <div 
-                                        class="progress-bar progress-bar-success"
-                                        role="progressbar"		 	 
-                                        aria-valuemin="0"
-                                        aria-valuemax="100" 
-                                        style="width: {% spaceless %}{% if ratings_by_value[rating] is defined %}{{(ratings_by_value[rating]['percent'] * 100)|number_format(0,'.',',')}}{% else %}0{% endif %}%{% endspaceless %}">
-                                      </div>
-                                    </div>
+                                    <a href="{{path('product_reviews', {'product': Product.id, 'filter':rating})}}"">
+                                        <div class="progress"> 
+                                         <div 
+                                            class="progress-bar progress-bar-success"
+                                            role="progressbar"		 	 
+                                            aria-valuemin="0"
+                                            aria-valuemax="100" 
+                                            style="width: {% spaceless %}{% if ratings_by_value[rating] is defined %}{{(ratings_by_value[rating]['percent'] * 100)|number_format(0,'.',',')}}{% else %}0{% endif %}%{% endspaceless %}">
+                                          </div>
+                                        </div>
+                                    </a>
                                 </td>
                                 {% if settings['pis_display_percentages'] %}
                                     <td class="percent-cell">{% spaceless %}{% if ratings_by_value[rating] is defined %}{{(ratings_by_value[rating]['percent'] * 100)|number_format(0,'.',',')}}%{% else %}0%{% endif %}{% endspaceless %}</td>

@@ -193,23 +193,31 @@ class DefaultController extends ApplicationMasterController
                 $visit = $this->getCurrentVisit('reviews_visit_' . $product, $Session);
                 $sort = empty($Session->get('sort')) ? 'e.created' : $Session->get('sort');
                 $dir = empty($Session->get('sort')) ? 'DESC' : $Session->get('dir');
-
+                $filter = empty($Session->get('filter')) ? null : $Session->get('filter');
                 if($Request->isMethod('POST'))
                 {
                     $form_data = $Request->request->all();
                     $sortdata = ParseData::setArray($form_data, 'sort', 'e.created:DESC');
+                    $filter = ParseData::setArray($form_data, 'filter', null);
                     $sortarray = explode(':', $sortdata);
                     $sort = $sortarray[0];
                     $dir = $sortarray[1];
                     $Session->set('sort', $sort);
                     $Session->set('dir', $dir);
+                    $Session->set('filter', $filter);
                     $page = 1;
+                }
+                else
+                {
+                    $query_data = $Request->query->all();
+                    $filter = ParseData::setArray($query_data, 'filter', null);
+                    $Session->set('filter', $filter);
                 }
 
                 $Configuration = $this->loadConfiguration($Session->get('configuration'));
                 $settings = $Configuration->getAllConfigurationSettings();
                 $Product = $this->getDoctrine()->getRepository('AppBundle:Product')->find($product);                                  
-                $reviews = $this->getDoctrine()->getRepository('AppBundle:Review')->findByFilter(null,$Product->getId(), $page, $settings['crs_reviews_per_page'], $sort, $dir);
+                $reviews = $this->getDoctrine()->getRepository('AppBundle:Review')->findByFilter($filter,$Product->getId(), $page, $settings['crs_reviews_per_page'], $sort, $dir);
 
                 return $this->renderRoute(
                     'default/reviews.html.twig'
@@ -220,6 +228,7 @@ class DefaultController extends ApplicationMasterController
                         ,'page' => $page                   
                         ,'reviews_per_page' => $settings['crs_reviews_per_page']
                         ,'sort' => $sort . ':' . $dir
+                        ,'filter' => $filter
                         ,'visit' => $visit
                     ]
                     , $_render

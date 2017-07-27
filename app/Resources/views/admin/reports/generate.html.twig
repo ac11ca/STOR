@@ -30,7 +30,7 @@
         <div class="form-group">
             Y <select id="y" name="y">
                 {% for value,key in y_mappings %}
-                    <option value="{{value}}">{{key}}</option>
+                    <option value="{{value}}" {% if key == 'Average Frequency'%}selected{%endif%}>{{key}}</option>
                 {% endfor %}   
             </select>
 
@@ -38,7 +38,7 @@
 
             X <select id="x" name="x">
                 {% for value,key in x_mappings %}
-                    <option value="{{value}}">{{key}}</option>
+                    <option value="{{value}}" {% if key == 'Configuration ID' %}selected {% endif %}>{{key}}</option>
                 {% endfor %}
             </select>
         </div>

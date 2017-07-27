@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    {% embed 'default/components/navigation.html.twig' with  {'category':'SRS', purchase:settings['srs_display_purchase'],abandon:settings['srs_display_quit'], visit: visit, back: false, settings: settings} %}{% endembed %}
+    {% embed 'default/components/navigation.html.twig' with  {'category':'SRS', purchase:settings['srs_display_purchase'],abandon:settings['srs_display_abandon']|default(''), visit: visit, back: false, settings: settings} %}{% endembed %}
 
 {% endblock %}
 

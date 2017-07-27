@@ -12,7 +12,7 @@ use AppBundle\Entity\Product;
  */
 class ReviewRepository extends ApplicationMasterRepository
 {
-    protected $filter_property = 'reviewer';
+    protected $filter_property = 'rating';
     protected $FactoryType = 'AppBundle\Factory\ReviewFactory';
 
     public function prepareFilterByParent($query, $parentid)
@@ -20,6 +20,16 @@ class ReviewRepository extends ApplicationMasterRepository
         $query->innerJoin('e.Product', 'p');
         $query->andWhere('p.id = :product_id');
         $query->setParameter(':product_id',$parentid);
+        return $query;
+    }
+
+    public function customQueryExtension($query, $filter = null)
+    {
+        if(!empty($filter))
+        {
+            $query->orWhere('FLOOR(e.rating) = :filter');
+        }
+
         return $query;
     }
 

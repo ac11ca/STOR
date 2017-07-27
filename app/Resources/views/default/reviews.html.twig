@@ -22,9 +22,15 @@
                     <option value="e.rating:DESC" {% if sort == 'e.rating:DESC'%}selected{% endif %}>Sort by rating (Descending)</option>
                     <option value="e.help_score:ASC" {% if sort == 'e.help_score:ASC'%}selected{% endif %}>Sort by helpful (Ascending)</option>
                     <option value="e.help_score:DESC" {% if sort == 'e.help_score:DESC'%}selected{% endif %}>Sort by helpful (Descending)</option>
-                    <option value="e.title:ASC" {% if sort == 'e.title:ASC'%}selected{% endif %}>Sort by title (Ascending)</option>
-                    <option value="e.title:DESC" {% if sort == 'e.title:DESC'%}selected{% endif %}>Sort by title (Descending)</option>
                 </select>
+                <select name="filter" id="filter" class="track-event" onchange="sortform.submit();" data-event="change" data-category="CRS_{{Product.ID}}_Filter" data-label="Visit: {{visit}}">
+                    <option value="">Any</option>
+                    <option value="5" {% if filter == '5'%}selected{% endif %}>5 Star Only</option>
+                    <option value="4" {% if filter == '4'%}selected{% endif %}>4 Star Only</option>
+                    <option value="3" {% if filter == '3'%}selected{% endif %}>3 Star Only</option>
+                    <option value="2" {% if filter == '2'%}selected{% endif %}>2 Star Only</option>
+                    <option value="1" {% if filter == '1'%}selected{% endif %}>1 Star Only</option>
+               </select> 
             </form>
         </div>
     </div>
