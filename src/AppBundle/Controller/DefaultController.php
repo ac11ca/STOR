@@ -272,7 +272,8 @@ class DefaultController extends ApplicationMasterController
                     ,[
                         'products' => $products                
                         ,'items_per_page' => $settings['paginationitemsperpage']
-                        ,'redirect_url' => $settings['formurl']                   
+                        ,'redirect_url' => $settings['formurl']
+                        ,'configuration_id' => $Session->get('configuration') 
                         ,'User' => $User
                         ,'visit' => $visit
                     ]
@@ -288,10 +289,14 @@ class DefaultController extends ApplicationMasterController
     {
          return $this->handleErrors(
             function ($Session, $messages) use ($Request, $_render)
-            {    
+            {   
+                $configuration = $Session->get('configuration');
+                $user_id = $Session->get('user_id'); 
                 $Session->clear();
                 $messages[] = ViewMessage::constructMessage('Your cart has been abandoned.', 'danger', null);        
-                return $this->redirect($this->generateUrl('root'));
+          
+		        $settings = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('');  
+                return $this->redirect($settings['formurl'] . '?abandon=1&user=' . $user_id . '&configuration=' . $configuration);
             }
             ,$this->generateUrl('root', ['_render'=>$_render])
 			,$_render

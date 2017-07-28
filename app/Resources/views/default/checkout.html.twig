@@ -37,6 +37,7 @@
             {% endif %}
         </div>
 
+        <input type="hidden" id="configuration" name="configuration" value="{{configuration_id}}" />
         <input type="hidden" id="user" name="user" value="{{User.ExternalId}}" />
 
         {% embed 'default/components/navigation.html.twig' with {back:settings['ps_display_back'], category: 'PS', abandon: settings['ps_display_abandon'], term:term, purchase: false, checkout: products|length > 0, visit: visit, settings:settings} %}{% endembed %}
