@@ -73,7 +73,7 @@ AjaxLoader.prototype.loadReviews = function(response) {
 };
 
 AjaxLoader.prototype.loadProducts = function(response) {
-    var current_product, rating_obj, rating, rating_count, index;
+    var current_product, rating_obj, rating, rating_count, sold_count, index;
     if(response.data.products.length) {
         for(var i = 0; i < response.data.products.length; i++) {                   
             index = this.$target.data('index');
@@ -89,6 +89,7 @@ AjaxLoader.prototype.loadProducts = function(response) {
             current_product = current_product.replace(/\*\*rating\*\*/g,  rating);
             current_product = current_product.replace(/\*\*rating_width\*\*/g,  (rating/5)*100);
             current_product = current_product.replace(/\*\*rating_count\*\*/g,  rating_count);
+            current_product = current_product.replace(/\*\*sold_count\*\*/g,  response.data.products[i].Sales);
             current_product = current_product.replace(/\*\*index\*\*/g,  index);
             current_product = current_product.replace(/\*\*visit\*\*/g,  this.visit);
             this.$target.append(current_product);
