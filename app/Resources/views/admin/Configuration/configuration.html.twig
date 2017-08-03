@@ -252,17 +252,6 @@
             </div>
         </div>
 
-
-        <div class="form-group">
-            <label>Display Review</label>
-            <div class="field-group">
-                <select id="pis_display_review" name="pis_display_review">
-                    <option value="1" {% if settings['pis_display_review'] is not defined or settings['pis_display_review'] == 1 %}selected{% endif %}>Yes</option>
-                    <option value="0" {% if settings['pis_display_review'] is defined and settings['pis_display_review'] == 0 %}selected{% endif %}>No</option>
-                </select>
-            </div>
-        </div>
-
         <div class="form-group">
             <label>Display Stars</label>
             <div class="field-group">
