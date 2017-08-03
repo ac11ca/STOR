@@ -27,7 +27,7 @@
 
 {% block mainbody %}
         {% block searchbar %}
-            {% if settings is not defined or settings['srs_display_search'] %}
+            {% if settings is not defined or settings['display_search']|default(true) %}
                 <div id="searchbar">
                     <div id="logo_small">
                     </div>
