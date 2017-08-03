@@ -34,10 +34,17 @@
                 {% endif %}
 
                 {% if settings['pis_display_price'] %}
-                    <div id="product_detail_price" class="track-event" data-category="PIS_{{Product.id}}" data-label="Visit: {{visit}}" data-event="click">
+                    <div id="product_detail_price" class="track-event" data-category="PIS_{{Product.id}}_Price" data-label="Visit: {{visit}}" data-event="click">
                         ${{Product.price|number_format(2,'.',',')}}
                     </div>
                 {% endif %}
+
+                {% if settings['pis_display_sales']|default('true') %}
+                    <div id="product_detail_sales" class="track-event" data-category="PIS_{{Product.id}}_Sales" data-label="Visit: {{visit}}" data-event="click">
+                        {{Product.sales}} sold
+                    </div>
+                {% endif %}
+
 
                 {% if settings['pis_display_purchase'] %}
                     <div id="product_add_cart">
