@@ -53,6 +53,12 @@
         {% endfor %}
     </div>
 
+    {% if settings['crs_display_addcart']|default(true) %}
+        <div id="product_add_cart">
+            <a href="{{path('checkout', {product:Product.id})}}" class="btn btn-primary track-event add-cart" data-event="click" data-category="CRS_{{Product.id}}_Add_Cart" data-label="Visit: {{visit}}">Add to Cart</a>
+        </div>
+    {% endif %}
+
 
     {% if page > 1 and settings['crs_display_back']|default(true) %}
         <div id="review_more_button" class="track-event" data-event="click" data-category="CRS_{{Product.id}}_Previous" data-label="Visit: {{visit}}">
