@@ -62,7 +62,7 @@
 
     {% if (reviews_per_page * page) < review_count %}
         <div id="review_more_button" class="track-event" data-event="click" data-category="CRS_{{Product.id}}_Next" data-label="Visit: {{visit}}">
-            <a href="{{path('product_reviews', {product:Product.id, page:(page+1)})}}" class="btn btn-primary review-loader {% if settings['crs_load_ajax'] %}js-load-ajax{% endif %}" data-max="{{review_count}}" data-page="{{page + 1}}" data-target="#review_container" data-url="{{path('product_reviews', {product:Product.id, page:'**page**', '_render':'JSON'})}}">See more</a>
+            <a href="{{path('product_reviews', {product:Product.id, page:(page+1)})}}" class="btn btn-primary review-loader {% if settings['crs_load_ajax'] %}js-load-ajax{% endif %}" data-max="{{review_count}}" data-page="{{page + 1}}" data-target="#review_container" data-url="{{path('product_reviews', {product:Product.id, page:'**page**', '_render':'JSON', filter:filter})}}">See more</a>
         </div>
     {% endif %}
 
