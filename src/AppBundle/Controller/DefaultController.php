@@ -131,7 +131,10 @@ class DefaultController extends ApplicationMasterController
 
                 $products = $this->getDoctrine()->getRepository('AppBundle:Product')->findByFilter($term, $configuration,$page, $settings['srs_products_per_page']);                
                 if(!empty($settings['srs_display_random']))
-                    shuffle($products['result']);
+				{
+					$seed = $this->getSeed($Session);
+                    $this->fisherYatesShuffle($products['result'], $seed);
+				}
 
                 $index = $page * $settings['srs_products_per_page'];
                 $ratings = $this->getDoctrine()->getRepository('AppBundle:Review')->findByProductAverages($products['result']);
@@ -497,4 +500,28 @@ class DefaultController extends ApplicationMasterController
             ];
         }        
     }
+
+    protected function getSeed($Session)
+    {
+        $seed = empty($Session->get('seed')) ? null : $Session->get('seed');
+        if(!empty($seed))
+            return $seed;
+		list($usec, $sec) = explode(' ', microtime());
+		$seed =  $sec + $usec * 1000000;        
+		$Session->set('seed', $seed);
+		return $seed;
+    }
+
+	protected function fisherYatesShuffle(&$items, $seed)
+	{
+		@mt_srand($seed);
+		$items = array_values($items);
+		for ($i = count($items) - 1; $i > 0; $i--)
+		{
+			$j = @mt_rand(0, $i);
+			$tmp = $items[$i];
+			$items[$i] = $items[$j];
+			$items[$j] = $tmp;
+		}
+	}
 }
