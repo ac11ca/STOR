@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use CYINT\ComponentsPHP\Classes\ViewMessage;
 use CYINT\ComponentsPHP\Classes\ParseData;
 use CYINT\ComponentsPHP\Bundles\SettingsBundle\Entity\Setting;
+use CYINT\ComponentsPHP\Classes\Excel;
+use CYINT\ComponentsPHP\Services\ExcelService;
 use AppBundle\Entity\Transaction; 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException; 
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -156,6 +158,27 @@ class AdminController extends ApplicationMasterController
         $this->generateUrl('admin_reports')
         );
     }
+
+    public function reportSummaryAction(Request $Request, $_render = 'HTML')
+    {
+        return $this->handleErrors(
+            function ($Session, $messages) use ($Request, $_render)
+            {  
+                //$ExcelService = $this->get('app.excel');
+                $ExcelService = $this->get('app.excel');
+                $summary_data = [];
+                $form_data = $Session->get('report_form_data');
+                $report_data = $this->prepareReport($form_data, 'findByReportRaw');               
+                $ReportService = $this->get('app.reportservice');
+                $summary_data = $ReportService->summarizeReport($report_data['results']);
+                $filename = $ExcelService->convertToExcel($summary_data, 'Summary');
+                return $this->sendExcelFileResponse($Request, $filename, 'Summary');
+            }
+        ,
+        $this->generateUrl('admin_reports')
+        );
+    }
+
 
     public function reportExportAction(Request $Request, $_render='HTML')
     {

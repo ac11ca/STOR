@@ -91,7 +91,7 @@
                             <tr>
                                 <td id="rating_value_{{rating}}" class="rating-cell">{{rating}} star{% if rating != 1 %}s{% endif %}</td>
                                 <td class="progress-cell">
-                                    <a href="{{path('product_reviews', {'product': Product.id, 'filter':rating})}}"">
+                                    <a href="{{path('product_reviews', {'product': Product.id, 'filter':rating})}}" class="track-event" data-event="click" data-category="PIS_{{Product.id}}_FilterBy{{rating}}Star" data-label="Visit: {{visit}}">
                                         <div class="progress"> 
                                          <div 
                                             class="progress-bar progress-bar-success"

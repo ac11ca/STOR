@@ -16,7 +16,10 @@ function trackEvent(event,category,label,duration) {
 $(window).on('unload', function () {
     var category = $('body').data('category'), category_array, start, end, label, duration;
     category_array = category.split('_') || [category];
-    category = category_array[0] + '_Duration';
+    category = category_array[0];
+    if(category_array[1].length == '36')
+        category += '_' +  category_array[1];
+    category += '_Duration';
     label = $('body').data('label');
 	start = $('body').data('starttime');
 	end = Math.floor((+ new Date()) / 1000);

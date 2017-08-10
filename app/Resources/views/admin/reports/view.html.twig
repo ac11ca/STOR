@@ -15,6 +15,7 @@
 
     <a href="{{path('admin_report_export_raw')}}" class="btn btn-primary">Export Raw Data</a>
     <a href="{{path('admin_report_export')}}" class="btn btn-primary">Export Graph Data</a>
+    <a href="{{path('admin_report_summary')}}" class="btn btn-primary">Export Summary Data</a>
 
     {% if not dimensions is empty %}
         {% if dimensions|length > 0 and dimensions[0] is not empty or (to is defined and to is not empty) or (from is defined and from is not empty) %}

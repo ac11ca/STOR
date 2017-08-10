@@ -30,3 +30,6 @@ services:
      app.transaction:
          class: AppBundle\Classes\TransactionService
          arguments: ["@doctrine", "@session"]
+     app.reportservice:
+         class: AppBundle\Services\ReportService
+         arguments: []

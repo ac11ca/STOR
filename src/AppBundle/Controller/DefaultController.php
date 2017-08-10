@@ -39,7 +39,7 @@ class DefaultController extends ApplicationMasterController
                 }
                 else 
                 {
-                    $visit = $this->getCurrentVisit('root_visit', $Session);
+                    $visit = $this->getCurrentVisit('root_visit', $Session, $Request);
                 }
 
                 return $this->renderRoute(
@@ -69,7 +69,7 @@ class DefaultController extends ApplicationMasterController
                     throw new \Exception('Invalid configuration id');
 
                 $Session->clear();
-                $visit = $this->getCurrentVisit('index_visit', $Session);
+                $visit = $this->getCurrentVisit('index_visit', $Session, $Request);
                 $UserManager= $this->get('app.user_manager'); 
                 $User = $UserManager->findUserBy(['external_id'=>$user]);
                 if(empty($User))
@@ -126,7 +126,7 @@ class DefaultController extends ApplicationMasterController
             {           
                 $settings = $this->viewParams['settings']; 
                 $term = $settings['search_term'];
-                $visit = $this->getCurrentVisit('results_visit', $Session);
+                $visit = $this->getCurrentVisit('results_visit', $Session, $Request);
                 $configuration = $Session->get('configuration');
 
                 $products = $this->getDoctrine()->getRepository('AppBundle:Product')->findByFilter($term, $configuration,$page, $settings['srs_products_per_page']);                
@@ -164,7 +164,7 @@ class DefaultController extends ApplicationMasterController
          return $this->handleErrors(
             function ($Session, $messages) use ($Request, $_render, $product)
             {    
-                $visit = $this->getCurrentVisit('details_visit_' . $product, $Session);
+                $visit = $this->getCurrentVisit('details_visit_' . $product, $Session, $Request);
 
                 $Product = $this->getDoctrine()->getRepository('AppBundle:Product')->find($product);                                  
                 $ratings = $this->getDoctrine()->getRepository('AppBundle:Review')->findByProductAverages(new ArrayCollection([$Product]));
@@ -193,7 +193,7 @@ class DefaultController extends ApplicationMasterController
          return $this->handleErrors(
             function ($Session, $messages) use ($Request, $_render, $product, $page)
             {   
-                $visit = $this->getCurrentVisit('reviews_visit_' . $product, $Session);
+                $visit = $this->getCurrentVisit('reviews_visit_' . $product, $Session, $Request);
                 $sort = empty($Session->get('sort')) ? 'e.created' : $Session->get('sort');
                 $dir = empty($Session->get('sort')) ? 'DESC' : $Session->get('dir');
                 $filter = empty($Session->get('filter')) ? null : $Session->get('filter');
@@ -250,7 +250,7 @@ class DefaultController extends ApplicationMasterController
             {    
                 $settings = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('');                                             
                 $User = $this->getDoctrine()->getRepository('AppBundle:User')->findBy(['external_id'=>$Session->get('user_id')]);
-                $visit = $this->getCurrentVisit('checkout_visit', $Session);
+                $visit = $this->getCurrentVisit('checkout_visit', $Session, $Request);
 
                 $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
 
@@ -480,10 +480,12 @@ class DefaultController extends ApplicationMasterController
         return $Configuration;
     }
 
-    private function getCurrentVisit($page_id, $Session)
+    private function getCurrentVisit($page_id, $Session, $Request)
     {
         $visit = empty($Session->get($page_id)) ? 0 : $Session->get($page_id);
-        $visit++;
+        if(!$Request->getMethod('POST'))
+            $visit++;
+
         $Session->set($page_id,$visit);
         return $visit;  
     }
