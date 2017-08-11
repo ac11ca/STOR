@@ -113,7 +113,7 @@
             {% endif %}
 
             <div id="rating_button">
-                <a href="{{path('product_reviews', {'product': Product.id})}}" class="btn btn-primary track-event" data-event="click" data-category="PIS_{{Product.Id}}_Review_Button" data-label="Visit: {{visit}}">{{settings['pis_click_reviews_text']}}</a>
+                <a href="{{path('product_reviews', {'product': Product.id})}}" class="btn btn-primary track-event" data-event="click" data-category="PIS_{{Product.id}}_FilterByAllStars" data-label="Visit: {{visit}}">{{settings['pis_click_reviews_text']}}</a>
             </div>
         </div>
 </div>

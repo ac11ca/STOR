@@ -23,7 +23,7 @@ class ReportService
                     $products[$product_id] = $product_id;
                 }
             }
-  
+
             foreach($report_data as $record)
             {
                 $user = $record['user_id'];
@@ -117,12 +117,6 @@ class ReportService
                         $visit_string = 'total_visits_to_PS_page';
                     }
 
-					if(stristr($record['category'], '_Purchase') > -1)
-					{
-                    	if(!empty($product_id))
-                        	$summary_data[$user]['Product_' . $product_id . '_purchased (0=No 1=Yes)'] = 1;
-					}
-
                     if(!empty($time_string))
 					{			
                         $summary_data[$user][$time_string] += $record['time'];
@@ -157,29 +151,32 @@ class ReportService
 
                 if($record['event'] == 'click')
                 {
+					if(stristr($record['category'], '_Purchase') > -1)				                   
+                       	$summary_data[$user]['Product_' . $product_id . '_purchased (0=No, 1=Yes)'] = 1;                    		
+
                     if(stristr($record['category'], 'Add_Cart') > -1)
                         $summary_data[$user]["Product_$product_id" . "_added_to_cart (0=No, 1=Yes)"] = 1;
 
                     if(stristr($record['category'], 'Abandon_') > -1)
                         $summary_data[$user]['Shopping_Abandoned (0=No, 1=Yes)'] = 1;
 
-                    if(stristr($record['category'], 'SortyByDateDescending') > -1)
+                    if(stristr($record['category'], 'SortByDateDescending') > -1)
                         $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByDateDescending_clicked"]++;
 
 
-                    if(stristr($record['category'], 'SortyByDateAscending') > -1)
+                    if(stristr($record['category'], 'SortByDateAscending') > -1)
                         $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByDateAscending_clicked"]++;
 
-                    if(stristr($record['category'], 'SortyByRatingDescending') > -1)
+                    if(stristr($record['category'], 'SortByRatingDescending') > -1)
                         $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByRatingDescending_clicked"]++;
 
-                    if(stristr($record['category'], 'SortyByRatingAscending') > -1)
+                    if(stristr($record['category'], 'SortByRatingAscending') > -1)
                         $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByRatingAscending_clicked"]++;
 
-                    if(stristr($record['category'], 'SortyByHelpfulnessDescending') > -1)
+                    if(stristr($record['category'], 'SortByHelpfulnessDescending') > -1)
                         $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByHelpfulnessDescending_clicked"]++;
 
-                    if(stristr($record['category'], 'SortyByHelpfulnessAscending') > -1)
+                    if(stristr($record['category'], 'SortByHelpfulnessAscending') > -1)
                         $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByHelpfulnessAscending_clicked"]++;
 
                     if(stristr($record['category'], 'FilterByAllStars') > -1)
@@ -211,7 +208,6 @@ class ReportService
         {
             $records[] = $record;
         }
-    
 
         return $records;
     }

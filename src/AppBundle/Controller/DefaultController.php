@@ -205,6 +205,51 @@ class DefaultController extends ApplicationMasterController
                     $sortarray = explode(':', $sortdata);
                     $sort = $sortarray[0];
                     $dir = $sortarray[1];
+                    
+                    if($filter != null)
+                    {                                           
+                        $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
+                        $Analytic = new Analytics($DBSession, 'click', 'Visit: ' . $Session->get('reviews_visit'), 'Product_' . $product . '_FilterBy' . $filter . 'Star');
+                        $EntityManager = $this->getDoctrine()->getManager();
+                        $EntityManager->persist($Analytic);
+                        $EntityManager->flush();
+                    }
+                    else if($filter == null && !empty($Session->get('filter')))
+                    {
+                        $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
+                        $Analytic = new Analytics($DBSession, 'click', 'Visit: ' . $Session->get('reviews_visit'), 'Product_' . $product . '_FilterByAllStars');
+                        $EntityManager = $this->getDoctrine()->getManager();
+                        $EntityManager->persist($Analytic);
+                        $EntityManager->flush();                       
+                    }
+  
+                    if($sort !='e.created' || $sort == 'e.created' && $Session->get('sort') != 'e.created')
+                    {
+                        $sortname = 'Date';
+                        $sortdir = empty($dir) ? 'Descending' : $dir == 'ASC' ? 'Ascending' : 'Descending';
+                        switch($sort)
+                        {
+                            case 'e.created':
+                                $sortname = 'Date';
+                            break;
+
+                            case 'e.rating':
+                                $sortname = 'Rating';
+                            break;
+                        
+                            case 'e.help_score':
+                                $sortname = 'Helpfulness';
+                            break;
+                        }
+
+                        $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
+                        $Analytic = new Analytics($DBSession, 'click', 'Visit: ' . $Session->get('reviews_visit'), 'Product_' . $product . '_SortBy' . $sortname . $sortdir);
+                        $EntityManager = $this->getDoctrine()->getManager();
+                        $EntityManager->persist($Analytic);
+                        $EntityManager->flush();                       
+
+                    } 
+
                     $Session->set('sort', $sort);
                     $Session->set('dir', $dir);
                     $Session->set('filter', $filter);
@@ -286,6 +331,34 @@ class DefaultController extends ApplicationMasterController
             ,$this->generateUrl('checkout', ['_render'=>$_render])
 			,$_render
 		);
+    }
+
+    public function purchaseAction(Request $Request, $_render = 'HTML')
+    {
+         return $this->handleErrors(
+            function ($Session, $messages) use ($Request, $_render)
+            {   
+                if(!$Request->isMethod("POST"))
+                    throw new \Exception('Access Denied');
+
+                $form_data = $Request->request->all();
+                $product = $form_data['product'];
+
+                $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
+                $Analytic = new Analytics($DBSession, 'click', 'Visit: ' . $Session->get('checkout_visit'), 'Product_' . $product . '_Purchase');
+                $EntityManager = $this->getDoctrine()->getManager();
+                $EntityManager->persist($Analytic);
+                $EntityManager->flush();
+                $configuration = $Session->get('configuration');
+                $user_id = $Session->get('user_id'); 
+                $Session->clear();          
+		        $settings = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('');  
+                return $this->redirect($settings['formurl'] . '?purchase=1&user=' . $user_id . '&configuration=' . $configuration . '&product=' . $product);
+            }
+            ,$this->generateUrl('root', ['_render'=>$_render])
+			,$_render
+		);
+
     }
 
     public function abandonAction(Request $Request, $_render = 'HTML')

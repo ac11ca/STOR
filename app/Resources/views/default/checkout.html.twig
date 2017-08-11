@@ -11,7 +11,7 @@
 
 <h1 class="track-pageview" data-category="PS_Time_Start" data-label="Visit: {{visit}}" >Checkout</h1>
 
-    <form method="get" action="{{redirect_url}}">
+    <form method="POST" action="{{path('purchase_item')}}">
         <div class="checkout-container" id="checkout_container">
             {% if products is not empty %}
                 <table class="table table-striped">   
@@ -27,7 +27,7 @@
                             <td class="image"><img src="{{Product.image}}" class="track-event" data-event="click" data-category="PS_{{Product.image}}_Image" data-label="Visit: {{visit}}" /></td>
                             <td><span class="track-event" data-event="click" data-category="PS_{{Product.image}}_Title" data-label="Visit: {{visit}}">{{Product.name}}</span></td>
                             <td><span class="track-event" data-event="click" data-category="PS_{{Product.image}}_Price" data-label="Visit: {{visit}}">${{Product.price|number_format(2,'.',',')}}</span></td>
-                            <td><input type="radio" name="product" id="product" value="{{Product.id}}" {% if loop.index0 == 0 %}checked{% endif %} class="track-event" data-category="PS_{{Product.image}}_Purchase" data-label="Visit: {{visit}}" /></td>
+                            <td><input type="radio" name="product" id="product" value="{{Product.id}}" {% if loop.index0 == 0 %}checked{% endif %} class="track-event" data-category="PS_{{Product.id}}_Considered" data-event="click" data-label="Visit: {{visit}}" /></td>
                         </tr>
                     {% endfor %}
                 </tbody>
