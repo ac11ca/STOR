@@ -52,7 +52,7 @@
         </div>
 
         {% if settings['srs_display_addcart']|default(true) %}
-            <button onclick="event.preventDefault();window.location='{% if Product is not null %}{{path('checkout', {product:Product.id})}}{% else %}{{path('checkout', {product:'**id**'})}}{% endif %}';" class="btn btn-primary track-event" data-event="click" data-category="{{category}}_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_Add_Cart">Add to Cart</button>
+            <button onclick="event.preventDefault();window.location='{% if Product is not null %}{{path('checkout', {product:Product.id})}}{% else %}{{path('checkout', {product:'**id**'})}}{% endif %}';" class="btn btn-primary track-event" data-label="Visit: {{visit}}" data-event="click" data-category="{{category}}_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_Add_Cart">Add to Cart</button>
         {% endif %}
 
     </div>
