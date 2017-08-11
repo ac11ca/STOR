@@ -556,7 +556,7 @@ class DefaultController extends ApplicationMasterController
     private function getCurrentVisit($page_id, $Session, $Request)
     {
         $visit = empty($Session->get($page_id)) ? 0 : $Session->get($page_id);
-        if(!$Request->getMethod('POST'))
+        if(!$Request->isMethod('POST'))
             $visit++;
 
         $Session->set($page_id,$visit);
