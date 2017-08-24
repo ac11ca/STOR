@@ -206,7 +206,7 @@ class DefaultController extends ApplicationMasterController
                     $sort = $sortarray[0];
                     $dir = $sortarray[1];
                     
-                    if($filter != null)
+                    if($filter != null && $filter != $Session->get('filter'))
                     {                                           
                         $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
                         $Analytic = new Analytics($DBSession, 'click', 'Visit: ' . $Session->get('reviews_visit'), 'Product_' . $product . '_FilterBy' . $filter . 'Star');
