@@ -37,6 +37,7 @@
             {% endif %}
         </div>
 
+        <input type="hidden" id="timestamp" name="timestamp" value="{{"now"|date('U')}}" />
         <input type="hidden" id="configuration" name="configuration" value="{{configuration_id}}" />
         <input type="hidden" id="user" name="user" value="{{User.ExternalId}}" />
 

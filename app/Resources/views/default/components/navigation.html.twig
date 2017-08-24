@@ -1,6 +1,6 @@
 <div id="navigation_bar">
 	{% if abandon is defined and abandon %}
-	    <a href="{{path('abandon_shopping')}}" class="btn btn-primary track-event" data-event="click" data-category="{{category}}_Abandon_Button" data-label="Visit: {{visit}}" onclick="return confirm('Are you sure you wish to abandon shopping?');">{{settings['abandon_shopping']}}</a>
+	    <a href="{{path('abandon_shopping', {timestamp:"now"|date('U'),category:category})}}" class="btn btn-primary track-event" data-event="click" data-category="{{category}}_Abandon_Button" data-label="Visit: {{visit}}" onclick="return confirm('Are you sure you wish to abandon shopping?');">{{settings['abandon_shopping']}}</a>
 	{% endif %}
     {% if back is defined and back %}
         <a href="{{path('search_results', {term:term})}}" class="track-event btn btn-primary" data-event="click" data-category="{{category}}_Back_Button" data-label="Visit: {{visit}}">{{settings['search_results_text']}}</a>

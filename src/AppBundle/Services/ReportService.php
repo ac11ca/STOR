@@ -9,7 +9,6 @@ class ReportService
     {
         if(count($report_data) > 0)
         {         
-
             $products = [];
             $reviews = [];
 
@@ -203,7 +202,7 @@ class ReportService
         }
 
         $records = [];
-
+       
         foreach($summary_data as $record)
         {
             $records[] = $record;

@@ -343,16 +343,29 @@ class DefaultController extends ApplicationMasterController
 
                 $form_data = $Request->request->all();
                 $product = $form_data['product'];
+                $timestamp = $form_data['timestamp'];
 
+                $duration = time() - $timestamp;
                 $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
                 $Analytic = new Analytics($DBSession, 'click', 'Visit: ' . $Session->get('checkout_visit'), 'Product_' . $product . '_Purchase');
                 $EntityManager = $this->getDoctrine()->getManager();
                 $EntityManager->persist($Analytic);
                 $EntityManager->flush();
+                $Analytic = new Analytics($DBSession, 'duration', 'Visit: ' . $Session->get('checkout_visit'), 'PS_Duration');
+                $Analytic->setTime($duration);
+                $EntityManager = $this->getDoctrine()->getManager();
+                $EntityManager->persist($Analytic);
+                $EntityManager->flush();
+            
+                $Analytic = new Analytics($DBSession, 'unload', 'Visit: ' . $Session->get('checkout_visit'), 'PS_Time_End');
+                $EntityManager = $this->getDoctrine()->getManager();
+                $EntityManager->persist($Analytic);
+                $EntityManager->flush();
+
                 $configuration = $Session->get('configuration');
                 $user_id = $Session->get('user_id'); 
                 $Session->clear();          
-		        $settings = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('');  
+		        $settings = $this->getDoctrine()->getRepository('CYINTSettingsBundle:Setting')->findByNamespace('');             
                 return $this->redirect($settings['formurl'] . '?purchase=1&user=' . $user_id . '&configuration=' . $configuration . '&product=' . $product);
             }
             ,$this->generateUrl('root', ['_render'=>$_render])
@@ -365,7 +378,24 @@ class DefaultController extends ApplicationMasterController
     {
          return $this->handleErrors(
             function ($Session, $messages) use ($Request, $_render)
-            {   
+            {  
+                $form_data = $Request->query->all();
+                $category = $form_data['category'];
+                $timestamp = $form_data['timestamp'];
+                $duration = time() - $timestamp;
+
+                $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
+                $Analytic = new Analytics($DBSession, 'duration', 'Visit: ' . $Session->get('checkout_visit'), $category . '_Duration');
+                $Analytic->setTime($duration);
+                $EntityManager = $this->getDoctrine()->getManager();
+                $EntityManager->persist($Analytic);
+                $EntityManager->flush();
+ 
+                $Analytic = new Analytics($DBSession, 'unload', 'Visit: ' . $Session->get('checkout_visit'), $category . '_Time_End');
+                $EntityManager = $this->getDoctrine()->getManager();
+                $EntityManager->persist($Analytic);
+                $EntityManager->flush();
+               
                 $configuration = $Session->get('configuration');
                 $user_id = $Session->get('user_id'); 
                 $Session->clear();
