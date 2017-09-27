@@ -16,6 +16,7 @@
         <div id="sort_container">
             <form method="post" id="sortform" name="sortform">
                 <select name="sort" id="sort" class="track-event" onchange="sortform.submit();" data-event="change" data-category="CRS_{{Product.ID}}_Sort" data-label="Visit: {{visit}}">
+                    <option value="" {% if sort == ''%}selected{% endif %}>Sort by</option>
                     <option value="e.created:DESC" {% if sort == 'e.created:DESC'%}selected{% endif %}>Sort by date (Descending)</option>
                     <option value="e.created:ASC" {% if sort == 'e.created:ASC'%}selected{% endif %}>Sort by date (Ascending)</option>
                     <option value="e.rating:ASC" {% if sort == 'e.rating:ASC'%}selected{% endif %}>Sort by rating (Ascending)</option>
@@ -67,7 +68,7 @@
     {% endif %}
 
     {% if (reviews_per_page * page) < review_count %}
-        <div id="review_more_button" class="track-event" data-event="click" data-category="CRS_{{Product.id}}_Next" data-label="Visit: {{visit}}">
+        <div id="review_more_button" class="track-event" data-event="click" data-category="CRS_{{Product.id}}_SeeMore" data-label="Visit: {{visit}}">
             <a href="{{path('product_reviews', {product:Product.id, page:(page+1)})}}" class="btn btn-primary review-loader {% if settings['crs_load_ajax'] %}js-load-ajax{% endif %}" data-max="{{review_count}}" data-page="{{page + 1}}" data-target="#review_container" data-url="{{path('product_reviews', {product:Product.id, page:'**page**', '_render':'JSON', filter:filter})}}">See more</a>
         </div>
     {% endif %}
