@@ -196,6 +196,10 @@ class DefaultController extends ApplicationMasterController
                 $visit = $this->getCurrentVisit('reviews_visit_' . $product, $Session, $Request);
                 $sort = empty($Session->get('sort')) ? 'e.created' : $Session->get('sort');
                 $dir = empty($Session->get('sort')) ? 'DESC' : $Session->get('dir');
+                 //*push
+                $sort="";
+                $dir="";
+                //push*
                 $filter = empty($Session->get('filter')) ? null : $Session->get('filter');
                 if($Request->isMethod('POST'))
                 {
@@ -205,7 +209,13 @@ class DefaultController extends ApplicationMasterController
                     $sortarray = explode(':', $sortdata);
                     $sort = $sortarray[0];
                     $dir = $sortarray[1];
-                    
+                    //*push
+                    if($form_data["sort"]=="")
+                    {
+                        $sort = "";
+                        $dir = "";
+                    }
+                    //push*
                     if($filter != null && $filter != $Session->get('filter'))
                     {                                           
                         $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
@@ -243,10 +253,15 @@ class DefaultController extends ApplicationMasterController
                         }
 
                         $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
+                       //*push
+                        if($sort!="")
+                        {
                         $Analytic = new Analytics($DBSession, 'click', 'Visit: ' . $Session->get('reviews_visit'), 'Product_' . $product . '_SortBy' . $sortname . $sortdir);
                         $EntityManager = $this->getDoctrine()->getManager();
                         $EntityManager->persist($Analytic);
-                        $EntityManager->flush();                       
+                        $EntityManager->flush();   
+                        }                    
+                        //push*                   
 
                     } 
 
