@@ -202,7 +202,7 @@ class ReportService
         }
 
         $records = [];
-      
+
         if(!empty($summary_data))
         { 
             foreach($summary_data as $record)

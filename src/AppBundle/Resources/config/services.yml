@@ -33,3 +33,4 @@ services:
      app.reportservice:
          class: AppBundle\Services\ReportService
          arguments: []
+
