@@ -126,7 +126,21 @@ class ReportService
  
                     if(!empty($visit_string))
 					{
-                        $summary_data[$user][$visit_string] += $visit;
+                       //*push
+                        if($visit_string=='total_visits_to_SRS_page')
+                        {
+                            if($summary_data[$user][$visit_string] < $visit )
+                            {
+                            $summary_data[$user][$visit_string] = $visit;
+                            }
+                        }
+                        else
+                        {
+                             $summary_data[$user][$visit_string] += $visit;
+                        }
+                       //push*
+                        //
+                        //$summary_data[$user][$visit_string] += $visit;
 					}
 
                     $summary_data[$user]['total_time_spent_on_website'] += $record['time'];
