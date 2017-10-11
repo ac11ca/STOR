@@ -2,7 +2,7 @@
     <div id="{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_container" class="product-panel">
         {% if settings['srs_display_image'] %}
             <div id="product_image_{{index}}" class="product-image">
-                <img src="{% if Product is not null %}{{Product.image}}{% else %}**image**{% endif %}" class="track-event" data-event="click" data-category="{{category}}_Product_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_image" data-label="View: {{visit}}">
+                <img src="{% if Product is not null %}{{Product.image}}{% else %}**image**{% endif %}" class="track-event" data-event="click" data-category="{{category}}_Product_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_image" data-label="Visit: {{visit}}">
             </div>
         {% endif %}
 
