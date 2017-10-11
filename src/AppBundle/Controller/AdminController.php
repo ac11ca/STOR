@@ -324,7 +324,16 @@ class AdminController extends ApplicationMasterController
         $to_hour = ParseData::setArray($form_data, 'to_hour', null);
         $from_minute = ParseData::setArray($form_data, 'from_minute', null);
         $to_minute = ParseData::setArray($form_data, 'to_minute', null);
-
+        
+        $full_from_date=strtotime($from . ' ' . $from_hour . ':'  . $from_minute);
+        $full_to_date=strtotime($to . ' ' . $to_hour . ':' . $to_minute);
+        
+        if($to_hour==00 && $to_minute==00 && $from==$to)
+        {
+           $next_date = date('Y-m-d', strtotime($from .' +1 day'));
+           $full_to_date=strtotime($next_date);
+        }
+        
         $y = ParseData::setArray($form_data, 'y', null);
         $x = ParseData::setArray($form_data, 'x', null);
         $dimension = ParseData::setArray($form_data, 'dimension', []);
@@ -333,8 +342,8 @@ class AdminController extends ApplicationMasterController
         $operator = ParseData::setArray($form_data, 'operator', []);
         $chart = ParseData::setArray($form_data, 'charttype', 'line'); 
         $results = $this->getDoctrine()->getRepository('AppBundle:Analytics')->$method(
-            strtotime($from . ' ' . $from_hour . ':'  . $from_minute)
-            ,strtotime($to . ' ' . $to_hour . ':' . $to_minute)
+            $full_from_date
+            ,$full_to_date
             ,$y
             ,$x
             ,$dimension
