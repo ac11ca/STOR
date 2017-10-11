@@ -328,7 +328,7 @@ class AdminController extends ApplicationMasterController
         $full_from_date=strtotime($from . ' ' . $from_hour . ':'  . $from_minute);
         $full_to_date=strtotime($to . ' ' . $to_hour . ':' . $to_minute);
         
-        if($to_hour==00 && $to_minute==00)
+        if($to_hour==00 && $to_minute==00 && $from==$to)
         {
            $next_date = date('Y-m-d', strtotime($from .' +1 day'));
            $full_to_date=strtotime($next_date);
