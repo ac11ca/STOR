@@ -8,13 +8,13 @@
 
         {% if settings['srs_display_title'] %}
             <div id="product_title_{{index}}" class="product-name">
-                <span class="track-event" data-event="click" data-category="{{category}}_Product_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_title" data-label="View: {{visit}}">{% if Product is not null %}{{Product.name}}{% else %}**name**{% endif %}
+                <span class="track-event" data-event="click" data-category="{{category}}_Product_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_title" data-label="Visit: {{visit}}">{% if Product is not null %}{{Product.name}}{% else %}**name**{% endif %}
             </div>
         {% endif %}
 
         {% if settings['srs_display_author'] %}
             <div id="product_authors_{{index}}" class="author-names">
-                <span class="track-event" data-event="cick" data-category="{{category}}_Product_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_authors" data-label="View: {{visit}}">
+                <span class="track-event" data-event="cick" data-category="{{category}}_Product_{% if Product is not null %}{{Product.id}}{% else %}**id**{% endif %}_authors" data-label="Visit: {{visit}}">
                     {% if Product is not null %}
                         {% for Author in Product.authors %}{% spaceless %}
                             {% if loop.index0 > 0 %}, {% endif %}{{Author.name}}
