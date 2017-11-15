@@ -35,7 +35,7 @@ class ReportService
                 $category_parts = explode('_', $record['category']);
                 $product_id = null;
                 $view_index = $category_parts[0];
-                if(!isset($product_visits[$user][$view_index])) {
+                if(!isset($product_visits[$user][$view_index]) && $view_index != 'PS') {
                     $product_visits[$user][$view_index] = [];
                 }
 
