@@ -193,7 +193,8 @@ class DefaultController extends ApplicationMasterController
          return $this->handleErrors(
             function ($Session, $messages) use ($Request, $_render, $product, $page)
             {   
-                $visit = $this->getCurrentVisit('reviews_visit_' . $product, $Session, $Request);
+                // Commenting this line because visitor count will increase even if user have filter or short actions.
+                //$visit = $this->getCurrentVisit('reviews_visit_' . $product, $Session, $Request);
                 $sort = empty($Session->get('sort')) ? 'e.created' : $Session->get('sort');
                 $dir = empty($Session->get('sort')) ? 'DESC' : $Session->get('dir');
                  //*push
@@ -275,6 +276,8 @@ class DefaultController extends ApplicationMasterController
                     $query_data = $Request->query->all();
                     $filter = ParseData::setArray($query_data, 'filter', null);
                     $Session->set('filter', $filter);
+                    // Push visit here because it should increase the visit when it just load.
+                    $visit = $this->getCurrentVisit('reviews_visit_' . $product, $Session, $Request);
                 }
 
                 $Configuration = $this->loadConfiguration($Session->get('configuration'));
@@ -292,7 +295,7 @@ class DefaultController extends ApplicationMasterController
                         ,'reviews_per_page' => $settings['crs_reviews_per_page']
                         ,'sort' => $sort . ':' . $dir
                         ,'filter' => $filter
-                        ,'visit' => $visit
+                        ,'visit' =>  $Session->get('reviews_visit') //$visit
                     ]
                     , $_render
                 );

@@ -70,7 +70,9 @@ class ReportService
                        ,'total_time_spent_on_PS_pages' => 0
                        ,'total_visits_to_Instructions_pages' => 0
                     ];
-
+                    
+                    //@TODO This is meaningless foreach under another foreach where $products array 
+                    //still generating and will run again and again the same data.
                     foreach($products as $product_id)
                     {
                         $summary_data[$user]["Product_$product_id" ."_total_visits_to_PIS_pages"] = 0;
@@ -95,7 +97,7 @@ class ReportService
                         $summary_data[$user]["Product_$product_id" . "_purchased (0=No, 1=Yes)"] = 0;
                     }
                 }
-
+                //@TODO No idea why this snipet code wrote again and again!!
                 $category_parts = explode('_', $record['category']);
                 $product_id = null;
                 if(strlen($category_parts[1]) == 36)
@@ -142,13 +144,15 @@ class ReportService
 					{			
                         $summary_data[$user][$time_string] += $record['time'];
 
-                   		if(!empty($product_id))
-							$summary_data[$user]['Product_' . $product_id . '_' . $time_string] += $record['time'];
-					}
- 
+                        if (!empty($product_id))
+                            $summary_data[$user]['Product_' . $product_id . '_' . $time_string] += $record['time'];
+                    }
+
                     if(!empty($visit_string))
 					{
-                       //*push
+                        //@TODO
+                        // Why there have no incremental statement for "total_visits_to_SRS_pages" ?
+                        //*push
                         if($visit_string=='total_visits_to_SRS_pages')
                         {
                             if($summary_data[$user][$visit_string] < $visit )
