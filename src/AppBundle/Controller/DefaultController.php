@@ -194,7 +194,7 @@ class DefaultController extends ApplicationMasterController
             function ($Session, $messages) use ($Request, $_render, $product, $page)
             {   
                 // Commenting this line because visitor count will increase even if user have filter or short actions.
-                //$visit = $this->getCurrentVisit('reviews_visit_' . $product, $Session, $Request);
+                $visit = $this->getCurrentVisit('reviews_visit_' . $product, $Session, $Request);
                 $sort = empty($Session->get('sort')) ? 'e.created' : $Session->get('sort');
                 $dir = empty($Session->get('sort')) ? 'DESC' : $Session->get('dir');
                  //*push
@@ -277,7 +277,7 @@ class DefaultController extends ApplicationMasterController
                     $filter = ParseData::setArray($query_data, 'filter', null);
                     $Session->set('filter', $filter);
                     // Push visit here because it should increase the visit when it just load.
-                    $visit = $this->getCurrentVisit('reviews_visit_' . $product, $Session, $Request);
+//                    $visit = $this->getCurrentVisit('reviews_visit_' . $product, $Session, $Request);
                 }
 
                 $Configuration = $this->loadConfiguration($Session->get('configuration'));
