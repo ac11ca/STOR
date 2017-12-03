@@ -193,8 +193,14 @@ class DefaultController extends ApplicationMasterController
          return $this->handleErrors(
             function ($Session, $messages) use ($Request, $_render, $product, $page)
             {   
-                // Commenting this line because visitor count will increase even if user have filter or short actions.
+             
+             //Just call the visit increment on the first page of reviews.
+             if($page <= 1){
                 $visit = $this->getCurrentVisit('reviews_visit_' . $product, $Session, $Request);
+             }else{
+                 $visit = empty($Session->get('reviews_visit_' . $product)) ? 0 : $Session->get('reviews_visit_' . $product);
+                 
+             }
                 $sort = empty($Session->get('sort')) ? 'e.created' : $Session->get('sort');
                 $dir = empty($Session->get('sort')) ? 'DESC' : $Session->get('dir');
                  //*push
