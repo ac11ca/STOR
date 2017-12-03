@@ -295,7 +295,7 @@ class DefaultController extends ApplicationMasterController
                         ,'reviews_per_page' => $settings['crs_reviews_per_page']
                         ,'sort' => $sort . ':' . $dir
                         ,'filter' => $filter
-                        ,'visit' =>  $Session->get('reviews_visit') //$visit
+                        ,'visit' =>  $visit
                     ]
                     , $_render
                 );
@@ -610,7 +610,7 @@ class DefaultController extends ApplicationMasterController
         $Session->set($page_id,$visit);
         return $visit;  
     }
-
+    
     protected function controllerHook($Session, $messages) 
     {
         if(!$this->no_hook && !empty($Session->get('configuration')))
