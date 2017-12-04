@@ -87,7 +87,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
         $query->addSelect('s');
         $query->addSelect('c');
         $query = $this->constructQueryFilter($dimension, $condition, $operator, $value, $query);
-//        print $query->getQuery()->getSQL(); exit;
+        
         $results = $query->getQuery()->getResult();
         $result_array = [];
         
@@ -108,7 +108,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
                 ,'configuration_settings' => json_encode($this->getConfigurationSettingsString($Result->getSession()->getConfiguration()->getSettings()))
             ];
         }
-
+print_r($result_array); exit;
         return $result_array;        
     }
 
