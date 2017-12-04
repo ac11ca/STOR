@@ -264,7 +264,7 @@ class ReportService
                 }
             }
         }
-print_r($total_visits);exit;
+print_r($product_visits);exit;
         foreach($total_visits as $user=>$views) {
             foreach($views as $view_index=>$total) {
                 $summary_data[$user]['total_visits_to_' . $view_index . '_pages'] = $total;
