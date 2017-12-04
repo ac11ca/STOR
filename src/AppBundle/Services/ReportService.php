@@ -157,10 +157,10 @@ class ReportService
                         //*push
                         if($visit_string=='total_visits_to_SRS_pages')
                         { //print $visit; exit;
-                            if($summary_data[$user][$visit_string] < $visit )
-                            {
+//                            if($summary_data[$user][$visit_string] < $visit )
+//                            {
                                 $summary_data[$user][$visit_string] = $visit;
-                            }
+//                            }
                         }
                         else
                         {
