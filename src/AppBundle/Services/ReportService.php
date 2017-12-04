@@ -102,7 +102,7 @@ class ReportService
                 $product_id = null;
                 if(stristr($record['category'], 'SRS_') > -1)
                 {
-                    if(strlen($category_parts[2]) == 36)
+                    if( isset($category_parts[2]) && strlen($category_parts[2]) == 36)
                     {
                         $product_id = $category_parts[2];
                     }
