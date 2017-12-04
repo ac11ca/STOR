@@ -108,7 +108,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
                 ,'configuration_settings' => json_encode($this->getConfigurationSettingsString($Result->getSession()->getConfiguration()->getSettings()))
             ];
         }
-print_r($result_array); exit;
+
         return $result_array;        
     }
 
