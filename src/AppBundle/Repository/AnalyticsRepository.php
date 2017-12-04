@@ -60,6 +60,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
             $query->groupBy($x);                  
 
         $query = $this->constructQueryFilter($dimension, $condition, $operator, $value, $query);
+        print $query->getQuery()->getSQL(); exit;
         $results = $query->getQuery()->getResult();
 
         if(!empty($raw))
