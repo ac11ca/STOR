@@ -100,18 +100,12 @@ class ReportService
                 //@TODO No idea why this snipet code wrote again and again!!
                 $category_parts = explode('_', $record['category']);
                 $product_id = null;
-                if(stristr($record['category'], 'SRS_') > -1)
+                
+                if(strlen($category_parts[1]) == 36)
                 {
-                    if( isset($category_parts[2]) && strlen($category_parts[2]) == 36)
-                    {
-                        $product_id = $category_parts[2];
-                    }
-                }else{
-                    if(strlen($category_parts[1]) == 36)
-                    {
-                        $product_id = $category_parts[1];
-                    }   
-                }
+                    $product_id = $category_parts[1];
+                }   
+                
                 if($record['event'] == 'duration')
                 {
                     $time_string = null;
@@ -158,16 +152,16 @@ class ReportService
                     }
 
                     if(!empty($visit_string))
-					{
+                    {
                         //@TODO
                         // Why there have no incremental statement for "total_visits_to_SRS_pages" ?
                         //*push
                         if($visit_string=='total_visits_to_SRS_pages')
-                        { //print $visit; exit;
-//                            if($summary_data[$user][$visit_string] < $visit )
-//                            {
+                        { 
+                            if($summary_data[$user][$visit_string] < $visit )
+                            {
                                 $summary_data[$user][$visit_string] = $visit;
-//                            }
+                            }
                         }
                         else
                         {
@@ -176,7 +170,7 @@ class ReportService
                        //push*
                         //
 //                        $summary_data[$user][$visit_string] += $visit;
-					}
+                    }
 
                     $summary_data[$user]['total_time_spent_on_website'] += $record['time'];
 
@@ -274,7 +268,9 @@ class ReportService
 
         foreach($total_visits as $user=>$views) {
             foreach($views as $view_index=>$total) {
-                $summary_data[$user]['total_visits_to_' . $view_index . '_pages'] = $total;
+                if($view_index != 'SRS' && $view_index != 'Instructions'){
+                    $summary_data[$user]['total_visits_to_' . $view_index . '_pages'] = $total;
+                }
             }
         }
 
