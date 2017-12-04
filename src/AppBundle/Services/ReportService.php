@@ -100,11 +100,15 @@ class ReportService
                 //@TODO No idea why this snipet code wrote again and again!!
                 $category_parts = explode('_', $record['category']);
                 $product_id = null;
-                if(strlen($category_parts[1]) == 36)
+                if(stristr($record['category'], 'SRS_') > -1)
                 {
-                    $product_id = $category_parts[1];
-                }   
-
+                    $product_id = $category_parts[2];
+                }else{
+                    if(strlen($category_parts[1]) == 36)
+                    {
+                        $product_id = $category_parts[1];
+                    }   
+                }
                 if($record['event'] == 'duration')
                 {
                     $time_string = null;
@@ -264,7 +268,7 @@ class ReportService
                 }
             }
         }
-print_r($product_visits);exit;
+
         foreach($total_visits as $user=>$views) {
             foreach($views as $view_index=>$total) {
                 $summary_data[$user]['total_visits_to_' . $view_index . '_pages'] = $total;
