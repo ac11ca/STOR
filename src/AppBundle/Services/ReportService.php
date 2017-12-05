@@ -248,7 +248,7 @@ class ReportService
         }
 
         $total_visits = [];
-print_r($summary_data); exit;
+//print_r($summary_data); exit;
         if(!empty($product_visits)) {
             foreach($product_visits as $user=>$views) {
                 if(!isset($total_visits[$user])) {
@@ -269,7 +269,7 @@ print_r($summary_data); exit;
         foreach($total_visits as $user=>$views) {
             foreach($views as $view_index=>$total) {
                 //Do not replace SRS and Instructions page view
-                if($view_index != 'SRS' && $view_index != 'Instructions'){
+                if($view_index != 'SRS' && $view_index != 'Instructions' && $view_index != 'PS'){
                     $summary_data[$user]['total_visits_to_' . $view_index . '_pages'] = $total;
                 }
             }
