@@ -231,14 +231,14 @@ class DefaultController extends ApplicationMasterController
                         $EntityManager->persist($Analytic);
                         $EntityManager->flush();
                     }
-                    else if($filter == null && !empty($Session->get('filter')))
-                    { 
-                        $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
-                        $Analytic = new Analytics($DBSession, 'click', 'Visit: ' . $Session->get('reviews_visit'), 'Product_' . $product . '_FilterByAllStars1');
-                        $EntityManager = $this->getDoctrine()->getManager();
-                        $EntityManager->persist($Analytic);
-                        $EntityManager->flush();                       
-                    }
+//                    else if($filter == null && !empty($Session->get('filter')))
+//                    { 
+//                        $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
+//                        $Analytic = new Analytics($DBSession, 'click', 'Visit: ' . $Session->get('reviews_visit'), 'Product_' . $product . '_FilterByAllStars');
+//                        $EntityManager = $this->getDoctrine()->getManager();
+//                        $EntityManager->persist($Analytic);
+//                        $EntityManager->flush();                       
+//                    }
   
                     if($sort !='e.created' || $sort == 'e.created' && $Session->get('sort') != 'e.created')
                     {
