@@ -234,7 +234,7 @@ class DefaultController extends ApplicationMasterController
                     else if($filter == null && !empty($Session->get('filter')))
                     { 
                         $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
-                        $Analytic = new Analytics($DBSession, 'click', 'Visit: ' . $Session->get('reviews_visit'), 'Product_' . $product . '_FilterByAllStars');
+                        $Analytic = new Analytics($DBSession, 'click', 'Visit: ' . $Session->get('reviews_visit'), 'Product_' . $product . '_FilterByAllStar');
                         $EntityManager = $this->getDoctrine()->getManager();
                         $EntityManager->persist($Analytic);
                         $EntityManager->flush();                       

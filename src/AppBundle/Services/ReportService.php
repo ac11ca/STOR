@@ -87,7 +87,7 @@ class ReportService
                         $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByRatingAscending_clicked"] = 0;
                         $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByHelpfulnessDescending_clicked"] = 0;
                         $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByHelpfulnessAscending_clicked"] = 0;
-                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterByAllStars_clicked"] = -1;
+                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterByAllStar_clicked"] = 0;
                         $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy5Star_clicked"] = 0;
                         $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy4Star_clicked"] = 0;
                         $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy3Star_clicked"] = 0;
@@ -225,8 +225,8 @@ class ReportService
                     if(stristr($record['category'], 'SortByHelpfulnessAscending') > -1)
                         $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByHelpfulnessAscending_clicked"]++;
 
-                    if(stristr($record['category'], 'FilterByAllStars') > -1)
-                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterByAllStars_clicked"]++;
+                    if(stristr($record['category'], 'FilterByAllStar') > -1)
+                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterByAllStar_clicked"]++;
 
                     if(stristr($record['category'], 'FilterBy5Star') > -1)
                         $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy5Star_clicked"]++;
