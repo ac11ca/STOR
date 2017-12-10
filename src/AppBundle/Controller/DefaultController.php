@@ -232,7 +232,7 @@ class DefaultController extends ApplicationMasterController
                         $EntityManager->flush();
                     }
                     else if($filter == null && !empty($Session->get('filter')))
-                    { print 'hello'; exit;
+                    { 
                         $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
                         $Analytic = new Analytics($DBSession, 'click', 'Visit: ' . $Session->get('reviews_visit'), 'Product_' . $product . '_FilterByAllStars');
                         $EntityManager = $this->getDoctrine()->getManager();
