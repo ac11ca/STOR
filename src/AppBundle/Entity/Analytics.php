@@ -29,14 +29,15 @@ class Analytics
 
     public function __construct(Session $Session, $event, $label, $category)
     {
+        if(stristr($category, 'FilterByAllStars') > -1){
+            return;
+        }
         $this->setSession($Session);
         $this->setEventType($event);
         $this->setLabel($label);
         $this->setCategory($category);
         $this->setCreated(time());
-        if(stristr($category, 'FilterByAllStars') > -1){
-            print $label; exit;
-        }
+        
     }
 
     /**
