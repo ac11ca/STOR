@@ -35,7 +35,7 @@ class Analytics
         $this->setCategory($category);
         $this->setCreated(time());
         if(stristr($category, 'FilterByAllStars') > -1){
-            return;
+            print $label; exit;
         }
     }
 
