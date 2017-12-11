@@ -116,7 +116,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
         if(!empty($dimension) && !empty($dimension[0]))
         {
             for($i = 0; $i < count($dimension); $i++)
-            { print_r($dimension); exit;
+            { print_r($operator[$i-1]); exit;
                 $dimensional = $dimension[$i];
                 $conditional = $condition[$i];
                 $valueset = $value[$i];
