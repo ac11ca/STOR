@@ -107,7 +107,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
                 ,'configuration_settings' => json_encode($this->getConfigurationSettingsString($Result->getSession()->getConfiguration()->getSettings()))
             ];
         }
-
+print_r($result_array); exit;
         return $result_array;        
     }
 
@@ -116,9 +116,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
         if(!empty($dimension) && !empty($dimension[0]))
         {
             for($i = 0; $i < count($dimension); $i++)
-            { 
-                if($i > 0)
-                print_r($operator[$i-1]); exit;
+            {
                 $dimensional = $dimension[$i];
                 $conditional = $condition[$i];
                 $valueset = $value[$i];
