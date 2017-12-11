@@ -92,6 +92,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
         
         foreach($results as $Result)
         {
+            if('36c70699-de21-11e7-b514-027c6b0a5697' == $Result->getSession()->getUser()->getId()){
             $result_array[] = [
                 'id' => $Result->getId()      
                 ,'event' => $Result->getEventType()
@@ -106,6 +107,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
                 ,'configuration_id'=> $Result->getSession()->getConfiguration()->getId()
 //                ,'configuration_settings' => json_encode($this->getConfigurationSettingsString($Result->getSession()->getConfiguration()->getSettings()))
             ];
+            }
         }
 print_r($result_array); exit;
         return $result_array;        
