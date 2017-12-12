@@ -59,7 +59,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
         else
             $query->groupBy($x);                  
 
-        $query = $this->constructQueryFilter($dimension, $condition, $operator, $value, $query);
+        $query = $this->constructQueryFilter($dimension, $condition, $operator, $value, $query);        
         $results = $query->getQuery()->getResult();
 
         if(!empty($raw))
@@ -85,6 +85,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
         $query->addSelect('u');
         $query->addSelect('s');
         $query->addSelect('c');
+        $query->orderBy('u.id');
         $query = $this->constructQueryFilter($dimension, $condition, $operator, $value, $query);
         
         $results = $query->getQuery()->getResult();
