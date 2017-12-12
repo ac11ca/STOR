@@ -170,7 +170,7 @@ class AdminController extends ApplicationMasterController
                 $form_data = $Session->get('report_form_data');
                 $report_data = $this->prepareReport($form_data, 'findByReportRaw');               
                 $ReportService = $this->get('app.reportservice');
-                $summary_data = $ReportService->summarizeReport($report_data['results']);
+                $summary_data = $ReportService->summarizeReportTest($report_data['results']);
                 $filename = $ExcelService->convertToExcel($summary_data, 'Summary');
                 return $this->sendExcelFileResponse($Request, $filename, 'Summary');
             }

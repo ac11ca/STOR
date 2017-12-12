@@ -302,18 +302,20 @@ class ReportService
                 $product_id = null;
                 if(strlen($category_parts[1]) == 36)
                 {
+                    $user = $record['user_id'];
+                    $view_index = $category_parts[0];
                     $product_id = $category_parts[1];
-                    $products[$product_id] = $product_id;
+                    if(!isset($productList[$user][$product_id])){
+                        $productList[$user][$product_id] = $product_id;
+                    }
                     
                     ///////***********************/////////////
                     
-                $user = $record['user_id'];
+                
                 if(!isset($product_visits[$user])) {
                     $product_visits[$user] = [];
                 }
                 
-                
-                $view_index = $category_parts[0];
                 if(!isset($product_visits[$user][$view_index]) && $view_index != 'PS') {
                     $product_visits[$user][$view_index] = [];
                 }
@@ -344,37 +346,37 @@ class ReportService
                        ,'total_visits_to_PS_pages' => 0
                        ,'total_time_spent_on_PS_pages' => 0
                        ,'total_visits_to_Instructions_pages' => 0
-                    ];
-                
-                    
-                    
-                    $summary_data[$user]["Product_$product_id" ."_total_visits_to_PIS_pages"] = 0;
-                    $summary_data[$user]["Product_$product_id" ."_total_time_spent_on_PIS_pages"] = 0;
-                    $summary_data[$user]["Product_$product_id" . "_total_visits_to_CRS_pages"] = 0;
-                    $summary_data[$user]["Product_$product_id" . "_total_time_spent_on_CRS_pages"] = 0;
-                    $summary_data[$user]["Product_$product_id" . "_Number_Of_Reviews_Seen"] = 0;
-                    $summary_data[$user]["Product_$product_id" . "_Number_Of_Unique_Reviews_Seen"] = 0;
-                    $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByDateDescending_clicked"] = 0;
-                    $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByDateAscending_clicked"] = 0;
-                    $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByRatingDescending_clicked"] = 0;
-                    $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByRatingAscending_clicked"] = 0;
-                    $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByHelpfulnessDescending_clicked"] = 0;
-                    $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByHelpfulnessAscending_clicked"] = 0;
-                    $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterByAllStar_clicked"] = 0;
-                    $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy5Star_clicked"] = 0;
-                    $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy4Star_clicked"] = 0;
-                    $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy3Star_clicked"] = 0;
-                    $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy2Star_clicked"] = 0;
-                    $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy1Star_clicked"] = 0;
-                    $summary_data[$user]["Product_$product_id" . "_added_to_cart (0=No, 1=Yes)"] = 0;
-                    $summary_data[$user]["Product_$product_id" . "_purchased (0=No, 1=Yes)"] = 0;
-                    ///////*************************///////////////////    
-                    
+                    ];                    
+                    ///////*************************/////////////////// 
                 } 
                     
                 }
             }
 
+            foreach($productList as $user => $product_id)
+            {
+                $summary_data[$user]["Product_$product_id" ."_total_visits_to_PIS_pages"] = 0;
+                        $summary_data[$user]["Product_$product_id" ."_total_time_spent_on_PIS_pages"] = 0;
+                        $summary_data[$user]["Product_$product_id" . "_total_visits_to_CRS_pages"] = 0;
+                        $summary_data[$user]["Product_$product_id" . "_total_time_spent_on_CRS_pages"] = 0;
+                        $summary_data[$user]["Product_$product_id" . "_Number_Of_Reviews_Seen"] = 0;
+                        $summary_data[$user]["Product_$product_id" . "_Number_Of_Unique_Reviews_Seen"] = 0;
+                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByDateDescending_clicked"] = 0;
+                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByDateAscending_clicked"] = 0;
+                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByRatingDescending_clicked"] = 0;
+                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByRatingAscending_clicked"] = 0;
+                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByHelpfulnessDescending_clicked"] = 0;
+                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByHelpfulnessAscending_clicked"] = 0;
+                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterByAllStar_clicked"] = 0;
+                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy5Star_clicked"] = 0;
+                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy4Star_clicked"] = 0;
+                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy3Star_clicked"] = 0;
+                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy2Star_clicked"] = 0;
+                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy1Star_clicked"] = 0;
+                        $summary_data[$user]["Product_$product_id" . "_added_to_cart (0=No, 1=Yes)"] = 0;
+                        $summary_data[$user]["Product_$product_id" . "_purchased (0=No, 1=Yes)"] = 0;
+            }
+            
             foreach($report_data as $record)
             {
                 $category_parts = explode('_', $record['category']);
