@@ -12,7 +12,7 @@ class ReportService
             $products = [];
             $reviews = [];
             $product_visits = [];
-            
+
             foreach($report_data as $record)
             {
                 $category_parts = explode('_', $record['category']);
@@ -78,30 +78,6 @@ class ReportService
             }
 
 //            $product_visits = [];
-//            foreach($products as $product_id)
-//                    {
-//                        $summary_data[$user]["Product_$product_id" ."_total_visits_to_PIS_pages"] = 0;
-//                        $summary_data[$user]["Product_$product_id" ."_total_time_spent_on_PIS_pages"] = 0;
-//                        $summary_data[$user]["Product_$product_id" . "_total_visits_to_CRS_pages"] = 0;
-//                        $summary_data[$user]["Product_$product_id" . "_total_time_spent_on_CRS_pages"] = 0;
-//                        $summary_data[$user]["Product_$product_id" . "_Number_Of_Reviews_Seen"] = 0;
-//                        $summary_data[$user]["Product_$product_id" . "_Number_Of_Unique_Reviews_Seen"] = 0;
-//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByDateDescending_clicked"] = 0;
-//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByDateAscending_clicked"] = 0;
-//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByRatingDescending_clicked"] = 0;
-//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByRatingAscending_clicked"] = 0;
-//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByHelpfulnessDescending_clicked"] = 0;
-//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByHelpfulnessAscending_clicked"] = 0;
-//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterByAllStar_clicked"] = 0;
-//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy5Star_clicked"] = 0;
-//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy4Star_clicked"] = 0;
-//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy3Star_clicked"] = 0;
-//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy2Star_clicked"] = 0;
-//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy1Star_clicked"] = 0;
-//                        $summary_data[$user]["Product_$product_id" . "_added_to_cart (0=No, 1=Yes)"] = 0;
-//                        $summary_data[$user]["Product_$product_id" . "_purchased (0=No, 1=Yes)"] = 0;
-//                    }
-//                }
 
             foreach($report_data as $record)
             {
@@ -148,10 +124,33 @@ class ReportService
 //                       ,'total_time_spent_on_PS_pages' => 0
 //                       ,'total_visits_to_Instructions_pages' => 0
 //                    ];
-                    
-                    //@TODO This is meaningless foreach under another foreach where $products array 
-                    //still generating and will run again and again the same data.
-                    
+//                    
+//                    //@TODO This is meaningless foreach under another foreach where $products array 
+//                    //still generating and will run again and again the same data.
+//                    foreach($products as $product_id)
+//                    {
+//                        $summary_data[$user]["Product_$product_id" ."_total_visits_to_PIS_pages"] = 0;
+//                        $summary_data[$user]["Product_$product_id" ."_total_time_spent_on_PIS_pages"] = 0;
+//                        $summary_data[$user]["Product_$product_id" . "_total_visits_to_CRS_pages"] = 0;
+//                        $summary_data[$user]["Product_$product_id" . "_total_time_spent_on_CRS_pages"] = 0;
+//                        $summary_data[$user]["Product_$product_id" . "_Number_Of_Reviews_Seen"] = 0;
+//                        $summary_data[$user]["Product_$product_id" . "_Number_Of_Unique_Reviews_Seen"] = 0;
+//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByDateDescending_clicked"] = 0;
+//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByDateAscending_clicked"] = 0;
+//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByRatingDescending_clicked"] = 0;
+//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByRatingAscending_clicked"] = 0;
+//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByHelpfulnessDescending_clicked"] = 0;
+//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_SortByHelpfulnessAscending_clicked"] = 0;
+//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterByAllStar_clicked"] = 0;
+//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy5Star_clicked"] = 0;
+//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy4Star_clicked"] = 0;
+//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy3Star_clicked"] = 0;
+//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy2Star_clicked"] = 0;
+//                        $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy1Star_clicked"] = 0;
+//                        $summary_data[$user]["Product_$product_id" . "_added_to_cart (0=No, 1=Yes)"] = 0;
+//                        $summary_data[$user]["Product_$product_id" . "_purchased (0=No, 1=Yes)"] = 0;
+//                    }
+//                }
                 //@TODO No idea why this snipet code wrote again and again!!
                 $category_parts = explode('_', $record['category']);
                 $product_id = null;
@@ -299,7 +298,7 @@ class ReportService
                         $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy1Star_clicked"]++;
 
                 }
-//            }
+            }
         }
 
         $total_visits = [];
