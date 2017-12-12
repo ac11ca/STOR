@@ -184,6 +184,7 @@ class ReportService
                     
                     //Remove this debugger code.
                     if($user == '36c70699-de21-11e7-b514-027c6b0a5697' && $visit_string == 'total_visits_to_PIS_pages'){
+                        print ($summary_data[$user]['Product_' . $product_id . '_' . $visit_string].'---- visit:'. $visit); exit;
                         print_r($summary_data[$user]); exit;
                     }
 
