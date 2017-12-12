@@ -174,6 +174,11 @@ class ReportService
 
                     $summary_data[$user]['total_time_spent_on_website'] += $record['time'];
 
+                    //Remove this debugger code.
+                    if($user == '36c70699-de21-11e7-b514-027c6b0a5697' && $visit_string == 'total_visits_to_PIS_pages'){
+                        print $visit; exit;
+                    }
+                    
                     if(!empty($visit_string) && !empty($product_id) && $visit > $summary_data[$user]['Product_' . $product_id . '_' . $visit_string])
                         $summary_data[$user]['Product_' . $product_id . '_' . $visit_string] = $visit;
 
@@ -248,7 +253,7 @@ class ReportService
         }
 
         $total_visits = [];
-//print_r($product_visits); exit;
+print_r($product_visits); exit;
         if(!empty($product_visits)) {
             foreach($product_visits as $user=>$views) {
                 if(!isset($total_visits[$user])) {
@@ -258,7 +263,7 @@ class ReportService
                     if(!isset($total_visits[$user][$view_index])) {
                         $total_visits[$user][$view_index] = 0;
                     }
-
+//@TODO: We can use array_sum here instead for loop
                     foreach($products as $product_id=>$tally) {
                         $total_visits[$user][$view_index] += $tally;
                     }
@@ -266,14 +271,14 @@ class ReportService
             }
         }
 
-//        foreach($total_visits as $user=>$views) {
-//            foreach($views as $view_index=>$total) {
-//                //Do not replace SRS and Instructions page view
-//                if($view_index != 'SRS' && $view_index != 'Instructions' && $view_index != 'PS' && $view_index != 'Product'){
-//                    $summary_data[$user]['total_visits_to_' . $view_index . '_pages'] = $total;
-//                }
-//            }
-//        }
+        foreach($total_visits as $user=>$views) {
+            foreach($views as $view_index=>$total) {
+                //Do not replace SRS and Instructions page view
+                if($view_index != 'SRS' && $view_index != 'Instructions' && $view_index != 'PS' && $view_index != 'Product'){
+                    $summary_data[$user]['total_visits_to_' . $view_index . '_pages'] = $total;
+                }
+            }
+        }
 
         $records = [];
 
