@@ -298,11 +298,11 @@ class ReportService
 
             foreach($report_data as $record)
             {
+                $user = $record['user_id'];
                 $category_parts = explode('_', $record['category']);
                 $product_id = null;
                 if(strlen($category_parts[1]) == 36)
-                {
-                    $user = $record['user_id'];
+                {   
                     $view_index = $category_parts[0];
                     $product_id = $category_parts[1];
                     if(!isset($productList[$user][$product_id])){
@@ -324,7 +324,7 @@ class ReportService
                     $product_visits[$user][$view_index][$product_id] = 0;
                 }
                 
-                
+                }
                 if(!isset($summary_data[$user]) || empty($summary_data[$user]))
                 {
                     $summary_data[$user] = [
@@ -350,9 +350,9 @@ class ReportService
                     ///////*************************/////////////////// 
                 } 
                     
-                }
+                
             }
-print_r($summary_data); exit; 
+//print_r($summary_data); exit; 
             foreach($productList as $user => $product)
             {
                 foreach($product as $key => $product_id){
