@@ -459,7 +459,7 @@ class ReportService
                     if(!empty($visit_string) && !empty($product_id) && $visit > $summary_data[$user]['Product_' . $product_id . '_' . $visit_string])
                         $summary_data[$user]['Product_' . $product_id . '_' . $visit_string] = $visit;
 
-                    if(!empty($product_id) && !empty($view_index) && $visit > $product_visits[$user][$view_index][$product_id]) {
+                    if(!empty($product_id) && !empty($view_index) && isset($product_visits[$user][$view_index][$product_id]) && $visit > $product_visits[$user][$view_index][$product_id]) {
                             $product_visits[$user][$view_index][$product_id] = $visit;
                     }
 
