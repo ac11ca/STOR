@@ -310,7 +310,19 @@ class ReportService
                 $user = $record['user_id'];
                 if(!isset($product_visits[$user])) {
                     $product_visits[$user] = [];
-                }    
+                }
+                
+                
+                $view_index = $category_parts[0];
+                if(!isset($product_visits[$user][$view_index]) && $view_index != 'PS') {
+                    $product_visits[$user][$view_index] = [];
+                }
+
+                if(!isset($product_visits[$user][$view_index][$product_id])) {
+                    $product_visits[$user][$view_index][$product_id] = 0;
+                }
+                
+                
                 if(!isset($summary_data[$user]) || empty($summary_data[$user]))
                 {
                     $summary_data[$user] = [
@@ -357,14 +369,7 @@ class ReportService
                     $summary_data[$user]["Product_$product_id" . "_added_to_cart (0=No, 1=Yes)"] = 0;
                     $summary_data[$user]["Product_$product_id" . "_purchased (0=No, 1=Yes)"] = 0;
                     ///////*************************///////////////////    
-                    $view_index = $category_parts[0];
-                    if(!isset($product_visits[$user][$view_index]) && $view_index != 'PS') {
-                        $product_visits[$user][$view_index] = [];
-                    }
-
-                    if(!isset($product_visits[$user][$view_index][$product_id])) {
-                        $product_visits[$user][$view_index][$product_id] = 0;
-                    }
+                    
                 } 
                     
                 }
