@@ -102,7 +102,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
                 ,'created' => $Result->getCreated()
                 ,'session_id'=> $Result->getSession()->getId()
                 ,'user_id'=> $Result->getSession()->getUser()->getId()
-                ,'user_external_id'=> $Result->getSession()->getUser()->getUsername()
+                ,'user_external_id'=> $Result->getSession()->getUser()->getExternalId()
                 ,'user_ip'=> $Result->getSession()->getUser()->getIpAddress()
                 ,'configuration_id'=> $Result->getSession()->getConfiguration()->getId()
                 ,'configuration_settings' => json_encode($this->getConfigurationSettingsString($Result->getSession()->getConfiguration()->getSettings()))
