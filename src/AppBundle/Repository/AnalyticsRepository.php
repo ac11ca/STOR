@@ -109,7 +109,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
             ];
             }
         }
-print_r($result_array); exit;
+//print_r($result_array); exit;
         return $result_array;        
     }
 
