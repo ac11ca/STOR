@@ -352,7 +352,7 @@ class ReportService
                     
                 }
             }
-//print_r($productList); exit; 
+print_r($summary_data); exit; 
             foreach($productList as $user => $product)
             {
                 foreach($product as $key => $product_id){
