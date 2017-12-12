@@ -294,6 +294,7 @@ class ReportService
             $products = [];
             $reviews = [];
             $product_visits = [];
+            $summary_data = [];
 
             foreach($report_data as $record)
             {
@@ -332,7 +333,7 @@ class ReportService
                        ,'total_time_spent_on_PS_pages' => 0
                        ,'total_visits_to_Instructions_pages' => 0
                     ];
-                }
+                
                     
                     
                     $summary_data[$user]["Product_$product_id" ."_total_visits_to_PIS_pages"] = 0;
@@ -356,15 +357,15 @@ class ReportService
                     $summary_data[$user]["Product_$product_id" . "_added_to_cart (0=No, 1=Yes)"] = 0;
                     $summary_data[$user]["Product_$product_id" . "_purchased (0=No, 1=Yes)"] = 0;
                     ///////*************************///////////////////    
-                $view_index = $category_parts[0];
-                if(!isset($product_visits[$user][$view_index]) && $view_index != 'PS') {
-                    $product_visits[$user][$view_index] = [];
-                }
-               
-                if(!isset($product_visits[$user][$view_index][$product_id])) {
-                    $product_visits[$user][$view_index][$product_id] = 0;
-                }
-                    
+                    $view_index = $category_parts[0];
+                    if(!isset($product_visits[$user][$view_index]) && $view_index != 'PS') {
+                        $product_visits[$user][$view_index] = [];
+                    }
+
+                    if(!isset($product_visits[$user][$view_index][$product_id])) {
+                        $product_visits[$user][$view_index][$product_id] = 0;
+                    }
+                } 
                     
                 }
             }
