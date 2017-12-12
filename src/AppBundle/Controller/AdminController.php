@@ -204,8 +204,7 @@ class AdminController extends ApplicationMasterController
             {                               
                 $ExcelService = $this->get('app.excel');
                 $form_data = $Session->get('report_form_data');                
-                $report_data = $this->prepareReport($form_data, 'findByReportRaw');
-                print_r($report_data); exit;
+                $report_data = $this->prepareReport($form_data, 'findByReportRaw');               
                 $filename = $ExcelService->convertToExcel($report_data['results'], 'Raw_Analytics');
                 return $this->sendExcelFileResponse($Request, $filename, 'Report');
             }
