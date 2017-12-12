@@ -179,13 +179,13 @@ class ReportService
                         $summary_data[$user]['Product_' . $product_id . '_' . $visit_string] = $visit;
 
                     if(!empty($product_id) && !empty($view_index) && $visit > $product_visits[$user][$view_index][$product_id]) {
-                            print_r($summary_data[$user]); exit;
+                            $product_visits[$user][$view_index][$product_id] = $visit;
                     }
                     
-//                    //Remove this debugger code.
-//                    if($user == '36c70699-de21-11e7-b514-027c6b0a5697' && $visit_string == 'total_visits_to_PIS_pages'){
-//                        print $visit.'------'. $summary_data[$user]['Product_' . $product_id . '_' . $visit_string]; exit;
-//                    }
+                    //Remove this debugger code.
+                    if($user == '36c70699-de21-11e7-b514-027c6b0a5697' && $visit_string == 'total_visits_to_PIS_pages'){
+                        print_r($summary_data[$user]); exit;
+                    }
 
                 }
 
