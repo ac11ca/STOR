@@ -173,12 +173,18 @@ class ReportService
                     }
 
                     $summary_data[$user]['total_time_spent_on_website'] += $record['time'];
+ 
                     
                     if(!empty($visit_string) && !empty($product_id) && $visit > $summary_data[$user]['Product_' . $product_id . '_' . $visit_string])
                         $summary_data[$user]['Product_' . $product_id . '_' . $visit_string] = $visit;
 
                     if(!empty($product_id) && !empty($view_index) && $visit > $product_visits[$user][$view_index][$product_id]) {
-                            $product_visits[$user][$view_index][$product_id] = $visit;
+                            print_r($summary_data[$user]); exit;
+                    }
+                    
+                    //Remove this debugger code.
+                    if($user == '36c70699-de21-11e7-b514-027c6b0a5697' && $visit_string == 'total_visits_to_PIS_pages'){
+                        print $visit.'------'. $summary_data[$user]['Product_' . $product_id . '_' . $visit_string]; exit;
                     }
 
                 }
@@ -248,7 +254,7 @@ class ReportService
         }
 
         $total_visits = [];
-print_r($summary_data); exit;
+print_r($product_visits); exit;
         if(!empty($product_visits)) {
             foreach($product_visits as $user=>$views) {
                 if(!isset($total_visits[$user])) {
