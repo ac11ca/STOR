@@ -77,6 +77,7 @@ class ReportService
                 }
             }
 
+print_r($summary_data); exit;
 //            $product_visits = [];
 
             foreach($report_data as $record)
