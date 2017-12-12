@@ -105,7 +105,7 @@ class AnalyticsRepository extends ApplicationMasterRepository
                 ,'user_external_id'=> $Result->getSession()->getUser()->getExternalId()
                 ,'user_ip'=> $Result->getSession()->getUser()->getIpAddress()
                 ,'configuration_id'=> $Result->getSession()->getConfiguration()->getId()
-//                ,'configuration_settings' => json_encode($this->getConfigurationSettingsString($Result->getSession()->getConfiguration()->getSettings()))
+                ,'configuration_settings' => json_encode($this->getConfigurationSettingsString($Result->getSession()->getConfiguration()->getSettings()))
             ];
             }
         }
