@@ -186,10 +186,10 @@ class ReportService
                 if($record['event'] == 'seen')
                 {
                     $review_id = $category_parts[2];
-                    if(empty($reviews[$user][$review_id]))
+                    if(!isset($reviews[$user][$review_id]) || empty($reviews[$user][$review_id]))
                         $reviews[$user][$review_id] = 0;
 
-                    $reviews[$review_id]++;
+                    $reviews[$user][$review_id]++;
                     $summary_data[$user]["Product_$product_id" . "_Number_Of_Reviews_Seen"] = array_sum($reviews[$user]);
                     $summary_data[$user]["Product_$product_id" . "_Number_Of_Unique_Reviews_Seen"] = count($reviews[$user]);
                 }
