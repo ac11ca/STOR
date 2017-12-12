@@ -373,6 +373,7 @@ class ReportService
             {
                 $category_parts = explode('_', $record['category']);
                 $product_id = null;
+                $user = $record['user_id'];
                 
                 if(strlen($category_parts[1]) == 36)
                 {
