@@ -310,7 +310,7 @@ class ReportService
                 if(!isset($product_visits[$user])) {
                     $product_visits[$user] = [];
                 }    
-                if(empty($summary_data[$user]))
+                if(!isset($summary_data[$user]) || empty($summary_data[$user]))
                 {
                     $summary_data[$user] = [
                        'user_external_id' => $record['user_external_id']
