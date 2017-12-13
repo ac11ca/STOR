@@ -553,7 +553,7 @@ class ReportService
                 }
             }
         }
-print_r($summary_data); exit;
+//print_r($summary_data); exit;
         $records = [];
 
         if(!empty($summary_data))
