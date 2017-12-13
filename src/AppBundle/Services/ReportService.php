@@ -286,7 +286,7 @@ class ReportService
                 $records[] = array_reverse($record);
             }
         }
-        print_r($records);exit;
+        
         return $records;
     }
     
