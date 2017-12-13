@@ -243,9 +243,8 @@ class ReportService
                     if(stristr($record['category'], 'FilterBy1Star') > -1)
                         $summary_data[$user]["Product_$product_id" . "_Number_of_Times_FilterBy1Star_clicked"]++;
 
-                }
+                }                
                 
-                $summary_data[$user] = ksort($summary_data[$user]);
             }
         }
 
@@ -278,7 +277,7 @@ class ReportService
 //        }
 
         $records = [];
-
+$summary_data = ksort($summary_data);
         if(!empty($summary_data))
         { 
             foreach($summary_data as $record)
