@@ -544,7 +544,7 @@ class ReportService
             }
         }
 
-        print_r($summary_data); exit;
+        
         foreach($total_visits as $user=>$views) {
             foreach($views as $view_index=>$total) {
                 //Do not replace SRS and Instructions page view
@@ -553,7 +553,7 @@ class ReportService
                 }
             }
         }
-
+print_r($summary_data); exit;
         $records = [];
 
         if(!empty($summary_data))
