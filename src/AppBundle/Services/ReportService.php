@@ -376,7 +376,7 @@ class ReportService
                 $summary_data[$user]["Product_$product_id" . "_purchased (0=No, 1=Yes)"] = 0;
                 }
             }
-       print_r($summary_data['36c70699-de21-11e7-b514-027c6b0a5697']); exit;      
+       print_r($summary_data); exit;      
             foreach($report_data as $record)
             {
                 $category_parts = explode('_', $record['category']);
