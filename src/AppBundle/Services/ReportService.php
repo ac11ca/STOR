@@ -457,9 +457,9 @@ class ReportService
                     if(!empty($visit_string) && !empty($product_id) && $visit > $summary_data[$user]['Product_' . $product_id . '_' . $visit_string])
                         $summary_data[$user]['Product_' . $product_id . '_' . $visit_string] = $visit;
 
-                    if(!empty($product_id) && !empty($view_index) && isset($product_visits[$user][$view_index][$product_id]) && $visit > $product_visits[$user][$view_index][$product_id]) {
-                            $product_visits[$user][$view_index][$product_id] = $visit;
-                    }
+//                    if(!empty($product_id) && !empty($view_index) && isset($product_visits[$user][$view_index][$product_id]) && $visit > $product_visits[$user][$view_index][$product_id]) {
+//                            $product_visits[$user][$view_index][$product_id] = $visit;
+//                    }
 
                 }
 
@@ -527,23 +527,23 @@ class ReportService
             }
         }
 
-        $total_visits = [];
-        if(!empty($product_visits)) {
-            foreach($product_visits as $user=>$views) {
-                if(!isset($total_visits[$user])) {
-                    $total_visits[$user] = [];
-                }
-                foreach($views as $view_index=>$products) {
-                    if(!isset($total_visits[$user][$view_index])) {
-                        $total_visits[$user][$view_index] = 0;
-                    }
-                    
-                    $total_visits[$user][$view_index] = array_sum($products);                    
-                }
-            }
-        }
-
-        
+//        $total_visits = [];
+//        if(!empty($product_visits)) {
+//            foreach($product_visits as $user=>$views) {
+//                if(!isset($total_visits[$user])) {
+//                    $total_visits[$user] = [];
+//                }
+//                foreach($views as $view_index=>$products) {
+//                    if(!isset($total_visits[$user][$view_index])) {
+//                        $total_visits[$user][$view_index] = 0;
+//                    }
+//                    
+//                    $total_visits[$user][$view_index] = array_sum($products);                    
+//                }
+//            }
+//        }
+//
+//        
 //        foreach($total_visits as $user=>$views) {
 //            foreach($views as $view_index=>$total) {
 //                //Do not replace SRS and Instructions page view
