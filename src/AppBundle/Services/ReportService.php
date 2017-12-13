@@ -376,7 +376,8 @@ class ReportService
                 $summary_data[$user]["Product_$product_id" . "_purchased (0=No, 1=Yes)"] = 0;
                 }
             }
-       print_r($summary_data); exit;      
+            
+//       print_r($summary_data); exit;      
             foreach($report_data as $record)
             {
                 $category_parts = explode('_', $record['category']);
@@ -466,12 +467,12 @@ class ReportService
                 if($record['event'] == 'seen')
                 {
                     $review_id = $category_parts[2];
-                    if(empty($reviews[$review_id]))
-                        $reviews[$review_id] = 0;
+                    if(empty($reviews[$user][$review_id]))
+                        $reviews[$user][$review_id] = 0;
 
-                    $reviews[$review_id]++;
-                    $summary_data[$user]["Product_$product_id" . "_Number_Of_Reviews_Seen"] = array_sum($reviews);
-                    $summary_data[$user]["Product_$product_id" . "_Number_Of_Unique_Reviews_Seen"] = count($reviews);
+                    $reviews[$user][$review_id]++;
+                    $summary_data[$user]["Product_$product_id" . "_Number_Of_Reviews_Seen"] = array_sum($reviews[$user]);
+                    $summary_data[$user]["Product_$product_id" . "_Number_Of_Unique_Reviews_Seen"] = count($reviews[$user]);
                 }
         
 
@@ -543,6 +544,7 @@ class ReportService
             }
         }
 
+        print_r($summary_data); exit;
         foreach($total_visits as $user=>$views) {
             foreach($views as $view_index=>$total) {
                 //Do not replace SRS and Instructions page view
