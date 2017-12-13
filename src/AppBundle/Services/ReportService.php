@@ -285,6 +285,7 @@ class ReportService
                 $records[] = ksort($record);
             }
         }
+        print_r($records);exit;
         return $records;
     }
     
