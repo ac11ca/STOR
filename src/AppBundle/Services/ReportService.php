@@ -247,33 +247,33 @@ class ReportService
             }
         }
 
-        $total_visits = [];
-//print_r($reviews); exit;
-        if(!empty($product_visits)) {
-            foreach($product_visits as $user=>$views) {
-                if(!isset($total_visits[$user])) {
-                    $total_visits[$user] = [];
-                }
-                foreach($views as $view_index=>$products) {
-                    if(!isset($total_visits[$user][$view_index])) {
-                        $total_visits[$user][$view_index] = 0;
-                    }
-
-                    foreach($products as $product_id=>$tally) {
-                        $total_visits[$user][$view_index] += $tally;
-                    }
-                }
-            }
-        }
-
-        foreach($total_visits as $user=>$views) {
-            foreach($views as $view_index=>$total) {
-                //Do not replace SRS and Instructions page view
-                if($view_index != 'SRS' && $view_index != 'Instructions' && $view_index != 'PS' && $view_index != 'Product'){
-                    $summary_data[$user]['total_visits_to_' . $view_index . '_pages'] = $total;
-                }
-            }
-        }
+//        $total_visits = [];
+////print_r($reviews); exit;
+//        if(!empty($product_visits)) {
+//            foreach($product_visits as $user=>$views) {
+//                if(!isset($total_visits[$user])) {
+//                    $total_visits[$user] = [];
+//                }
+//                foreach($views as $view_index=>$products) {
+//                    if(!isset($total_visits[$user][$view_index])) {
+//                        $total_visits[$user][$view_index] = 0;
+//                    }
+//
+//                    foreach($products as $product_id=>$tally) {
+//                        $total_visits[$user][$view_index] += $tally;
+//                    }
+//                }
+//            }
+//        }
+//
+//        foreach($total_visits as $user=>$views) {
+//            foreach($views as $view_index=>$total) {
+//                //Do not replace SRS and Instructions page view
+//                if($view_index != 'SRS' && $view_index != 'Instructions' && $view_index != 'PS' && $view_index != 'Product'){
+//                    $summary_data[$user]['total_visits_to_' . $view_index . '_pages'] = $total;
+//                }
+//            }
+//        }
 
         $records = [];
 
