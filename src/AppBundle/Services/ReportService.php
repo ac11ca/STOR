@@ -283,7 +283,7 @@ class ReportService
             foreach($summary_data as $record)
             {
                 ksort($record);
-                $records[] = $record;
+                $records[] = array_reverse($record);
             }
         }
         print_r($records);exit;
