@@ -282,7 +282,8 @@ class ReportService
         { 
             foreach($summary_data as $record)
             {
-                $records[] = ksort($record);
+                ksort($record);
+                $records[] = $record;
             }
         }
         print_r($records);exit;
