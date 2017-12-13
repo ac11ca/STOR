@@ -544,14 +544,14 @@ class ReportService
         }
 
         
-        foreach($total_visits as $user=>$views) {
-            foreach($views as $view_index=>$total) {
-                //Do not replace SRS and Instructions page view
-                if($view_index != 'SRS' && $view_index != 'Instructions' && $view_index != 'PS' && $view_index != 'Product'){
-                    $summary_data[$user]['total_visits_to_' . $view_index . '_pages'] = $total;
-                }
-            }
-        }
+//        foreach($total_visits as $user=>$views) {
+//            foreach($views as $view_index=>$total) {
+//                //Do not replace SRS and Instructions page view
+//                if($view_index != 'SRS' && $view_index != 'Instructions' && $view_index != 'PS' && $view_index != 'Product'){
+//                    $summary_data[$user]['total_visits_to_' . $view_index . '_pages'] = $total;
+//                }
+//            }
+//        }
 //print_r($summary_data); exit;
         $records = [];
 
@@ -562,7 +562,7 @@ class ReportService
                 $records[] = $record;
             }
         }
-        print_r($records); exit;
+//        print_r($records); exit;
         return $records;
     }
 
