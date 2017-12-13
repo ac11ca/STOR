@@ -562,7 +562,7 @@ class ReportService
                 $records[] = $record;
             }
         }
-//        print_r($records); exit;
+        print_r($records); exit;
         return $records;
     }
 
