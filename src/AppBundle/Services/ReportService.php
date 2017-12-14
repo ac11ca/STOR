@@ -141,7 +141,7 @@ class ReportService
                         $visit_string = 'total_visits_to_PS_pages';
                     }
                 
-                if($record['pageview'] == ''){
+                if($record['event'] == 'pageview'){
                     if(!empty($visit_string))
                     {
                         //@TODO
