@@ -249,7 +249,7 @@ class ReportService
         }
 
 //        $total_visits = [];
-////print_r($reviews); exit;
+print_r($reviews); exit;
 //        if(!empty($product_visits)) {
 //            foreach($product_visits as $user=>$views) {
 //                if(!isset($total_visits[$user])) {
