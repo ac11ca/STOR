@@ -277,7 +277,7 @@ class ReportService
 //        }
 
         $records = [];
-print_r($summary_data); exit;
+//print_r($summary_data); exit;
         if(!empty($summary_data))
         { 
             foreach($summary_data as $record)
