@@ -106,9 +106,7 @@ class ReportService
                     $product_id = $category_parts[1];
                 }   
                 
-                if($record['event'] == 'duration')
-                {
-                    $time_string = null;
+                $time_string = null;
                     $visit_string = null;
                     $visit = str_replace('Visit: ', '', $record['label']);
 
@@ -142,15 +140,8 @@ class ReportService
                         $time_string = 'total_time_spent_on_PS_pages';
                         $visit_string = 'total_visits_to_PS_pages';
                     }
-
-                    if(!empty($time_string))
-					{			
-                        $summary_data[$user][$time_string] += $record['time'];
-
-                        if (!empty($product_id))
-                            $summary_data[$user]['Product_' . $product_id . '_' . $time_string] += $record['time'];
-                    }
-
+                
+                if($record['pageview'] == ''){
                     if(!empty($visit_string))
                     {
                         //@TODO
@@ -172,7 +163,7 @@ class ReportService
 //                        $summary_data[$user][$visit_string] += $visit;
                     }
 
-                    $summary_data[$user]['total_time_spent_on_website'] += $record['time'];
+//                    $summary_data[$user]['total_time_spent_on_website'] += $record['time'];
 
                     if(!empty($visit_string) && !empty($product_id) && $visit > $summary_data[$user]['Product_' . $product_id . '_' . $visit_string])
                         $summary_data[$user]['Product_' . $product_id . '_' . $visit_string] = $visit;
@@ -180,6 +171,83 @@ class ReportService
                     if(!empty($product_id) && !empty($view_index) && $visit > $product_visits[$user][$view_index][$product_id]) {
                             $product_visits[$user][$view_index][$product_id] = $visit;
                     }
+                }
+                if($record['event'] == 'duration')
+                {
+//                    $time_string = null;
+//                    $visit_string = null;
+//                    $visit = str_replace('Visit: ', '', $record['label']);
+//
+//                    if(stristr($record['category'], 'Instructions_') > -1)
+//                    {
+//                        //Visiting string was missing previously.
+//                        $visit_string = 'total_visits_to_Instructions_pages';
+//                        $time_string = 'total_time_spent_on_Instructions_pages';
+//                    }
+//
+//                    if(stristr($record['category'], 'SRS_') > -1)
+//                    {
+//                        $time_string = 'total_time_spent_on_SRS_pages';
+//                        $visit_string = 'total_visits_to_SRS_pages';
+//                    }
+//
+//                    if(stristr($record['category'], 'PIS_') > -1)
+//                    {
+//                        $time_string = 'total_time_spent_on_PIS_pages';
+//                        $visit_string = 'total_visits_to_PIS_pages';
+//                    }
+//
+//                    if(stristr($record['category'], 'CRS_') > -1)
+//                    {
+//                        $time_string = 'total_time_spent_on_CRS_pages';
+//                        $visit_string = 'total_visits_to_CRS_pages';
+//                    }
+//
+//                    if(stristr($record['category'], 'PS_') > -1)
+//                    {
+//                        $time_string = 'total_time_spent_on_PS_pages';
+//                        $visit_string = 'total_visits_to_PS_pages';
+//                    }
+
+                    if(!empty($time_string))
+					{			
+                        $summary_data[$user][$time_string] += $record['time'];
+
+                        if (!empty($product_id))
+                            $summary_data[$user]['Product_' . $product_id . '_' . $time_string] += $record['time'];
+                    }
+
+                    $summary_data[$user]['total_time_spent_on_website'] += $record['time'];
+                    
+//                    if(!empty($visit_string))
+//                    {
+//                        //@TODO
+//                        // Why there have no incremental statement for "total_visits_to_SRS_pages" ?
+//                        //*push
+//                        if($visit_string=='total_visits_to_SRS_pages' || $visit_string=='total_visits_to_PS_pages')
+//                        { 
+//                            if($summary_data[$user][$visit_string] < $visit )
+//                            {
+//                                $summary_data[$user][$visit_string] = $visit;
+//                            }
+//                        }
+//                        else
+//                        {
+//                             $summary_data[$user][$visit_string] += $visit;
+//                        }
+//                       //push*
+//                        //
+////                        $summary_data[$user][$visit_string] += $visit;
+//                    }
+//
+////                    $summary_data[$user]['total_time_spent_on_website'] += $record['time'];
+//
+//                    if(!empty($visit_string) && !empty($product_id) && $visit > $summary_data[$user]['Product_' . $product_id . '_' . $visit_string])
+//                        $summary_data[$user]['Product_' . $product_id . '_' . $visit_string] = $visit;
+//
+//                    if(!empty($product_id) && !empty($view_index) && $visit > $product_visits[$user][$view_index][$product_id]) {
+//                            $product_visits[$user][$view_index][$product_id] = $visit;
+//                    }
 
                 }
 
