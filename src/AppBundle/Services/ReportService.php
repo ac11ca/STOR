@@ -147,17 +147,17 @@ class ReportService
                         //@TODO
                         // Why there have no incremental statement for "total_visits_to_SRS_pages" ?
                         //*push
-                        if($visit_string=='total_visits_to_SRS_pages' || $visit_string=='total_visits_to_PS_pages')
-                        { 
+//                        if($visit_string=='total_visits_to_SRS_pages' || $visit_string=='total_visits_to_PS_pages')
+//                        { 
                             if($summary_data[$user][$visit_string] < $visit )
                             {
                                 $summary_data[$user][$visit_string] = $visit;
                             }
-                        }
-                        else
-                        {
-                             $summary_data[$user][$visit_string] += $visit;
-                        }
+//                        }
+//                        else
+//                        {
+//                             $summary_data[$user][$visit_string] += $visit;
+//                        }
                        //push*
                         //
 //                        $summary_data[$user][$visit_string] += $visit;
