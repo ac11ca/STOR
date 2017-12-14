@@ -190,8 +190,8 @@ class ReportService
                         $reviews[$review_id] = 0;
 
                     $reviews[$review_id]++;
-                    $summary_data["Product_$product_id" . "_Number_Of_Reviews_Seen"] = array_sum($reviews);
-                    $summary_data["Product_$product_id" . "_Number_Of_Unique_Reviews_Seen"] = count($reviews);
+                    $summary_data[$user]["Product_$product_id" . "_Number_Of_Reviews_Seen"] = array_sum($reviews);
+                    $summary_data[$user]["Product_$product_id" . "_Number_Of_Unique_Reviews_Seen"] = count($reviews);
                 }
         
 
