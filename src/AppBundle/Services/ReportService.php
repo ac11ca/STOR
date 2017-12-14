@@ -186,12 +186,12 @@ class ReportService
                 if($record['event'] == 'seen')
                 {
                     $review_id = $category_parts[2];
-                    if(empty($reviews[$review_id]))
-                        $reviews[$review_id] = 0;
+                    if(empty($reviews[$user][$product_id][$review_id]))
+                        $reviews[$user][$product_id][$review_id] = 0;
 
-                    $reviews[$review_id]++;
-                    $summary_data[$user]["Product_$product_id" . "_Number_Of_Reviews_Seen"] = array_sum($reviews);
-                    $summary_data[$user]["Product_$product_id" . "_Number_Of_Unique_Reviews_Seen"] = count($reviews);
+                    $reviews[$user][$product_id][$review_id]++;
+                    $summary_data[$user]["Product_$product_id" . "_Number_Of_Reviews_Seen"] = array_sum($reviews[$user][$product_id]);
+                    $summary_data[$user]["Product_$product_id" . "_Number_Of_Unique_Reviews_Seen"] = count($reviews[$user][$product_id]);
                 }
         
 
@@ -249,7 +249,7 @@ class ReportService
         }
 
 //        $total_visits = [];
-print_r($reviews); exit;
+//print_r($reviews); exit;
 //        if(!empty($product_visits)) {
 //            foreach($product_visits as $user=>$views) {
 //                if(!isset($total_visits[$user])) {
