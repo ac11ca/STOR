@@ -14,6 +14,7 @@ function trackEvent(event,category,label,duration) {
 }
 
 $(window).on('unload', function () {
+    debugger;
     var category = $('body').data('category'), category_array, start, end, label, duration;
     category_array = category.split('_') || [category];
     category = category_array[0];
