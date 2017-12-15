@@ -80,9 +80,11 @@
 {% block templatescripts %}
 {{ parent() }}
 <script type="text/javascript" >
-$('form#sortform').submit(function() {
-   $(window).unbind('unload');
-});
+$(document).ready(function () {
+    $('form#sortform').submit(function() {
+       $(window).unbind('unload');
+    });
+)};
 </script>
 {% endblock %}    
 
