@@ -24,7 +24,7 @@
                     <option value="e.help_score:ASC" {% if sort == 'e.help_score:ASC'%}selected{% endif %}>Sort by helpful (Ascending)</option>
                     <option value="e.help_score:DESC" {% if sort == 'e.help_score:DESC'%}selected{% endif %}>Sort by helpful (Descending)</option>
                 </select>
-                <select name="filter" id="filter" class="track-event" onchange="sortform.submit();" data-event="change" data-category="CRS_{{Product.ID}}_Filter" data-label="Visit: {{visit}}">
+                <select name="filter" id="filter" class="track-event" onchange="changeFilter();" data-event="change" data-category="CRS_{{Product.ID}}_Filter" data-label="Visit: {{visit}}">
                     <option value="">Any</option>
                     <option value="5" {% if filter == '5'%}selected{% endif %}>5 Star Only</option>
                     <option value="4" {% if filter == '4'%}selected{% endif %}>4 Star Only</option>
