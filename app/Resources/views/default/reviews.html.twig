@@ -77,6 +77,14 @@
 
  {% embed 'default/components/navigation.html.twig' with  {'category':'CRS_' ~ Product.Id, purchase:settings['crs_display_purchase'],abandon:settings['crs_display_abandon'], visit: visit, back: settings['crs_display_back'], term: term, settings: settings} %}{% endembed %}
 {% endblock %}
+{% block templatescripts %}
+{{ parent() }}
+<script type="text/javascript" >
+$('form#sortform').submit(function() {
+   $(window).unbind('unload');
+});
+</script>
+{% endblock %}    
 
 {% block custom_html %}
     {% if settings['crs_custom_html'] is defined %}
