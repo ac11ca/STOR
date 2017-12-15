@@ -15,7 +15,7 @@
 
         <div id="sort_container">
             <form method="post" id="sortform" name="sortform">
-                <select name="sort" id="sort" class="track-event" onchange="sortform.submit();" data-event="change" data-category="CRS_{{Product.ID}}_Sort" data-label="Visit: {{visit}}">
+                <select name="sort" id="sort" class="track-event" onchange="changeFilter();" data-event="change" data-category="CRS_{{Product.ID}}_Sort" data-label="Visit: {{visit}}">
                     <option value="" {% if sort == ''%}selected{% endif %}>Sort by</option>
                     <option value="e.created:DESC" {% if sort == 'e.created:DESC'%}selected{% endif %}>Sort by date (Descending)</option>
                     <option value="e.created:ASC" {% if sort == 'e.created:ASC'%}selected{% endif %}>Sort by date (Ascending)</option>
@@ -84,6 +84,11 @@ $(document).ready(function () {
     $('form#sortform').submit(function() {
        $(window).unbind('unload');
     });
+    
+    function changeFilter()
+    {
+        $('form#sortform').submit();
+    }
 });
 </script>
 {% endblock %}    
