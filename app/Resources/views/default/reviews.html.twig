@@ -81,8 +81,7 @@
 {{ parent() }}
 <script type="text/javascript" >
 $(document).ready(function () {
-    $('form#sortform').submit(function() {
-       $(window).unbind('load'); 
+    $('form#sortform').submit(function() {       
        $(window).unbind('unload');
     });
     
