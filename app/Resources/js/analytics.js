@@ -28,6 +28,7 @@ $(window).on('unload', function () {
 });
 
 $(document).ready(function () {
+    $(window).on('load', function () {
     var $pageviews = $('.track-pageview');
     var $eventtracks = $('.track-event');
     var track_event, category, label;
@@ -68,6 +69,7 @@ $(document).ready(function () {
         });
         
     }
+    });
 
 } );
 
