@@ -243,7 +243,7 @@ class DefaultController extends ApplicationMasterController
                     if($sort !='e.created' || $sort == 'e.created' && $Session->get('sort') != 'e.created')
                     {
                         $sortname = 'Date';
-                        $sortdir = empty($dir) ? 'Descending' : $dir == 'ASC' ? 'Ascending' : 'Descending';
+                        $sortdir = empty($dir) ? 'Descending' : ($dir == 'ASC' ? 'Ascending' : 'Descending');
                         switch($sort)
                         {
                             case 'e.created':
@@ -262,7 +262,7 @@ class DefaultController extends ApplicationMasterController
                         $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
                        //*push
                         if($sort!="")
-                        {
+                        { print $sortdir; exit;
                         $Analytic = new Analytics($DBSession, 'click', 'Visit: ' . $Session->get('reviews_visit'), 'Product_' . $product . '_SortBy' . $sortname . $sortdir);
                         $EntityManager = $this->getDoctrine()->getManager();
                         $EntityManager->persist($Analytic);
