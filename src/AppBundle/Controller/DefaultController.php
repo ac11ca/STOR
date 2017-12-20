@@ -262,7 +262,7 @@ class DefaultController extends ApplicationMasterController
                         $DBSession = $this->getDoctrine()->getRepository('AppBundle:Session')->find($Session->get('SessionID'));
                        //*push
                         if($sort!="")
-                        { print 'Product_' . $product . '_SortBy' . $sortname . $sortdir; exit;
+                        { //print 'Product_' . $product . '_SortBy' . $sortname . $sortdir; exit;
                         $Analytic = new Analytics($DBSession, 'click', 'Visit: ' . $Session->get('reviews_visit'), 'Product_' . $product . '_SortBy' . $sortname . $sortdir);
                         $EntityManager = $this->getDoctrine()->getManager();
                         $EntityManager->persist($Analytic);
