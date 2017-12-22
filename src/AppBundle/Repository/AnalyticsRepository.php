@@ -85,8 +85,8 @@ class AnalyticsRepository extends ApplicationMasterRepository
         $query->addSelect('u');
         $query->addSelect('s');
         $query->addSelect('c');
-        $query->addOrderBy('u.id', 'ASC')
-                ->addOrderBy('a.category', 'ASC');
+        $query->addOrderBy('u.id', 'ASC');
+//                ->addOrderBy('a.category', 'ASC');
         $query = $this->constructQueryFilter($dimension, $condition, $operator, $value, $query);
         
         $results = $query->getQuery()->getResult();
