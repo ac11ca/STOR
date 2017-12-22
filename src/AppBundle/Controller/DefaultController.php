@@ -240,7 +240,8 @@ class DefaultController extends ApplicationMasterController
                         $EntityManager->flush();                       
                     }
   
-                    if($sort !='e.created' || $sort == 'e.created' && $Session->get('sort') != 'e.created')
+                    //if($sort !='e.created' || $sort == 'e.created' && $Session->get('sort') != 'e.created')
+                    if($sort)
                     {
                         $sortname = 'Date';
                         $sortdir = empty($dir) ? 'Descending' : ($dir == 'ASC' ? 'Ascending' : 'Descending');
