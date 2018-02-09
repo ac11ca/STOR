@@ -330,7 +330,7 @@ class AdminController extends ApplicationMasterController
 //        print_r($_FILES['importdata']); exit;    
         try{
             if ($request->isMethod('POST')) {
-                $form_data = $Request->request->all();
+                $form_data = $request->request->all();
                 $target_dir = $this->get('kernel')->getRootDir() . "/../web/uploads/";
                 $target_file = $target_dir . basename($_FILES['importdata']['name']);
                                 
