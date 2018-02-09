@@ -334,7 +334,7 @@ class AdminController extends ApplicationMasterController
                 $factory = $repository->getFactory($this->getDoctrine(), $this->container);
                 $cellMappings = $factory->getFieldKeys();
 
-                $objPHPExcel = \PHPExcel_IOFactory::load($file);
+                $objPHPExcel = \PHPExcel_IOFactory::load($_FILES['importdata']['tmp_name'].'/'.$_FILES['importdata']['name']);
 
                 $row = null;
                 $batch_size = 20;
