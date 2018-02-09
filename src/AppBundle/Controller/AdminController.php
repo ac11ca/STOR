@@ -327,7 +327,7 @@ class AdminController extends ApplicationMasterController
         $repositoryName = $request->get('reponame');
         $reponame = stristr($repositoryName, ':') > -1 ? $repositoryName : "AppBundle:$repositoryName";
         $repopart = explode(':', $reponame);
-        print($_FILES['importdata']); exit;    
+        print_r($_FILES['importdata']); exit;    
         try{
             if ($request->isMethod('POST')) {
                 $repository = $this->getDoctrine()->getRepository($repositoryName);
