@@ -56,4 +56,7 @@ admin_report_summary:
 configuration_settings:
     path: /configuration/settings/{id}
     defaults: { _controller: AppBundle:Admin:configurationSettings, id: null }
-
+    
+admin_imports:
+    path: /entity/import/{reponame}
+    defaults: { _controller:AppBundle:Admin:universalImport, reponame: null }

@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block adminbody %}
-   <form {% block method %}method="post"{% endblock %} {% block action %}{% endblock %} {% block enctype %}enctype="multipart/form-data" {% endblock %} {%block formattr%}{% endblock %}>
+    <form {% block method %}method="post"{% endblock %} {% block action %}action="{{path('admin_imports', {reponame:reponame})}}"{% endblock %} {% block enctype %}enctype="multipart/form-data" {% endblock %} {%block formattr%}{% endblock %}>
 		<div class="form-group">
 			{% block fieldlabel %}
 				<label>

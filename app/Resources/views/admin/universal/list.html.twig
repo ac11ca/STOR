@@ -25,10 +25,14 @@
         <a href="{{path('admin_universal_form_create', {parentid:id, id:null, reponame:reponame})}}" class="btn btn-primary">{% block createbuttonlabel %}Add{% endblock %}</a>
     {% endblock %}
 
-    {% block importbutton %}
-        <a href="{{path('admin_universal_import', {parentid:id, reponame:reponame})}}" class="btn btn-primary">{% block importlabel %}Import{% endblock %}</a>
-    {% endblock %}
+    {#% block importbutton %}
+      <!--  <a href="{{path('admin_universal_import', {parentid:id, reponame:reponame})}}" class="btn btn-primary">{% block importlabel %}Import{% endblock %}</a> -->
+    {% endblock %#}
 
+    {% block importbutton %}
+      <a href="{{path('admin_imports', {reponame:reponame})}}" class="btn btn-primary">{% block importlabel %}Import{% endblock %}</a> 
+    {% endblock %}
+    
     {% block exportbutton %}
         <a href="{{path('admin_universal_export', {parentid:id, reponame:reponame, mode:'excel', filter: filter})}}" class="btn btn-primary">{% block exportlabel %}Export Excel{% endblock %}</a>  
     {% endblock %}

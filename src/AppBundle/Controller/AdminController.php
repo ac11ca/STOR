@@ -21,6 +21,11 @@ use AppBundle\Factory\AnalyticsFactory;
 use AppBundle\Entity\Configuration;
 use AppBundle\Entity\ConfigurationSetting;
 
+use PhpOffice\PhpWord\PhpWord as PHPWord;
+use PhpOffice\PhpWord\IOFactory as PHPWord_IOFactory;
+use PhpOffice\PhpExcel\IOFactory as PHPExcel_IOFactory;
+use PhpOffice\PhpWord\PHPExcel as PHPExcel;
+
 class AdminController extends ApplicationMasterController
 {
     /**
@@ -316,6 +321,74 @@ class AdminController extends ApplicationMasterController
         );
     }
 
+    public function universalImportAction(Request $request)
+    {
+        $file = $request->get('importdata');
+        $repositoryName = $request->get('repository');
+        $reponame = stristr($repositoryName, ':') > -1 ? $repositoryName : "AppBundle:$repositoryName";
+        $repopart = explode(':', $reponame);
+            
+        try{
+            if ($request->isMethod('POST')) {
+                $repository = $this->getDoctrine()->getRepository($repositoryName);
+                $factory = $repository->getFactory($this->getDoctrine(), $this->container);
+                $cellMappings = $factory->getFieldKeys();
+
+                $objPHPExcel = \PHPExcel_IOFactory::load($file);
+
+                $row = null;
+                $batch_size = 20;
+                $em = $this->getDoctrine()->getManager();
+
+                foreach ($objPHPExcel->getWorksheetIterator() as $Worksheet) {
+                    $row = 0;
+                    foreach ($Worksheet->getRowIterator() as $Row) {
+                        if ($row > 0) {  //Account for a header row                
+                            $row_data = $this->processRow($Row, $cellMappings);
+                            $entity = $factory->createEntityFromArray($row_data);
+                            if (!empty($entity)) {
+                                $em->persist($entity);
+                                if ($row % $batch_size == 0)
+                                    $em->flush();
+                            }
+                        }
+
+                        $row++;
+                    }
+                }
+
+                $em->flush();
+                unlink($file);
+                return $this->redirect($this->generateUrl('admin_universal_list', ['reponame'=>'Review']));
+            }
+            
+            return $this->render("admin/" . $repopart[1] . "/import.html.twig", [
+                                'reponame' => $reponame
+                    ]);
+        } catch(\Exception $e)
+        {
+           throw new \Exception($e->getMessage());
+        }
+    }
+    
+    protected function processRow($row, $cellMappings)
+    {          
+        $cellIterator = $row->getCellIterator();
+        $cellIterator->setIterateOnlyExistingCells(false);       
+        $row_data = [];
+  
+        foreach ($cellIterator as $Cell) 
+        {
+            $cellIndex = \PHPExcel_Cell::columnIndexFromString($Cell->getColumn())-1;                         
+            $row_data[$cellIndex] = [];
+            $row_data[$cellIndex]['value'] = $Cell->getFormattedValue();
+            if(!empty($cellMappings[$cellIndex]))
+                $row_data[$cellIndex]['field'] = $cellMappings[$cellIndex];  
+        }    
+        
+        return $row_data;
+    }
+    
     protected function prepareReport($form_data, $method='findByReport')
     {
         $from = ParseData::setArray($form_data, 'from', null);
@@ -378,5 +451,5 @@ class AdminController extends ApplicationMasterController
     }
 
     public function logoutAction() {}
-
+   
 }
