@@ -324,7 +324,7 @@ class AdminController extends ApplicationMasterController
     public function universalImportAction(Request $request)
     {
         $file = $request->get('importdata');
-        $repositoryName = $request->get('repository');
+        $repositoryName = $request->get('reponame');
         $reponame = stristr($repositoryName, ':') > -1 ? $repositoryName : "AppBundle:$repositoryName";
         $repopart = explode(':', $reponame);
         print($repositoryName); exit;    
