@@ -3,7 +3,7 @@
 namespace AppBundle\Repository;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Product;
-
+use AppBundle\Factory\ReviewFactory;
 /**
  * ReviewRepository
  *
@@ -15,6 +15,13 @@ class ReviewRepository extends ApplicationMasterRepository
     protected $filter_property = 'rating';
     protected $FactoryType = 'AppBundle\Factory\ReviewFactory';
 
+    public function getFactory($Doctrine, $Container)
+    {
+        $Manager = $Container->get('app.user_manager');
+        $CryptographyService = $Container->get('app.cryptography');
+        return new ReviewFactory($this, $Doctrine,$Manager);
+    }
+    
     public function prepareFilterByParent($query, $parentid)
     {
         $query->innerJoin('e.Product', 'p');
