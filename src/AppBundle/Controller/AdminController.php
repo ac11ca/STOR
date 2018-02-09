@@ -338,7 +338,7 @@ class AdminController extends ApplicationMasterController
                 $factory = $repository->getFactory($this->getDoctrine(), $this->container);
                 $cellMappings = $factory->getFieldKeys();
 
-                if(move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)){
+                if(move_uploaded_file($_FILES["importdata"]["tmp_name"], $target_file)){
                     $objPHPExcel = \PHPExcel_IOFactory::load($target_file);
 
                     $row = null;
