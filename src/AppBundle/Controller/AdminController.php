@@ -330,36 +330,42 @@ class AdminController extends ApplicationMasterController
 //        print_r($_FILES['importdata']); exit;    
         try{
             if ($request->isMethod('POST')) {
+                $form_data = $Request->request->all();
+                $target_dir = $this->get('kernel')->getRootDir() . "/../web/uploads/";
+                $target_file = $target_dir . basename($_FILES['importdata']['name']);
+                                
                 $repository = $this->getDoctrine()->getRepository($repositoryName);
                 $factory = $repository->getFactory($this->getDoctrine(), $this->container);
                 $cellMappings = $factory->getFieldKeys();
 
-                $objPHPExcel = \PHPExcel_IOFactory::load($_FILES['importdata']['tmp_name'].'/'.$_FILES['importdata']['name']);
+                if(move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)){
+                    $objPHPExcel = \PHPExcel_IOFactory::load($target_file);
 
-                $row = null;
-                $batch_size = 20;
-                $em = $this->getDoctrine()->getManager();
+                    $row = null;
+                    $batch_size = 20;
+                    $em = $this->getDoctrine()->getManager();
 
-                foreach ($objPHPExcel->getWorksheetIterator() as $Worksheet) {
-                    $row = 0;
-                    foreach ($Worksheet->getRowIterator() as $Row) {
-                        if ($row > 0) {  //Account for a header row                
-                            $row_data = $this->processRow($Row, $cellMappings);
-                            $entity = $factory->createEntityFromArray($row_data);
-                            if (!empty($entity)) {
-                                $em->persist($entity);
-                                if ($row % $batch_size == 0)
-                                    $em->flush();
+                    foreach ($objPHPExcel->getWorksheetIterator() as $Worksheet) {
+                        $row = 0;
+                        foreach ($Worksheet->getRowIterator() as $Row) {
+                            if ($row > 0) {  //Account for a header row                
+                                $row_data = $this->processRow($Row, $cellMappings);
+                                $entity = $factory->createEntityFromArray($row_data);
+                                if (!empty($entity)) {
+                                    $em->persist($entity);
+                                    if ($row % $batch_size == 0)
+                                        $em->flush();
+                                }
                             }
+
+                            $row++;
                         }
-
-                        $row++;
                     }
-                }
 
-                $em->flush();
-                unlink($file);
-                return $this->redirect($this->generateUrl('admin_universal_list', ['reponame'=>'Review']));
+                    $em->flush();
+                    unlink($target_file);
+                    return $this->redirect($this->generateUrl('admin_universal_list', ['reponame'=>'Review']));
+                }
             }
             
             return $this->render("admin/" . $repopart[1] . "/import.html.twig", [
