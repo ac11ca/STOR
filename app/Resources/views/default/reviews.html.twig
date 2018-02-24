@@ -82,7 +82,7 @@
 <script type="text/javascript" >
 $(document).ready(function () {
     $('form#sortform').submit(function() {       
-       $(window).unbind('unload');
+       $(window).unbind('beforeunload');
     });
     
     $('#sort , #filter').change(function() {

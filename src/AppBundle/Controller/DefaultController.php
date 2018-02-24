@@ -283,7 +283,7 @@ class DefaultController extends ApplicationMasterController
                     $query_data = $Request->query->all();
                     $filter = ParseData::setArray($query_data, 'filter', null);
                     $Session->set('filter', $filter);
-                    // Push visit here because it should increase the visit when it just load.
+                    // Paush visit here because it should increase the visit when it just load.
 //                    $visit = $this->getCurrentVisit('reviews_visit_' . $product, $Session, $Request);
                 }
 
